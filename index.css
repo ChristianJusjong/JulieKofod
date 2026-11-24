@@ -1011,50 +1011,67 @@ h1, h2, h3, .display-font {
 }
 
 /* ==========================================================================
-   OM JULIE — DEEP TEAL (#024F5B) DARK EDITORIAL COLOR BLOCK
+   OM JULIE (#om) — FULL-WIDTH #024F5B COLOR-BLOCK + GOLD HAIRLINE & #E9409B OFFSET
    ========================================================================== */
 .about-section {
-    padding: clamp(4.75rem, 8.5vw, 7rem) 0;
+    padding: clamp(5rem, 9vw, 7.5rem) 0;
     background: var(--teal-deep);
     color: var(--bg-gallery);
-    border-top: 1.5px solid var(--teal-deep);
-    border-bottom: 1.5px solid var(--teal-deep);
+    overflow: hidden;
 }
 
 .about-grid {
     display: grid;
     grid-template-columns: 0.88fr 1.12fr;
     align-items: center;
-    gap: clamp(2.5rem, 5vw, 4.75rem);
+    gap: clamp(2.75rem, 5.5vw, 5.25rem);
 }
 
 .about-media {
     position: relative;
+    padding: 0 18px 18px 0;
 }
 
+/* Offset #E9409B geometric rectangle behind the painting */
+.about-media::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    right: 0;
+    bottom: 0;
+    background: var(--pop-pink);
+    z-index: 0;
+}
+
+/* Thin gold (#C5A059) hairline frame */
 .about-image-frame {
-    background: var(--bg-gallery);
-    padding: 14px;
-    border: 1.5px solid var(--aqua-soft);
-    box-shadow: 10px 10px 0px var(--pop-pink);
+    position: relative;
+    z-index: 1;
+    background: var(--teal-deep);
+    padding: 12px;
+    border: 1px solid var(--gold-ring);
 }
 
 .about-image-frame img {
     width: 100%;
     object-fit: cover;
+    display: block;
 }
 
+/* Crisp, understated circular logo seal */
 .about-logo-seal {
     position: absolute;
-    bottom: -26px;
-    right: -18px;
-    width: 104px;
-    height: 104px;
+    bottom: -14px;
+    right: 4px;
+    z-index: 2;
+    width: 78px;
+    height: 78px;
     border-radius: 50%;
     overflow: hidden;
     border: 1.5px solid var(--gold-ring);
     background: #F6F3EC;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
 }
 
 .about-logo-seal img {
@@ -1070,14 +1087,14 @@ h1, h2, h3, .display-font {
 
 .about-copy .section-title {
     color: var(--bg-gallery);
-    margin-bottom: 1.35rem;
+    margin-bottom: 1.4rem;
 }
 
 .about-copy p {
-    color: rgba(250, 249, 246, 0.9);
+    color: rgba(250, 249, 246, 0.92);
     font-size: 1.03rem;
-    line-height: 1.82;
-    margin-bottom: 1.2rem;
+    line-height: 1.84;
+    margin-bottom: 1.25rem;
 }
 
 .about-signature {
@@ -1086,22 +1103,22 @@ h1, h2, h3, .display-font {
     font-weight: 600;
     font-size: 1.85rem;
     color: var(--aqua-soft);
-    margin-top: 1.5rem;
+    margin-top: 1.6rem;
 }
 
 /* ==========================================================================
-   KONTAKT — WARM #FAF9F6 CANVAS + AQUA SOFT CARDS & MUSEUM FORM
+   KONTAKT (#kontakt) — #FAF9F6 SPLIT + SHARP #A0E5E5 CARD & EDITORIAL FORM
    ========================================================================== */
 .contact-section {
-    padding: clamp(4.5rem, 8vw, 6.75rem) 0;
+    padding: clamp(5rem, 8.5vw, 7.25rem) 0;
     background: var(--bg-gallery);
     color: var(--teal-deep);
 }
 
 .contact-grid {
     display: grid;
-    grid-template-columns: 0.95fr 1.05fr;
-    gap: clamp(2.5rem, 5vw, 4.5rem);
+    grid-template-columns: 0.94fr 1.06fr;
+    gap: clamp(2.5rem, 5vw, 4.75rem);
     align-items: start;
 }
 
@@ -1109,10 +1126,13 @@ h1, h2, h3, .display-font {
     margin-bottom: 2rem;
 }
 
+/* Unified sharp-edged #A0E5E5 contact card */
 .contact-channels {
+    background: var(--aqua-soft);
+    border: 1.5px solid var(--teal-deep);
+    box-shadow: 6px 6px 0px var(--teal-deep);
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 }
 
 .channel-card {
@@ -1120,89 +1140,101 @@ h1, h2, h3, .display-font {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1rem 1.25rem;
-    background: var(--aqua-soft);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 4px 4px 0px var(--teal-deep);
+    padding: 1.2rem 1.4rem;
+    background: transparent;
+    border-bottom: 1px solid rgba(2, 79, 91, 0.22);
     color: var(--teal-deep);
-    transition: transform 0.18s var(--ease-gallery), box-shadow 0.18s var(--ease-gallery), background-color 0.2s ease;
+    transition: background-color 0.2s ease;
+}
+
+.channel-card:last-child {
+    border-bottom: none;
 }
 
 .channel-card:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px var(--teal-deep);
-    background: #B8EEEE;
+    background: rgba(250, 249, 246, 0.35);
 }
 
 .channel-left {
     display: flex;
     align-items: center;
     gap: 0.95rem;
+    min-width: 0;
 }
 
 .channel-icon {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: var(--teal-deep);
     color: var(--bg-gallery);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.02rem;
+    font-size: 0.96rem;
     flex-shrink: 0;
 }
 
 .channel-label {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     color: var(--plum-luxury);
     display: block;
 }
 
 .channel-value {
-    font-size: 0.98rem;
+    font-size: 0.96rem;
     font-weight: 700;
     color: var(--teal-deep);
+    word-break: break-word;
 }
 
+/* Kopiér button with #8B920A "Kopieret!" confirmation state */
 .copy-email-btn {
-    padding: 0.45rem 0.95rem;
+    padding: 0.46rem 0.95rem;
     border-radius: 999px;
     background: var(--bg-gallery);
     color: var(--teal-deep);
     border: 1.5px solid var(--teal-deep);
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 700;
     white-space: nowrap;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    flex-shrink: 0;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.18s ease;
 }
 
 .copy-email-btn:hover {
-    background: var(--pop-pink);
-    color: #FFFFFF;
+    background: var(--teal-deep);
+    color: var(--bg-gallery);
 }
 
-/* Contact Form Card */
+.copy-email-btn.is-copied {
+    background: var(--olive-tag);
+    border-color: var(--olive-tag);
+    color: #FFFFFF;
+    transform: scale(1.03);
+}
+
+/* Right: Clean Editorial Form Card */
 .contact-form-card {
     background: var(--surface-card);
     color: var(--teal-deep);
-    padding: clamp(1.9rem, 4vw, 2.75rem);
+    padding: clamp(2rem, 4vw, 2.85rem);
     border: 1.5px solid var(--teal-deep);
-    box-shadow: 7px 7px 0px var(--teal-deep);
+    box-shadow: 6px 6px 0px var(--teal-deep);
 }
 
 .form-row {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.3rem;
 }
 
 .form-row label {
     display: block;
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--teal-deep);
     margin-bottom: 0.45rem;
@@ -1211,8 +1243,9 @@ h1, h2, h3, .display-font {
 .form-row input,
 .form-row textarea {
     width: 100%;
-    padding: 0.88rem 1rem;
-    border: 1.5px solid var(--border-hairline);
+    padding: 0.9rem 1rem;
+    border-radius: 0;
+    border: 1.5px solid var(--teal-deep);
     background: var(--bg-gallery);
     font-family: inherit;
     font-size: 0.96rem;
@@ -1223,32 +1256,55 @@ h1, h2, h3, .display-font {
 .form-row input:focus,
 .form-row textarea:focus {
     outline: none;
-    border-color: var(--pop-turquoise);
+    border-color: var(--pop-pink);
     background: #FFFFFF;
-    box-shadow: 3px 3px 0px var(--pop-turquoise);
+    box-shadow: 0 0 0 3px rgba(233, 64, 155, 0.22);
 }
 
 .form-row textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 124px;
 }
 
 .form-note {
     font-size: 0.82rem;
     color: var(--text-muted);
-    margin-top: 0.9rem;
+    margin-top: 0.95rem;
 }
 
 /* ==========================================================================
-   FOOTER — AQUA SOFT (#A0E5E5) ARCHITECTURAL BLOCK
+   MINIMALIST HIGH-FASHION FOOTER — #024F5B + OVERSIZED #1CB6BB WATERMARK
    ========================================================================== */
 .site-footer {
-    background: var(--aqua-soft);
-    color: var(--teal-deep);
-    padding: 2.75rem 0 2.5rem;
+    position: relative;
+    background: var(--teal-deep);
+    color: var(--bg-gallery);
+    padding: clamp(3.25rem, 6vw, 4.75rem) 0 clamp(2.5rem, 4.5vw, 3.25rem);
+    overflow: hidden;
+    border-top: 1px solid rgba(250, 249, 246, 0.14);
+}
+
+.footer-watermark {
+    position: absolute;
+    left: 50%;
+    bottom: -0.18em;
+    transform: translateX(-50%);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(3.25rem, 11.5vw, 9.5rem);
+    letter-spacing: 0.06em;
+    line-height: 0.9;
+    white-space: nowrap;
+    color: var(--pop-turquoise);
+    opacity: 0.11;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
 }
 
 .footer-inner {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1275,15 +1331,14 @@ h1, h2, h3, .display-font {
     font-family: var(--font-display);
     font-size: 1.2rem;
     font-weight: 800;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--teal-deep);
+    color: var(--bg-gallery);
 }
 
 .footer-copy {
     font-size: 0.88rem;
-    font-weight: 500;
-    color: var(--teal-deep);
+    color: rgba(250, 249, 246, 0.8);
 }
 
 .footer-social {
@@ -1292,19 +1347,18 @@ h1, h2, h3, .display-font {
     gap: 0.55rem;
     font-size: 0.88rem;
     font-weight: 700;
-    color: #FFFFFF;
+    color: var(--bg-gallery);
     padding: 0.58rem 1.25rem;
     border-radius: 999px;
-    background: var(--pop-pink);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 3px 3px 0px var(--teal-deep);
-    transition: transform 0.16s var(--ease-gallery), box-shadow 0.16s var(--ease-gallery), background-color 0.2s ease;
+    background: transparent;
+    border: 1.5px solid var(--aqua-soft);
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .footer-social:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0px var(--teal-deep);
-    background: var(--plum-luxury);
+    background: var(--pop-pink);
+    border-color: var(--pop-pink);
+    color: #FFFFFF;
 }
 
 /* ==========================================================================
@@ -1502,11 +1556,12 @@ h1, h2, h3, .display-font {
 }
 
 /* ==========================================================================
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE BREAKPOINTS — ZERO HORIZONTAL OVERFLOW ON MOBILE
    ========================================================================== */
 @media (max-width: 1024px) {
     .sale-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 2rem;
     }
 
     .hero-grid,
@@ -1517,15 +1572,19 @@ h1, h2, h3, .display-font {
 
     .hero-visual {
         min-height: 360px;
+        justify-content: center;
     }
 
-    .about-logo-seal {
-        right: 8px;
-        bottom: -18px;
+    .about-media {
+        max-width: 480px;
     }
 }
 
 @media (max-width: 768px) {
+    .container {
+        width: min(var(--container), 100% - 2rem);
+    }
+
     .nav-links,
     .nav-instagram {
         display: none;
@@ -1540,14 +1599,52 @@ h1, h2, h3, .display-font {
         gap: 1.85rem;
     }
 
+    .hero-visual {
+        padding: 1.5rem 0.75rem 2rem;
+    }
+
     .hero-frame-round {
-        width: 135px;
+        width: 132px;
         bottom: 0;
         left: 0;
+        box-shadow: 4px 4px 0px var(--teal-deep);
+    }
+
+    .about-media {
+        padding: 0 12px 12px 0;
+    }
+
+    .about-media::before {
+        top: 12px;
+        left: 12px;
+    }
+
+    .about-logo-seal {
+        width: 66px;
+        height: 66px;
+        bottom: -10px;
+        right: 2px;
+    }
+
+    .commission-banner,
+    .contact-channels,
+    .contact-form-card {
+        box-shadow: 4px 4px 0px var(--teal-deep);
     }
 
     .commission-banner {
         padding: 1.75rem;
+    }
+
+    .channel-card {
+        padding: 1rem 1.05rem;
+        flex-wrap: wrap;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.15rem;
     }
 
     .lb-nav {

@@ -359,13 +359,23 @@ function initContactForm() {
     const copyBtn = document.getElementById("copy-email-btn");
 
     if (copyBtn) {
+        let copyResetTimer = null;
         copyBtn.addEventListener("click", async () => {
             try {
                 await navigator.clipboard.writeText(indhold.kontakt.email);
-                showToast(`Email kopieret: ${indhold.kontakt.email}`);
             } catch {
-                showToast(indhold.kontakt.email);
+                // Fallback still shows confirmation & toast
             }
+
+            copyBtn.classList.add("is-copied");
+            copyBtn.innerHTML = `<i class="fas fa-check"></i> Kopieret!`;
+            showToast(`Email kopieret: ${indhold.kontakt.email}`);
+
+            clearTimeout(copyResetTimer);
+            copyResetTimer = setTimeout(() => {
+                copyBtn.classList.remove("is-copied");
+                copyBtn.innerHTML = `<i class="far fa-copy"></i> Kopiér`;
+            }, 2200);
         });
     }
 
