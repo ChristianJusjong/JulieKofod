@@ -25,8 +25,8 @@ function hydrateContent() {
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute("content", indhold.site.beskrivelse);
 
-    // Logo images
-    ["nav-logo", "hero-logo", "om-logo", "footer-logo"].forEach((id) => {
+    // Logo images (Navbar & Footer only)
+    ["nav-logo", "footer-logo"].forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.src = indhold.site.logo;
     });
@@ -372,15 +372,18 @@ function initLightbox() {
         const item = list[lbState.index];
         closeLightbox();
 
+        const dimSuffix = item.maal ? ` (${item.maal})` : "";
+        const subjectLine = `Forespørgsel: ${item.titel}${dimSuffix}`;
+
         if (lbState.group === "sale") {
             prefillContact(
-                `Forespørgsel om "${item.titel}"`,
-                `Hej Julie,\n\nJeg er interesseret i maleriet "${item.titel}" (${item.maal}, ${item.pris}). Kan du fortælle mig lidt mere om værket og muligheden for køb/afhentning?\n\nBedste hilsner,`
+                subjectLine,
+                `Hej Julie,\n\nJeg er interesseret i maleriet "${item.titel}"${dimSuffix} til ${item.pris}. Kan du fortælle mig lidt mere om værket og muligheden for køb eller levering?\n\nBedste hilsner,`
             );
         } else {
             prefillContact(
-                `Bestillingsværk inspireret af "${item.titel}"`,
-                `Hej Julie,\n\nJeg er helt vild med det solgte maleri "${item.titel}". Kunne man bestille et lignende værk?\n\nBedste hilsner,`
+                subjectLine,
+                `Hej Julie,\n\nJeg er helt vild med det solgte maleri "${item.titel}"${dimSuffix}. Kunne man bestille et lignende værk?\n\nBedste hilsner,`
             );
         }
     });
@@ -555,9 +558,11 @@ function prefillContact(subjectText, messageText) {
     if (contactSection) {
         contactSection.scrollIntoView({ behavior: "smooth" });
         setTimeout(() => {
-            const nameInput = document.getElementById("form-name");
-            if (nameInput) nameInput.focus();
-        }, 650);
+            if (messageInput) {
+                messageInput.focus();
+                messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
+            }
+        }, 600);
     }
 }
 
