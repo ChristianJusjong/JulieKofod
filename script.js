@@ -350,7 +350,7 @@ function renderSoldGallery(immediateVisible = false) {
                 <img src="${item.filnavn}" alt="${item.titel}" class="is-${shape}" loading="lazy" decoding="async">
             </div>
             <div class="sold-caption">
-                <span class="sold-badge sold-badge--inline">Solgt</span>
+                <span class="sold-badge sold-badge--inline">SOLGT!</span>
                 <h3 class="sold-title">${item.titel}</h3>
                 ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
                 ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
