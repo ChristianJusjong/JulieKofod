@@ -10,7 +10,7 @@ const indhold = {
     site: {
         titel: "Julie Kofod | Original Kunst & Malerier",
         beskrivelse: "Oplev originale akrylmalerier af Julie Kofod i Lindenborg, Gistrup — unikke strukturmalerier, runde tondo-værker og bestillingsværker med lys, natur og farver.",
-        logo: "assets/logo.jpg",
+        logo: "assets/logo.webp",
         footerTekst: "© 2026 Julie Kofod · Lindenborg, Gistrup"
     },
 
@@ -23,7 +23,7 @@ const indhold = {
         tekst: "Velkommen til mit farverige univers. Jeg maler akryl på lærred med særligt fokus på lyset — minder om naturen, roen i ubalance og brudstykker af landskaber, som lever i min fantasi.",
         knapPrimaer: "Se værker til salg",
         knapSekundaer: "Kontakt Julie",
-        fremhaevetStort: "assets/til-salg/03-lyseroede-skyer-maane.jpg",
+        fremhaevetStort: "assets/til-salg/03-lyseroede-skyer-maane.webp",
         fremhaevetStortId: "pink-sky",
         fremhaevetRundt: "assets/til-salg/01-rund-maane-bjerge.webp",
         fremhaevetRundtId: "fantasiens-land"
@@ -52,7 +52,7 @@ const indhold = {
         },
         {
             id: "i-maaneskinnet",
-            filnavn: "assets/til-salg/02-turkis-skov-so-clean.jpg",
+            filnavn: "assets/til-salg/02-turkis-skov-so-clean.webp",
             titel: "I måneskinnet",
             pris: "2.400 kr.",
             medium: "Akryl på lærred",
@@ -62,7 +62,7 @@ const indhold = {
         },
         {
             id: "pink-sky",
-            filnavn: "assets/til-salg/03-lyseroede-skyer-maane.jpg",
+            filnavn: "assets/til-salg/03-lyseroede-skyer-maane.webp",
             titel: "Pink Sky",
             pris: "3.000 kr.",
             medium: "Akryl på lærred",
@@ -72,7 +72,7 @@ const indhold = {
         },
         {
             id: "boelgen",
-            filnavn: "assets/til-salg/04-havboelger-maane.jpg",
+            filnavn: "assets/til-salg/04-havboelger-maane.webp",
             titel: "Bølgen",
             pris: "3.500 kr.",
             medium: "Akryl på lærred",
@@ -125,7 +125,7 @@ const indhold = {
     solgte: [
         {
             id: "min-fantasi-din-virkelighed",
-            filnavn: "assets/solgt/solgt-03.jpg",
+            filnavn: "assets/solgt/solgt-03.webp",
             titel: "Min fantasi - din virkelighed",
             medium: "Akryl på lærred",
             maal: "80 × 60 cm",
@@ -134,7 +134,7 @@ const indhold = {
         },
         {
             id: "nu-falmer-skoven",
-            filnavn: "assets/solgt/solgt-06.jpg",
+            filnavn: "assets/solgt/solgt-06.webp",
             titel: "Nu falmer skoven trindt om land",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
@@ -143,7 +143,7 @@ const indhold = {
         },
         {
             id: "efter-regnen",
-            filnavn: "assets/solgt/solgt-07.jpg",
+            filnavn: "assets/solgt/solgt-07.webp",
             titel: "Efter Regnen",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
@@ -152,7 +152,7 @@ const indhold = {
         },
         {
             id: "et-stykke-fantasi",
-            filnavn: "assets/solgt/solgt-02.jpg",
+            filnavn: "assets/solgt/solgt-02.webp",
             titel: "Et stykke Fantasi",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
@@ -161,7 +161,7 @@ const indhold = {
         },
         {
             id: "wishing-you-well",
-            filnavn: "assets/solgt/solgt-04.jpg",
+            filnavn: "assets/solgt/solgt-04.webp",
             titel: "Wishing you well",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
@@ -179,7 +179,7 @@ const indhold = {
         },
         {
             id: "de-sidste-straaler",
-            filnavn: "assets/solgt/solgt-08.jpg",
+            filnavn: "assets/solgt/solgt-08.webp",
             titel: "De sidste stråler",
             medium: "Akryl på lærred",
             maal: "30 × 40 cm",
@@ -188,7 +188,7 @@ const indhold = {
         },
         {
             id: "vejen-hjem",
-            filnavn: "assets/solgt/solgt-09.jpg",
+            filnavn: "assets/solgt/solgt-09.webp",
             titel: "Vejen Hjem",
             medium: "Akryl på lærred",
             maal: "80 × 100 cm",
@@ -197,7 +197,7 @@ const indhold = {
         },
         {
             id: "begyndelsen",
-            filnavn: "assets/solgt/solgt-begyndelsen.jpg",
+            filnavn: "assets/solgt/solgt-begyndelsen.webp",
             titel: "Begyndelsen",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
@@ -215,7 +215,7 @@ const indhold = {
         },
         {
             id: "solgt-stenbro",
-            filnavn: "assets/solgt/solgt-12.jpg",
+            filnavn: "assets/solgt/solgt-12.webp",
             titel: "Uden titel",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
@@ -224,7 +224,7 @@ const indhold = {
         },
         {
             id: "solgt-triptykon",
-            filnavn: "assets/solgt/solgt-11.jpg",
+            filnavn: "assets/solgt/solgt-11.webp",
             titel: "Uden titel",
             medium: "Akryl på lærred",
             maal: "Triptykon",
@@ -233,7 +233,7 @@ const indhold = {
         },
         {
             id: "valmuer-i-luften",
-            filnavn: "assets/solgt/solgt-01.jpg",
+            filnavn: "assets/solgt/solgt-01.webp",
             titel: "Valmuer i Luften",
             medium: "Akryl på lærred",
             maal: "Firkantet lærred",
@@ -248,7 +248,7 @@ const indhold = {
     om: {
         overtitel: "Kunstneren bag penslen",
         overskrift: "Om Julie",
-        billede: "assets/solgt/solgt-07.jpg",
+        billede: "assets/solgt/solgt-07.webp",
         afsnit: [
             "Jeg har altid været kreativ, tegnet og malet meget. Jeg er autodidakt kunstmaler, men bruger min viden om lys, fra min uddannelse til fotograf. Jeg arbejder særligt med lyset i mine malerier, da jeg oplever at det er det der skaber det perfekte maleri for mig.",
             "Udover at være kreativ, er jeg også “ude-menneske”. Jeg er opvokset ved Bøllingsø vest for Silkeborg, jeg har levet min ungdom i Silkeborg og Aarhus og altid søgt mod naturen begge steder. Jeg ved om nogen, hvor helende naturen kan være, for menneskelig sorg, smerte, rastløshed og ubehag, derfor søger jeg altid mod naturen, når jeg er i ubalance. I hvert af mine malerier, finder du derfor et lille stykke af min person. For når jeg maler, søger jeg at illustrere, frembringe og ikke mindst mærke den samme ro i mine billeder.",

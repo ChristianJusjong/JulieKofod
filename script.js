@@ -1,9 +1,20 @@
 // =============================================================================
-// SCRIPT.JS — Interaktivitet, Galleri, Filtre & Lightbox for Julie Kofod
+// SCRIPT.JS — Interaktivitet, Galleri, Filtre, Sortering & Lightbox for Julie Kofod
 // =============================================================================
 
 let saleFilter = "all";
+let saleSort = "default";
 let soldFilter = "all";
+
+function svgIcon(id) {
+    return `<svg class="icon" aria-hidden="true"><use href="#${id}"></use></svg>`;
+}
+
+function parsePriceDkk(prisText) {
+    if (!prisText) return 0;
+    const digits = String(prisText).replace(/[^\d]/g, "");
+    return digits ? parseInt(digits, 10) : 0;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     if (typeof indhold === "undefined") {
@@ -12,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     hydrateContent();
+    injectArtworkStructuredData();
     initHeroArtworkLinks();
     initGalleryFilters();
     renderSaleGallery();
@@ -106,11 +118,37 @@ function hydrateContent() {
     setText("footer-instagram-handle", indhold.kontakt.instagramHandle);
     setText("site-footer-text", indhold.site.footerTekst);
 
-    // Adapt form submit button if direct formEndpoint is configured
     if (indhold.kontakt.formEndpoint) {
         setText("form-submit-label", "Send besked til Julie");
         setText("form-note", "Din besked sendes direkte til Julie — du kan også ringe eller skrive på Instagram.");
     }
+}
+
+function injectArtworkStructuredData() {
+    if (!Array.isArray(indhold.tilSalg) || !indhold.tilSalg.length) return;
+    const baseUrl = "https://juliekofod.com/";
+    const graph = indhold.tilSalg.map((item) => ({
+        "@type": "VisualArtwork",
+        name: item.titel,
+        description: item.beskrivelse || "",
+        image: new URL(item.filnavn, baseUrl).href,
+        url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`,
+        artMedium: item.medium || "Akryl på lærred",
+        artform: "Maleri",
+        creator: { "@type": "Person", name: "Julie Kofod" },
+        offers: {
+            "@type": "Offer",
+            price: parsePriceDkk(item.pris),
+            priceCurrency: "DKK",
+            availability: "https://schema.org/InStock",
+            url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`
+        }
+    }));
+
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.textContent = JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
+    document.head.appendChild(script);
 }
 
 function setText(id, value) {
@@ -132,8 +170,16 @@ function getArtworkShape(item) {
 function getFilteredList(group) {
     const raw = group === "sale" ? indhold.tilSalg : indhold.solgte;
     const activeFilter = group === "sale" ? saleFilter : soldFilter;
-    if (activeFilter === "all") return raw;
-    return raw.filter((item) => getArtworkShape(item) === activeFilter);
+    let list = activeFilter === "all" ? [...raw] : raw.filter((item) => getArtworkShape(item) === activeFilter);
+
+    if (group === "sale" && saleSort !== "default") {
+        list.sort((a, b) => {
+            const pa = parsePriceDkk(a.pris);
+            const pb = parsePriceDkk(b.pris);
+            return saleSort === "price-asc" ? pa - pb : pb - pa;
+        });
+    }
+    return list;
 }
 
 // -----------------------------------------------------------------------------
@@ -145,6 +191,9 @@ function initHeroArtworkLinks() {
         if (!el) return;
         const openHeroArtwork = () => {
             saleFilter = "all";
+            saleSort = "default";
+            const sortEl = document.getElementById("sale-sort");
+            if (sortEl) sortEl.value = "default";
             updateFilterButtons("sale-filters", "all");
             renderSaleGallery(true);
             const idx = indhold.tilSalg.findIndex((item) => item.id === artworkId);
@@ -164,7 +213,7 @@ function initHeroArtworkLinks() {
 }
 
 // -----------------------------------------------------------------------------
-// 2. GALLERY FORMAT FILTERS (ALLE / RUNDE / FIRKANTEDE)
+// 2. GALLERY FORMAT FILTERS & PRICE SORT
 // -----------------------------------------------------------------------------
 function initGalleryFilters() {
     buildFilterBar("sale-filters", indhold.tilSalg, (nextFilter) => {
@@ -176,6 +225,14 @@ function initGalleryFilters() {
         soldFilter = nextFilter;
         renderSoldGallery(true);
     });
+
+    const sortEl = document.getElementById("sale-sort");
+    if (sortEl) {
+        sortEl.addEventListener("change", () => {
+            saleSort = sortEl.value;
+            renderSaleGallery(true);
+        });
+    }
 }
 
 function buildFilterBar(containerId, items, onSelect) {
@@ -248,7 +305,7 @@ function renderSaleGallery(immediateVisible = false) {
                 <p class="art-meta">${metaParts}</p>
                 <div class="art-price-row">
                     <span class="art-price">${item.pris}</span>
-                    <span class="art-cta-link">Se værk <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
+                    <span class="art-cta-link">Se værk ${svgIcon("i-arrow-right")}</span>
                 </div>
             </div>
         `;
@@ -402,14 +459,15 @@ function initScrollSpy() {
 }
 
 // -----------------------------------------------------------------------------
-// 6. FULL-SCREEN LIGHTBOX WITH SWIPE, CLAMPED PAN, FOCUS TRAP & DEEP-LINKING
+// 6. FULL-SCREEN LIGHTBOX: SWIPE, PINCH/WHEEL ZOOM, WALL PREVIEW & DEEP-LINKING
 // -----------------------------------------------------------------------------
-let lbState = { group: "sale", index: 0, zoom: 1, panX: 0, panY: 0, fullscreen: false };
+let lbState = { group: "sale", index: 0, zoom: 1, panX: 0, panY: 0, fullscreen: false, wallMode: false };
 let lastFocusedElement = null;
+const preloadedUrls = new Set();
 
 function initLightbox() {
     const lightbox = document.getElementById("lightbox");
-    const stage = document.querySelector(".lightbox-stage");
+    const stage = document.getElementById("lb-stage");
     const closeBtn = document.getElementById("lb-close");
     const prevBtn = document.getElementById("lb-prev");
     const nextBtn = document.getElementById("lb-next");
@@ -418,6 +476,7 @@ function initLightbox() {
     const zoomInBtn = document.getElementById("lb-zoom-in");
     const zoomOutBtn = document.getElementById("lb-zoom-out");
     const zoomBadge = document.getElementById("lb-zoom-level");
+    const wallToggleBtn = document.getElementById("lb-wall-toggle");
     const copyLinkBtn = document.getElementById("lb-copy-link");
     const fullscreenBtn = document.getElementById("lb-fullscreen");
     const lbImg = document.getElementById("lb-img");
@@ -433,6 +492,7 @@ function initLightbox() {
     zoomInBtn.addEventListener("click", () => setZoom(lbState.zoom + 0.5));
     zoomOutBtn.addEventListener("click", () => setZoom(lbState.zoom - 0.5));
     if (zoomBadge) zoomBadge.addEventListener("click", () => setZoom(1));
+    if (wallToggleBtn) wallToggleBtn.addEventListener("click", () => setWallMode(!lbState.wallMode));
     if (fullscreenBtn) fullscreenBtn.addEventListener("click", () => toggleLightboxFullscreen());
 
     if (copyLinkBtn) {
@@ -450,16 +510,53 @@ function initLightbox() {
         setZoom(lbState.zoom > 1 ? 1 : 2.2);
     });
 
-    // Smooth click-and-drag panning when zoomed + horizontal swipe when at 1x
+    // Smooth click-and-drag panning, horizontal swipe, mouse-wheel zoom & pinch-to-zoom
     let dragging = false;
     let swiping = false;
     let startX = 0;
     let startY = 0;
     let swipeStartX = 0;
     let swipeStartY = 0;
+    let pinchStartDist = 0;
+    let pinchStartZoom = 1;
 
     if (stage) {
+        stage.addEventListener("wheel", (e) => {
+            if (!lightbox.classList.contains("open") || lbState.wallMode) return;
+            e.preventDefault();
+            const delta = e.deltaY < 0 ? 0.25 : -0.25;
+            setZoom(lbState.zoom + delta);
+        }, { passive: false });
+
+        stage.addEventListener("touchstart", (e) => {
+            if (e.touches.length === 2) {
+                dragging = false;
+                swiping = false;
+                pinchStartDist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                pinchStartZoom = lbState.zoom;
+            }
+        }, { passive: true });
+
+        stage.addEventListener("touchmove", (e) => {
+            if (e.touches.length === 2 && pinchStartDist > 0) {
+                e.preventDefault();
+                const dist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                setZoom(pinchStartZoom * (dist / pinchStartDist));
+            }
+        }, { passive: false });
+
+        stage.addEventListener("touchend", (e) => {
+            if (e.touches.length < 2) pinchStartDist = 0;
+        });
+
         stage.addEventListener("pointerdown", (e) => {
+            if (pinchStartDist > 0) return;
             if (lbState.zoom > 1) {
                 dragging = true;
                 startX = e.clientX - lbState.panX;
@@ -538,6 +635,7 @@ function initLightbox() {
         if (e.key === "+" || e.key === "=") setZoom(lbState.zoom + 0.5);
         if (e.key === "-") setZoom(lbState.zoom - 0.5);
         if (e.key === "f" || e.key === "F") toggleLightboxFullscreen();
+        if (e.key === "w" || e.key === "W") setWallMode(!lbState.wallMode);
     });
 
     inquireBtn.addEventListener("click", () => {
@@ -562,6 +660,93 @@ function initLightbox() {
     });
 }
 
+function parseDimensionsCm(maal, shape, natW, natH) {
+    const text = String(maal || "");
+    const diaMatch = text.match(/Ø\s*(\d+)/i);
+    if (diaMatch) {
+        const d = parseInt(diaMatch[1], 10);
+        return { w: d, h: d, parsed: true };
+    }
+    const rectMatch = text.match(/(\d+)\s*[×x]\s*(\d+)/i);
+    if (rectMatch) {
+        const a = parseInt(rectMatch[1], 10);
+        const b = parseInt(rectMatch[2], 10);
+        if (natW && natH) {
+            const isLandscape = natW > natH;
+            return { w: isLandscape ? Math.max(a, b) : Math.min(a, b), h: isLandscape ? Math.min(a, b) : Math.max(a, b), parsed: true };
+        }
+        return { w: a, h: b, parsed: true };
+    }
+    return shape === "round" ? { w: 40, h: 40, parsed: false } : { w: 60, h: 80, parsed: false };
+}
+
+function setWallMode(isWall) {
+    lbState.wallMode = isWall;
+    const stage = document.getElementById("lb-stage");
+    const wallPreview = document.getElementById("lb-wall-preview");
+    const wallBtn = document.getElementById("lb-wall-toggle");
+
+    if (isWall) setZoom(1);
+    if (stage) stage.hidden = isWall;
+    if (wallPreview) wallPreview.hidden = !isWall;
+    if (wallBtn) wallBtn.setAttribute("aria-pressed", String(isWall));
+
+    updateZoomControls();
+    if (isWall) {
+        const list = getFilteredList(lbState.group);
+        const item = list[lbState.index];
+        if (item) updateWallPreview(item);
+    }
+}
+
+function updateWallPreview(item) {
+    const wallImg = document.getElementById("lb-wall-img");
+    const lbImg = document.getElementById("lb-img");
+    const note = document.getElementById("lb-wall-note");
+    const sofa = document.querySelector(".wall-sofa");
+    if (!wallImg) return;
+
+    const shape = getArtworkShape(item);
+    wallImg.src = item.filnavn;
+    wallImg.alt = item.titel;
+    wallImg.classList.toggle("is-round", shape === "round");
+    wallImg.classList.toggle("is-rect", shape !== "round");
+
+    const applyScale = () => {
+        const sofaWidthPx = (sofa && sofa.clientWidth) ? sofa.clientWidth : 380;
+        const pxPerCm = sofaWidthPx / 220; // 220 cm reference sofa
+        const dims = parseDimensionsCm(item.maal, shape, lbImg.naturalWidth, lbImg.naturalHeight);
+        const wPx = Math.max(52, Math.min(260, Math.round(dims.w * pxPerCm)));
+        const hPx = Math.max(52, Math.min(240, Math.round(dims.h * pxPerCm)));
+        wallImg.style.width = `${wPx}px`;
+        wallImg.style.height = `${hPx}px`;
+        if (note) {
+            note.textContent = dims.parsed
+                ? `Værk: ${item.maal} · Skala-reference: 220 cm sofa`
+                : `Ca. skala-reference: 220 cm sofa`;
+        }
+    };
+
+    if (lbImg && lbImg.complete && lbImg.naturalWidth) {
+        applyScale();
+    } else if (lbImg) {
+        lbImg.addEventListener("load", applyScale, { once: true });
+    }
+}
+
+function preloadAdjacentLightboxImages() {
+    const list = getFilteredList(lbState.group);
+    if (list.length < 2) return;
+    [-1, 1].forEach((offset) => {
+        const neighbor = list[(lbState.index + offset + list.length) % list.length];
+        if (neighbor && neighbor.filnavn && !preloadedUrls.has(neighbor.filnavn)) {
+            preloadedUrls.add(neighbor.filnavn);
+            const pre = new Image();
+            pre.src = neighbor.filnavn;
+        }
+    });
+}
+
 function clampPan(x, y) {
     const img = document.getElementById("lb-img");
     if (!img || lbState.zoom <= 1) return { x: 0, y: 0 };
@@ -575,6 +760,7 @@ function clampPan(x, y) {
 
 function toggleLightboxFullscreen(forceState) {
     const next = typeof forceState === "boolean" ? forceState : !lbState.fullscreen;
+    if (next && lbState.wallMode) setWallMode(false);
     setLightboxFullscreen(next);
 
     const lightbox = document.getElementById("lightbox");
@@ -591,9 +777,7 @@ function setLightboxFullscreen(isFull) {
     const fullscreenBtn = document.getElementById("lb-fullscreen");
     if (lightbox) lightbox.classList.toggle("lightbox--fullscreen", isFull);
     if (fullscreenBtn) {
-        fullscreenBtn.innerHTML = isFull
-            ? `<i class="fas fa-compress" aria-hidden="true"></i>`
-            : `<i class="fas fa-expand" aria-hidden="true"></i>`;
+        fullscreenBtn.innerHTML = isFull ? svgIcon("i-compress") : svgIcon("i-expand");
         fullscreenBtn.setAttribute("aria-label", isFull ? "Afslut fuld skærm" : "Fuld skærm");
         fullscreenBtn.setAttribute("title", isFull ? "Afslut fuld skærm (F)" : "Fuld skærm (F)");
     }
@@ -602,7 +786,8 @@ function setLightboxFullscreen(isFull) {
 
 function openLightbox(group, index, triggerEl = null) {
     lastFocusedElement = triggerEl || document.activeElement;
-    lbState = { group, index, zoom: 1, panX: 0, panY: 0, fullscreen: false };
+    lbState = { group, index, zoom: 1, panX: 0, panY: 0, fullscreen: false, wallMode: false };
+    setWallMode(false);
     setLightboxFullscreen(false);
     updateLightboxView();
 
@@ -619,6 +804,7 @@ function closeLightbox(restoreFocus = true) {
     if (document.fullscreenElement && document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
     }
+    setWallMode(false);
     setLightboxFullscreen(false);
     const lightbox = document.getElementById("lightbox");
     lightbox.classList.remove("open");
@@ -645,7 +831,8 @@ function stepLightbox(delta) {
 }
 
 function setZoom(nextZoom) {
-    lbState.zoom = Math.max(1, Math.min(3.5, Math.round(nextZoom * 10) / 10));
+    if (lbState.wallMode) return;
+    lbState.zoom = Math.max(1, Math.min(3.5, Math.round(nextZoom * 100) / 100));
     if (lbState.zoom <= 1) {
         lbState.panX = 0;
         lbState.panY = 0;
@@ -663,10 +850,10 @@ function updateZoomControls() {
     const zoomOutBtn = document.getElementById("lb-zoom-out");
     const zoomBadge = document.getElementById("lb-zoom-level");
 
-    if (zoomOutBtn) zoomOutBtn.disabled = lbState.zoom <= 1;
-    if (zoomInBtn) zoomInBtn.disabled = lbState.zoom >= 3.5;
+    if (zoomOutBtn) zoomOutBtn.disabled = lbState.wallMode || lbState.zoom <= 1;
+    if (zoomInBtn) zoomInBtn.disabled = lbState.wallMode || lbState.zoom >= 3.5;
     if (zoomBadge) {
-        const isZoomed = lbState.zoom > 1;
+        const isZoomed = !lbState.wallMode && lbState.zoom > 1;
         zoomBadge.hidden = !isZoomed;
         zoomBadge.textContent = `${Math.round(lbState.zoom * 100)}%`;
     }
@@ -674,7 +861,7 @@ function updateZoomControls() {
 
 function applyLightboxTransform() {
     const img = document.getElementById("lb-img");
-    const stage = document.querySelector(".lightbox-stage");
+    const stage = document.getElementById("lb-stage");
     if (img) {
         img.style.transform = `translate(${lbState.panX}px, ${lbState.panY}px) scale(${lbState.zoom})`;
     }
@@ -689,7 +876,6 @@ function updateLightboxView() {
     if (!item) return;
 
     const isRound = getArtworkShape(item) === "round";
-    const stage = document.querySelector(".lightbox-stage");
     const img = document.getElementById("lb-img");
     img.src = item.filnavn;
     img.alt = item.titel;
@@ -700,6 +886,8 @@ function updateLightboxView() {
     updateZoomControls();
     img.classList.toggle("lb-img--round", isRound);
     img.classList.toggle("lb-img--rect", !isRound);
+
+    if (lbState.wallMode) updateWallPreview(item);
 
     setText("lb-counter", `${lbState.index + 1} / ${list.length}`);
     setText("lb-title", item.titel);
@@ -714,15 +902,17 @@ function updateLightboxView() {
 
     if (lbState.group === "sale") {
         priceEl.textContent = item.pris;
-        inquireBtn.innerHTML = `<i class="fas fa-envelope" aria-hidden="true"></i> Forespørg om dette værk`;
+        inquireBtn.innerHTML = `${svgIcon("i-envelope")} Forespørg om dette værk`;
     } else {
         priceEl.textContent = "Solgt";
-        inquireBtn.innerHTML = `<i class="fas fa-palette" aria-hidden="true"></i> Forespørg om lignende værk`;
+        inquireBtn.innerHTML = `${svgIcon("i-palette")} Forespørg om lignende værk`;
     }
 
     if (item.id) {
         history.replaceState(null, "", `#vaerk=${encodeURIComponent(item.id)}`);
     }
+
+    preloadAdjacentLightboxImages();
 }
 
 function openFromUrlHash() {
@@ -760,13 +950,13 @@ function initContactForm() {
             }
 
             copyBtn.classList.add("is-copied");
-            copyBtn.innerHTML = `<i class="fas fa-check" aria-hidden="true"></i> Kopieret!`;
+            copyBtn.innerHTML = `${svgIcon("i-check")} Kopieret!`;
             showToast(`Email kopieret: ${indhold.kontakt.email}`);
 
             clearTimeout(copyResetTimer);
             copyResetTimer = setTimeout(() => {
                 copyBtn.classList.remove("is-copied");
-                copyBtn.innerHTML = `<i class="far fa-copy" aria-hidden="true"></i> Kopiér`;
+                copyBtn.innerHTML = `${svgIcon("i-copy")} Kopiér`;
             }, 2200);
         });
     }

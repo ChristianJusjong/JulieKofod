@@ -97,6 +97,14 @@ img {
     max-width: 100%;
 }
 
+.icon {
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    vertical-align: -0.14em;
+    flex-shrink: 0;
+}
+
 a {
     color: inherit;
     text-decoration: none;
@@ -648,6 +656,46 @@ h1, h2, h3, .display-font {
 /* ==========================================================================
    GALLERY FILTER PILLS (ALLE / RUNDE / FIRKANTEDE)
    ========================================================================== */
+.gallery-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2.25rem;
+}
+
+.gallery-controls .filter-bar {
+    margin-bottom: 0;
+}
+
+.sort-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+}
+
+.sort-select {
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    background: var(--surface-card);
+    border: 1.5px solid var(--teal-deep);
+    border-radius: 999px;
+    padding: 0.48rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.18s ease, box-shadow 0.16s var(--ease-gallery);
+}
+
+.sort-select:hover {
+    background: var(--aqua-soft);
+    box-shadow: 3px 3px 0px var(--teal-deep);
+}
+
 .filter-bar {
     display: flex;
     flex-wrap: wrap;
@@ -1649,6 +1697,129 @@ h1, h2, h3, .display-font {
     transition: none;
 }
 
+.lightbox-stage[hidden],
+.wall-preview[hidden] {
+    display: none;
+}
+
+.lb-wall-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    height: 44px;
+    padding: 0 1rem;
+    border-radius: 999px;
+    background: var(--surface-card);
+    color: var(--teal-deep);
+    border: 1.5px solid var(--teal-deep);
+    font-size: 0.82rem;
+    font-weight: 700;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.lb-wall-btn:hover,
+.lb-wall-btn[aria-pressed="true"] {
+    background: var(--teal-deep);
+    color: var(--bg-gallery);
+}
+
+/* True-to-Scale Wall Preview (220 cm sofa reference) */
+.wall-preview {
+    width: min(92vw, 760px);
+    height: min(64vh, 520px);
+    background: linear-gradient(180deg, #F3F0E8 0%, #EAE5DA 76%, #DDD6C8 76%, #D6CEBE 100%);
+    border: 1.5px solid var(--teal-deep);
+    box-shadow: 0 18px 44px rgba(2, 79, 91, 0.12);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 1.75rem 1.5rem 1.25rem;
+    overflow: hidden;
+}
+
+.wall-room {
+    width: 100%;
+    max-width: 560px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.9rem;
+}
+
+.wall-art-slot {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 0.5rem;
+}
+
+.wall-art-img {
+    display: block;
+    border: 1.5px solid var(--gold-ring);
+    box-shadow: 0 14px 28px rgba(2, 79, 91, 0.22);
+    background: var(--bg-gallery);
+    object-fit: cover;
+}
+
+.wall-art-img.is-round {
+    border-radius: 50%;
+}
+
+.wall-art-img.is-rect {
+    border-radius: 0;
+}
+
+.wall-sofa {
+    width: 78%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wall-sofa-back {
+    width: 92%;
+    height: 44px;
+    background: #C7C1B5;
+    border: 1.5px solid rgba(2, 79, 91, 0.28);
+    border-bottom: none;
+    border-radius: 10px 10px 0 0;
+}
+
+.wall-sofa-seat {
+    width: 100%;
+    height: 30px;
+    background: #B9B2A5;
+    border: 1.5px solid rgba(2, 79, 91, 0.32);
+    border-radius: 6px;
+}
+
+.wall-sofa-legs {
+    width: 88%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.wall-sofa-legs span {
+    width: 8px;
+    height: 12px;
+    background: var(--teal-deep);
+    opacity: 0.55;
+    border-radius: 0 0 3px 3px;
+}
+
+.wall-scale-note {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--teal-deep);
+    opacity: 0.78;
+}
+
 .lightbox-details {
     margin-top: 1.1rem;
     max-width: 780px;
@@ -1954,7 +2125,19 @@ h1, h2, h3, .display-font {
         font-size: 0.9rem;
     }
 
-    .lightbox-stage {
+    .lb-wall-btn {
+        height: 38px;
+        width: 38px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .lb-wall-btn span {
+        display: none;
+    }
+
+    .lightbox-stage,
+    .wall-preview {
         width: 92vw;
         height: min(46vh, 380px);
         margin-top: 2.25rem;
