@@ -1515,6 +1515,188 @@ h1, h2, h3, .display-font {
 }
 
 /* ==========================================================================
+   CIRCULAR (TONDO) ARTWORK SYSTEM — shape: "round" vs shape: "rect"
+   ========================================================================== */
+
+/* Sharp 0px rectangular cards */
+.art-card--rect,
+.art-card--rect .art-mat,
+.art-card--rect .art-mat img,
+.sold-card--rect,
+.sold-card--rect .sold-img-wrap,
+.sold-card--rect .sold-img-wrap img {
+    border-radius: 0;
+}
+
+/* Round (Tondo) cards in #til-salg */
+.art-card--round {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    align-items: center;
+    padding-top: 0.35rem;
+}
+
+/* Override rectangular hover on outer wrapper — apply to the circle itself */
+.art-card--round:hover,
+.art-card--round:nth-child(3n + 1):hover,
+.art-card--round:nth-child(3n + 2):hover,
+.art-card--round:nth-child(3n + 3):hover {
+    transform: none;
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.art-mat--round {
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    padding: 0;
+    background: var(--bg-gallery);
+    border: 1.5px solid var(--gold-ring);
+    box-shadow: 0 10px 26px rgba(2, 79, 91, 0.1);
+    overflow: hidden;
+    transition: transform 0.24s var(--ease-gallery), box-shadow 0.24s var(--ease-gallery), border-color 0.24s ease;
+}
+
+.art-mat--round img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: none;
+}
+
+/* Circular hard-edged 8px 8px 0px Pop Art hover alternating #E9409B, #1CB6BB, #8B920A */
+.art-card--round:hover .art-mat--round {
+    transform: translate(-4px, -4px);
+}
+
+.art-card--round:nth-child(3n + 1):hover .art-mat--round {
+    box-shadow: 8px 8px 0px var(--pop-pink);
+}
+
+.art-card--round:nth-child(3n + 2):hover .art-mat--round {
+    box-shadow: 8px 8px 0px var(--pop-turquoise);
+}
+
+.art-card--round:nth-child(3n + 3):hover .art-mat--round {
+    box-shadow: 8px 8px 0px var(--olive-tag);
+}
+
+/* Cleanly centered museum placard beneath the circular canvas */
+.art-info--round {
+    width: 100%;
+    padding: 1.65rem 0.75rem 0.5rem;
+    text-align: center;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.art-info--round .art-meta {
+    align-self: center;
+}
+
+.sale-badge--inline {
+    position: static;
+    display: inline-block;
+    margin-bottom: 0.15rem;
+}
+
+.art-price-row--round {
+    width: 100%;
+    justify-content: center;
+    gap: 1.15rem;
+    margin-top: 0.45rem;
+    padding-top: 0.9rem;
+}
+
+/* Round (Tondo) archival cards in #solgte */
+.sold-card--round {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding-top: 0.5rem;
+}
+
+.sold-card--round:hover {
+    border-color: transparent;
+    transform: none;
+    box-shadow: none;
+}
+
+.sold-img-wrap--round {
+    width: 100%;
+    max-width: 320px;
+    margin-inline: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    padding: 0;
+    background: var(--bg-gallery);
+    border: 1.5px solid var(--gold-ring);
+    box-shadow: 0 8px 22px rgba(2, 79, 91, 0.1);
+    overflow: hidden;
+    transition: transform 0.25s var(--ease-gallery), border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sold-img-wrap--round img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: none;
+    filter: none;
+}
+
+.sold-card--round:hover .sold-img-wrap--round {
+    transform: translateY(-3px);
+    border-color: var(--pop-turquoise);
+    box-shadow: 0 12px 26px rgba(28, 182, 187, 0.22);
+}
+
+.sold-caption--round {
+    padding: 1.45rem 0.75rem 0.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sold-badge--inline {
+    position: static;
+    display: inline-block;
+    margin-bottom: 0.55rem;
+}
+
+/* Lightbox Modal — Circular (Tondo) vs Sharp Rectangular */
+.lightbox-stage {
+    border-radius: 0;
+}
+
+.lightbox-stage--round {
+    background: var(--bg-gallery);
+    border: none;
+    box-shadow: none;
+    padding: clamp(1rem, 2.5vw, 1.75rem);
+    overflow: visible;
+}
+
+.lb-img--round {
+    aspect-ratio: 1 / 1;
+    width: min(50vh, 76vw);
+    height: min(50vh, 76vw);
+    max-width: 520px;
+    max-height: 520px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold-ring);
+    box-shadow: 0 16px 40px rgba(2, 79, 91, 0.14);
+}
+
+/* ==========================================================================
    TOAST NOTIFICATION
    ========================================================================== */
 .toast {

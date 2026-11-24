@@ -105,6 +105,17 @@ function setText(id, value) {
     if (el && value !== undefined) el.textContent = value;
 }
 
+function getArtworkShape(item) {
+    if (item.shape === "round" || item.shape === "rect") {
+        return item.shape;
+    }
+    const text = `${item.titel || ""} ${item.maal || ""}`.toLowerCase();
+    if (text.includes("rundt") || text.includes("ø")) {
+        return "round";
+    }
+    return "rect";
+}
+
 // -----------------------------------------------------------------------------
 // 2. RENDER "TIL SALG" GALLERY
 // -----------------------------------------------------------------------------
@@ -114,30 +125,49 @@ function renderSaleGallery() {
     grid.innerHTML = "";
 
     indhold.tilSalg.forEach((item, index) => {
+        const shape = getArtworkShape(item);
+        const isRound = shape === "round";
+
         const card = document.createElement("article");
-        card.className = "art-card reveal";
+        card.className = `art-card art-card--${shape} reveal`;
         card.setAttribute("tabindex", "0");
         card.setAttribute("role", "button");
         card.setAttribute("aria-label", `Se ${item.titel} i stor visning`);
 
         const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
-        const shapeClass = item.erRund ? "is-round" : "is-rect";
 
-        card.innerHTML = `
-            <div class="art-mat">
-                <img src="${item.filnavn}" alt="${item.titel}" class="${shapeClass}" loading="lazy">
-                <span class="sale-badge">Til salg</span>
-                <span class="art-zoom-hint" aria-hidden="true"><i class="fas fa-expand"></i></span>
-            </div>
-            <div class="art-info">
-                <h3 class="art-title">${item.titel}</h3>
-                <p class="art-meta">${metaParts}</p>
-                <div class="art-price-row">
-                    <span class="art-price">${item.pris}</span>
-                    <span class="art-cta-link">Se værk <i class="fas fa-arrow-right"></i></span>
+        if (isRound) {
+            card.innerHTML = `
+                <div class="art-mat art-mat--round">
+                    <img src="${item.filnavn}" alt="${item.titel}" class="is-round" loading="lazy">
                 </div>
-            </div>
-        `;
+                <div class="art-info art-info--round">
+                    <span class="sale-badge sale-badge--inline">Til salg</span>
+                    <h3 class="art-title">${item.titel}</h3>
+                    <p class="art-meta">${metaParts}</p>
+                    <div class="art-price-row art-price-row--round">
+                        <span class="art-price">${item.pris}</span>
+                        <span class="art-cta-link">Se værk <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            `;
+        } else {
+            card.innerHTML = `
+                <div class="art-mat">
+                    <img src="${item.filnavn}" alt="${item.titel}" class="is-rect" loading="lazy">
+                    <span class="sale-badge">Til salg</span>
+                    <span class="art-zoom-hint" aria-hidden="true"><i class="fas fa-expand"></i></span>
+                </div>
+                <div class="art-info">
+                    <h3 class="art-title">${item.titel}</h3>
+                    <p class="art-meta">${metaParts}</p>
+                    <div class="art-price-row">
+                        <span class="art-price">${item.pris}</span>
+                        <span class="art-cta-link">Se værk <i class="fas fa-arrow-right"></i></span>
+                    </div>
+                </div>
+            `;
+        }
 
         const openHandler = () => openLightbox("sale", index);
         card.addEventListener("click", openHandler);
@@ -161,26 +191,42 @@ function renderSoldGallery() {
     grid.innerHTML = "";
 
     indhold.solgte.forEach((item, index) => {
+        const shape = getArtworkShape(item);
+        const isRound = shape === "round";
+
         const card = document.createElement("article");
-        card.className = "sold-card reveal";
+        card.className = `sold-card sold-card--${shape} reveal`;
         card.setAttribute("tabindex", "0");
         card.setAttribute("role", "button");
         card.setAttribute("aria-label", `Se solgt værk: ${item.titel}`);
 
         const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
-        const shapeClass = item.erRund ? "is-round" : "is-rect";
 
-        card.innerHTML = `
-            <div class="sold-img-wrap">
-                <img src="${item.filnavn}" alt="${item.titel}" class="${shapeClass}" loading="lazy">
-                <span class="sold-badge">Solgt</span>
-            </div>
-            <div class="sold-caption">
-                <h3 class="sold-title">${item.titel}</h3>
-                ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
-                ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
-            </div>
-        `;
+        if (isRound) {
+            card.innerHTML = `
+                <div class="sold-img-wrap sold-img-wrap--round">
+                    <img src="${item.filnavn}" alt="${item.titel}" class="is-round" loading="lazy">
+                </div>
+                <div class="sold-caption sold-caption--round">
+                    <span class="sold-badge sold-badge--inline">Solgt</span>
+                    <h3 class="sold-title">${item.titel}</h3>
+                    ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
+                    ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
+                </div>
+            `;
+        } else {
+            card.innerHTML = `
+                <div class="sold-img-wrap">
+                    <img src="${item.filnavn}" alt="${item.titel}" class="is-rect" loading="lazy">
+                    <span class="sold-badge">Solgt</span>
+                </div>
+                <div class="sold-caption">
+                    <h3 class="sold-title">${item.titel}</h3>
+                    ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
+                    ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
+                </div>
+            `;
+        }
 
         const openHandler = () => openLightbox("sold", index);
         card.addEventListener("click", openHandler);
@@ -327,10 +373,14 @@ function updateLightboxView() {
     const item = list[lbState.index];
     if (!item) return;
 
+    const isRound = getArtworkShape(item) === "round";
+    const stage = document.querySelector(".lightbox-stage");
     const img = document.getElementById("lb-img");
     img.src = item.filnavn;
     img.alt = item.titel;
     img.style.transform = "scale(1)";
+    img.classList.toggle("lb-img--round", isRound);
+    if (stage) stage.classList.toggle("lightbox-stage--round", isRound);
 
     setText("lb-title", item.titel);
     setText("lb-desc", item.beskrivelse || "");

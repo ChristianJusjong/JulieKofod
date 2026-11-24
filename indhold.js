@@ -45,7 +45,7 @@ const indhold = {
             pris: "1.000 kr.",
             medium: "Akryl på lærred",
             maal: "Ø 40 cm",
-            erRund: true,
+            shape: "round",
             beskrivelse: "Rundt originalværk med drømmende rosa-lilla himmel, fuldmåne over bjergene og levende turkis struktur."
         },
         {
@@ -55,7 +55,7 @@ const indhold = {
             pris: "2.400 kr.",
             medium: "Akryl på lærred",
             maal: "40 × 50 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Månens blide lys bryder gennem hængende grene og spejler sig i en dyb, smaragdgrøn og turkis skovsø."
         },
         {
@@ -65,7 +65,7 @@ const indhold = {
             pris: "3.000 kr.",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Et stort, dragende himmelrum fyldt med rosa, lavendel og dybe violette skyformationer oplyst af aftensolen."
         },
         {
@@ -75,7 +75,7 @@ const indhold = {
             pris: "3.500 kr.",
             medium: "Akryl på lærred",
             maal: "40 × 50 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Kraftfulde, skummende blå havbølger mod kysten under en dramatisk skumringshimmel og en lysende fuldmåne."
         },
         {
@@ -85,7 +85,7 @@ const indhold = {
             pris: "1.800 kr.",
             medium: "Akryl på lærred",
             maal: "Ø 40 cm",
-            erRund: true,
+            shape: "round",
             beskrivelse: "Rundt maleri af en lysning mellem hvide birkestammer, gyldne efterårsblade og mosbeklædte sten."
         },
         {
@@ -95,7 +95,7 @@ const indhold = {
             pris: "1.800 kr.",
             medium: "Akryl på lærred",
             maal: "Ø 40 cm",
-            erRund: true,
+            shape: "round",
             beskrivelse: "Rundt strukturmaleri i varme gyldne sandtoner, metalliske strejf og dyb blå omkring en stille kystbølge."
         }
     ],
@@ -110,7 +110,7 @@ const indhold = {
 
     // -------------------------------------------------------------------------
     // SOLGTE VÆRKER
-    // (Opdateres med nye billeder, titler og størrelser så snart Julie sender dem)
+    // (shape: "round" for runde lærreder, "rect" for firkantede — standard er "rect")
     // -------------------------------------------------------------------------
     solgteSektion: {
         overtitel: "Tidligere værker",
@@ -126,7 +126,7 @@ const indhold = {
             titel: "Min fantasi - din virkelighed",
             medium: "Akryl på lærred",
             maal: "80 × 60 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Svævende vildblomst-ø i dybe rosa, blå og violette skyer."
         },
         {
@@ -134,7 +134,7 @@ const indhold = {
             titel: "Nu falmer skoven trindt om land",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Svævende birkeskov med gyldent efterårsløv mod dyb petrol-blå nattehimmel."
         },
         {
@@ -142,7 +142,7 @@ const indhold = {
             titel: "Efter Regnen",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "En lille kolibri ved en svævende skovkant i koralrød og himmelblå solnedgang."
         },
         {
@@ -150,7 +150,7 @@ const indhold = {
             titel: "Et stykke Fantasi",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Svævende træ under fuldmånen i varme gyldne og turkise nuancer."
         },
         {
@@ -158,7 +158,7 @@ const indhold = {
             titel: "Wishing you well",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "En eventyrlig ønskebrønd på sin egen svævende ø i gyldent lys."
         },
         {
@@ -166,7 +166,7 @@ const indhold = {
             titel: "En stille stund",
             medium: "Akryl på lærred",
             maal: "Ø 40 cm",
-            erRund: true,
+            shape: "round",
             beskrivelse: "Rundt maleri af en stille, månebelyst skovsø omgivet af birketræer."
         },
         {
@@ -174,7 +174,7 @@ const indhold = {
             titel: "De sidste stråler",
             medium: "Akryl på lærred",
             maal: "30 × 40 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Lysstråler der bryder gennem trækronerne i dybe skovgrønne og gyldne toner."
         },
         {
@@ -182,7 +182,7 @@ const indhold = {
             titel: "Vejen Hjem",
             medium: "Akryl på lærred",
             maal: "80 × 100 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "En åben låge og en snoet sti over en gammel stenbro i morgendis og lavendellys."
         },
         {
@@ -190,7 +190,7 @@ const indhold = {
             titel: "Begyndelsen",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "En frodig, lysfyldt skovsti der fører blikket mod en lav, glødende sol."
         },
         {
@@ -198,7 +198,7 @@ const indhold = {
             titel: "Uden titel",
             medium: "Akryl på lærred",
             maal: "Rundt lærred",
-            erRund: true,
+            shape: "round",
             beskrivelse: "Rundt stemningsmaleri i sort, varm guld og orange nuancer ved en stille skovsø."
         },
         {
@@ -206,7 +206,7 @@ const indhold = {
             titel: "Uden titel",
             medium: "Akryl på lærred",
             maal: "60 × 80 cm",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Stemningsfuldt landskab med gammel stenbro, gyldent lysindfald og rig struktur."
         },
         {
@@ -214,7 +214,7 @@ const indhold = {
             titel: "Uden titel",
             medium: "Akryl på lærred",
             maal: "Triptykon",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Tredelt maleri af en lang træbro gennem tåget sølandskab med en svævende rovfugl."
         },
         {
@@ -222,7 +222,7 @@ const indhold = {
             titel: "Valmuer i Luften",
             medium: "Akryl på lærred",
             maal: "",
-            erRund: false,
+            shape: "rect",
             beskrivelse: "Sarte lyserøde valmuer på en svævende ø i bløde sand- og jordtoner."
         }
     ],
