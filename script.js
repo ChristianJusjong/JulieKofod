@@ -126,6 +126,7 @@ function renderSaleGallery() {
         card.innerHTML = `
             <div class="art-mat">
                 <img src="${item.filnavn}" alt="${item.titel}" class="${shapeClass}" loading="lazy">
+                <span class="sale-badge">Til salg</span>
                 <span class="art-zoom-hint" aria-hidden="true"><i class="fas fa-expand"></i></span>
             </div>
             <div class="art-info">
