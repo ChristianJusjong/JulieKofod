@@ -1,39 +1,60 @@
 /* ==========================================================================
-   JULIE KOFOD — EXCLUSIVE NEO-POP ART GALLERY
-   Warm museum off-white (#FAF9F6) canvas for ~70% of the page, punctuated by
-   crisp Neo-Pop color blocks, refined 1px–1.5px deep teal lines, tactile
-   offset shadows, and Syne + Cormorant Garamond + Plus Jakarta Sans typography.
+   JULIE KOFOD — RAW 1960s POP ART / SCREENPRINT GALLERY
+   Warhol & Lichtenstein inspired screenprint aesthetic:
+   Warm vintage print paper (#F7F4EB), pure print black ink (#111111),
+   heavy 3px–4px borders, hard 6px 6px 0px shadows, Ben-Day halftone dots,
+   Archivo Black headlines, and Space Mono gallery metadata & controls.
    ========================================================================== */
 
 :root {
-    /* Strict Neo-Pop Gallery Color Tokens (WCAG AA Verified) */
-    --bg-gallery: #FAF9F6;
+    /* Core Print Ink & Paper */
+    --ink: #111111;
+    --bg-gallery: #F7F4EB;
+    --surface-card: #FFFFFF;
+    --surface-mat: #EFECE0;
+
+    /* Artist's Exact Pop Art Palette */
+    --pop-pink: #E9409B;
+    --pop-turquoise: #1CB6BB;
+    --olive-tag: #8B920A;
     --teal-deep: #024F5B;
     --plum-luxury: #741353;
-    --pop-pink: #C8267E;
-    --pop-turquoise: #4FD1D5;
-    --olive-tag: #5E6406;
     --aqua-soft: #A0E5E5;
-    --gold-ring: #C5A059;
-
-    /* Subtle Editorial Neutrals */
-    --surface-card: #FFFFFF;
-    --surface-mat: #F4F2EC;
-    --text-muted: #46666C;
-    --border-hairline: rgba(2, 79, 91, 0.22);
 
     /* Typography */
-    --font-display: 'Syne', sans-serif;
-    --font-accent: 'Cormorant Garamond', Georgia, serif;
+    --font-display: 'Archivo Black', Impact, sans-serif;
+    --font-mono: 'Space Mono', ui-monospace, SFMono-Regular, monospace;
     --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
-    /* Layout & Motion */
+    /* Layout & Screenprint Physics */
     --container: 1240px;
-    --ease-gallery: cubic-bezier(0.22, 1, 0.36, 1);
-    --shadow-offset: 5px 5px 0px var(--teal-deep);
-    --shadow-offset-sm: 3px 3px 0px var(--teal-deep);
-    --shadow-offset-pink: 6px 6px 0px var(--pop-pink);
-    --shadow-offset-aqua: 5px 5px 0px var(--aqua-soft);
+    --border-ink: 3px solid var(--ink);
+    --shadow-hard: 6px 6px 0px var(--ink);
+    --shadow-press: 3px 3px 0px var(--ink);
+    --ease-snap: cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+/* ==========================================================================
+   CSS BEN-DAY HALFTONE DOT UTILITIES
+   ========================================================================== */
+.benday-dots {
+    background-image: radial-gradient(#111111 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+}
+
+.benday-dots--subtle {
+    background-image: radial-gradient(rgba(17, 17, 17, 0.14) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+}
+
+.benday-dots--pink {
+    background-image: radial-gradient(rgba(233, 64, 155, 0.38) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+}
+
+.benday-dots--aqua {
+    background-image: radial-gradient(rgba(160, 229, 229, 0.28) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
 }
 
 /* ==========================================================================
@@ -56,14 +77,14 @@ html {
 body {
     font-family: var(--font-body);
     background-color: var(--bg-gallery);
-    color: var(--teal-deep);
+    color: var(--ink);
     line-height: 1.68;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
 }
 
 section[id] {
-    scroll-margin-top: 84px;
+    scroll-margin-top: 86px;
 }
 
 .skip-link {
@@ -72,13 +93,15 @@ section[id] {
     left: 1rem;
     z-index: 400;
     padding: 0.7rem 1.25rem;
-    background: var(--teal-deep);
-    color: var(--bg-gallery);
+    background: var(--pop-pink);
+    color: #FFFFFF;
+    font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 0.9rem;
-    border: 2px solid var(--aqua-soft);
-    border-radius: 999px;
-    transition: top 0.18s ease;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    border: var(--border-ink);
+    box-shadow: 4px 4px 0px var(--ink);
+    transition: top 0.15s ease;
 }
 
 .skip-link:focus {
@@ -87,6 +110,7 @@ section[id] {
 
 a:focus-visible,
 button:focus-visible,
+select:focus-visible,
 [tabindex]:focus-visible {
     outline: 3px solid var(--pop-pink);
     outline-offset: 3px;
@@ -124,17 +148,18 @@ button {
 
 h1, h2, h3, .display-font {
     font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    line-height: 1.06;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: -0.025em;
+    line-height: 1.02;
 }
 
 /* ==========================================================================
-   SECTION HEADERS & TYPOGRAPHIC ACCENTS
+   SECTION HEADERS
    ========================================================================== */
 .section-header {
-    max-width: 700px;
-    margin-bottom: 3.25rem;
+    max-width: 760px;
+    margin-bottom: 3rem;
 }
 
 .section-header.centered {
@@ -143,74 +168,62 @@ h1, h2, h3, .display-font {
 }
 
 .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.55rem;
-    font-family: var(--font-accent);
-    font-style: italic;
-    font-weight: 600;
-    font-size: 1.15rem;
-    letter-spacing: 0.03em;
-    color: var(--plum-luxury);
-    margin-bottom: 0.65rem;
-}
-
-.eyebrow::before {
-    content: "";
     display: inline-block;
-    width: 24px;
-    height: 2px;
-    background: var(--olive-tag);
-}
-
-.section-header.centered .eyebrow::after {
-    content: "";
-    display: inline-block;
-    width: 24px;
-    height: 2px;
-    background: var(--olive-tag);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.32rem 0.85rem;
+    background: var(--aqua-soft);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.14) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: 4px 4px 0px var(--ink);
+    margin-bottom: 1rem;
 }
 
 .section-title {
-    font-size: clamp(2.15rem, 4.2vw, 3.3rem);
-    font-weight: 800;
-    color: var(--teal-deep);
+    font-size: clamp(2.25rem, 4.8vw, 3.85rem);
+    color: var(--ink);
     margin-bottom: 0.9rem;
 }
 
 .section-intro {
-    font-size: 1.03rem;
-    color: var(--text-muted);
-    line-height: 1.75;
+    font-size: 1rem;
+    color: #262626;
+    line-height: 1.72;
 }
 
 /* ==========================================================================
-   TACTILE NEO-POP BUTTONS
+   MECHANICAL SCREENPRINT BUTTONS (3px INK + 6px HARD SHADOW + PRESS CLICK)
    ========================================================================== */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.6rem;
-    padding: 0.9rem 1.8rem;
-    border-radius: 999px;
-    font-family: var(--font-body);
-    font-size: 0.9rem;
+    padding: 0.88rem 1.65rem;
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 4px 4px 0px var(--teal-deep);
-    transition: transform 0.18s var(--ease-gallery), box-shadow 0.18s var(--ease-gallery), background-color 0.2s ease, color 0.2s ease;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease, color 0.15s ease;
 }
 
 .btn:hover {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px var(--teal-deep);
+    transform: translate(3px, 3px);
+    box-shadow: var(--shadow-press);
 }
 
 .btn:active {
-    transform: translate(4px, 4px);
-    box-shadow: 0px 0px 0px var(--teal-deep);
+    transform: translate(6px, 6px);
+    box-shadow: 0px 0px 0px var(--ink);
 }
 
 .btn-pink {
@@ -225,90 +238,87 @@ h1, h2, h3, .display-font {
 
 .btn-aqua {
     background: var(--aqua-soft);
-    color: var(--teal-deep);
+    color: var(--ink);
 }
 
 .btn-aqua:hover {
     background: var(--pop-turquoise);
-    color: var(--teal-deep);
+    color: var(--ink);
 }
 
 .btn-outline-teal {
-    background: transparent;
-    color: var(--teal-deep);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: none;
+    background: var(--surface-card);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
 }
 
 .btn-outline-teal:hover {
-    background: var(--pop-turquoise);
-    border-color: var(--teal-deep);
-    color: var(--teal-deep);
-    transform: translateY(-2px);
-    box-shadow: none;
+    background: var(--aqua-soft);
+    color: var(--ink);
 }
 
 /* ==========================================================================
-   STICKY NAVBAR — FROSTED #FAF9F6 + 1PX #024F5B BORDER + GOLD LOGO + PINK PILL
+   STICKY NAVBAR — #F7F4EB + 4px SOLID #111111 BORDER + LOUD PINK KONTAKT CTA
    ========================================================================== */
 .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(250, 249, 246, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--teal-deep);
+    background: var(--bg-gallery);
+    border-bottom: 4px solid var(--ink);
 }
 
 .nav-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 82px;
     gap: 1.5rem;
 }
 
 .brand-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.85rem;
     min-width: 0;
 }
 
 .brand-logo-thumb {
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1.5px solid var(--gold-ring);
-    background: #F6F3EC;
+    border: 3px solid var(--ink);
+    background: var(--surface-card);
     flex-shrink: 0;
 }
 
 .brand-wordmark {
     font-family: var(--font-display);
-    font-size: clamp(0.95rem, 3.8vw, 1.25rem);
-    font-weight: 800;
-    letter-spacing: 0.04em;
+    font-size: clamp(1rem, 3.6vw, 1.38rem);
+    letter-spacing: -0.02em;
     text-transform: uppercase;
     white-space: nowrap;
-    color: var(--teal-deep);
+    color: var(--ink);
 }
 
 .nav-links {
     display: flex;
     align-items: center;
     list-style: none;
-    gap: 1.75rem;
+    gap: 1.5rem;
 }
 
 .nav-links a {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--teal-deep);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink);
     position: relative;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease;
 }
 
 .nav-links a:not(.nav-kontakt-pill)::after {
@@ -317,9 +327,9 @@ h1, h2, h3, .display-font {
     left: 0;
     bottom: -4px;
     width: 0;
-    height: 2px;
+    height: 3px;
     background: var(--pop-pink);
-    transition: width 0.25s var(--ease-gallery);
+    transition: width 0.18s var(--ease-snap);
 }
 
 .nav-links a:not(.nav-kontakt-pill):hover,
@@ -332,59 +342,66 @@ h1, h2, h3, .display-font {
     width: 100%;
 }
 
-/* Pop Pink Pill Kontakt Button with 3px 3px 0px #024F5B hard offset shadow */
+/* Loud #E9409B Kontakt CTA with 3px #111111 border & hard shadow */
 .nav-links a.nav-kontakt-pill {
     display: inline-flex;
     align-items: center;
-    padding: 0.56rem 1.35rem;
-    border-radius: 999px;
+    padding: 0.52rem 1.25rem;
+    border-radius: 0;
     background: var(--pop-pink);
     color: #FFFFFF;
     font-weight: 700;
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 3px 3px 0px var(--teal-deep);
-    transition: transform 0.16s var(--ease-gallery), box-shadow 0.16s var(--ease-gallery), background-color 0.2s ease;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease;
 }
 
 .nav-links a.nav-kontakt-pill:hover,
 .nav-links a.nav-kontakt-pill.is-active {
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0px var(--teal-deep);
+    transform: translate(3px, 3px);
+    box-shadow: var(--shadow-press);
     background: var(--plum-luxury);
     color: #FFFFFF;
+}
+
+.nav-links a.nav-kontakt-pill:active {
+    transform: translate(6px, 6px);
+    box-shadow: 0px 0px 0px var(--ink);
 }
 
 .nav-instagram {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1.5px solid var(--teal-deep);
+    width: 42px;
+    height: 42px;
+    border-radius: 0;
+    border: var(--border-ink);
     background: var(--aqua-soft);
-    color: var(--teal-deep);
+    color: var(--ink);
     font-size: 1.05rem;
-    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    box-shadow: 4px 4px 0px var(--ink);
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease;
 }
 
 .nav-instagram:hover {
     background: var(--pop-turquoise);
-    color: var(--teal-deep);
-    transform: translateY(-2px);
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--ink);
 }
 
 .mobile-menu-toggle {
     display: none;
     align-items: center;
     justify-content: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: 1.5px solid var(--teal-deep);
+    width: 44px;
+    height: 44px;
+    border-radius: 0;
+    border: var(--border-ink);
     background: var(--aqua-soft);
-    color: var(--teal-deep);
+    color: var(--ink);
     font-size: 1.15rem;
+    box-shadow: 4px 4px 0px var(--ink);
     flex-shrink: 0;
 }
 
@@ -393,12 +410,11 @@ h1, h2, h3, .display-font {
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: rgba(2, 79, 91, 0.45);
-    backdrop-filter: blur(6px);
+    background: rgba(17, 17, 17, 0.65);
     overflow: hidden;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.2s ease;
 }
 
 .mobile-drawer.open {
@@ -410,17 +426,17 @@ h1, h2, h3, .display-font {
     position: absolute;
     top: 0;
     right: 0;
-    width: min(320px, 84vw);
+    width: min(320px, 85vw);
     height: 100%;
     background: var(--bg-gallery);
-    color: var(--teal-deep);
-    border-left: 1.5px solid var(--teal-deep);
+    color: var(--ink);
+    border-left: 4px solid var(--ink);
     padding: 2rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
     transform: translateX(100%);
-    transition: transform 0.3s var(--ease-gallery);
+    transition: transform 0.24s var(--ease-snap);
 }
 
 .mobile-drawer.open .mobile-drawer-panel {
@@ -434,109 +450,117 @@ h1, h2, h3, .display-font {
 }
 
 .mobile-drawer-close {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 1.5px solid var(--teal-deep);
-    background: var(--aqua-soft);
-    color: var(--teal-deep);
+    width: 42px;
+    height: 42px;
+    border-radius: 0;
+    border: var(--border-ink);
+    background: var(--pop-pink);
+    color: #FFFFFF;
     font-size: 1.1rem;
+    box-shadow: 3px 3px 0px var(--ink);
 }
 
 .mobile-drawer-links {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.1rem;
 }
 
 .mobile-drawer-links a {
     font-family: var(--font-display);
-    font-size: 1.55rem;
-    font-weight: 700;
-    color: var(--teal-deep);
+    font-size: 1.65rem;
+    text-transform: uppercase;
+    color: var(--ink);
     display: block;
-    transition: color 0.2s ease;
+    transition: color 0.15s ease, transform 0.15s ease;
 }
 
 .mobile-drawer-links a:hover {
     color: var(--pop-pink);
+    transform: translateX(4px);
 }
 
 /* ==========================================================================
-   HERO SECTION (#start) — ASYMMETRIC SPLIT + DUAL COLOR-BLOCK STAGE + MARQUEE
+   HERO SECTION (#start) — LOUD 1960s SCREENPRINT COLLAGE + BEN-DAY HALFTONE
    ========================================================================== */
 .hero-section {
     position: relative;
     background: var(--bg-gallery);
-    color: var(--teal-deep);
-    padding: clamp(4.5rem, 8.5vw, 7rem) 0 clamp(5rem, 9vw, 7.5rem);
+    color: var(--ink);
+    padding: clamp(3.75rem, 7.5vw, 6.25rem) 0 clamp(4.25rem, 8vw, 6.75rem);
     overflow: hidden;
 }
 
 .hero-grid {
     display: grid;
-    grid-template-columns: 1.12fr 0.88fr;
+    grid-template-columns: 1.1fr 0.9fr;
     align-items: center;
-    gap: clamp(3rem, 6vw, 5.5rem);
+    gap: clamp(2.75rem, 5.5vw, 5rem);
 }
 
 .hero-eyebrow {
     display: inline-block;
-    font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 0.36rem 0.9rem;
-    border-radius: 999px;
+    padding: 0.42rem 0.95rem;
     background: var(--olive-tag);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.22) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
     color: #FFFFFF;
-    margin-bottom: 1.35rem;
+    border: var(--border-ink);
+    box-shadow: 4px 4px 0px var(--ink);
+    margin-bottom: 1.45rem;
 }
 
 .hero-title {
-    font-size: clamp(2.85rem, 5.4vw, 4.65rem);
-    font-weight: 800;
-    color: var(--teal-deep);
-    letter-spacing: -0.025em;
-    line-height: 1.02;
+    font-size: clamp(2.85rem, 5.6vw, 4.9rem);
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 0.98;
     margin-bottom: 1.45rem;
 }
 
 .hero-text {
-    font-size: 1.06rem;
-    color: var(--text-muted);
+    font-size: 1.03rem;
+    color: #222222;
     max-width: 500px;
-    margin-bottom: 2.35rem;
-    line-height: 1.8;
+    margin-bottom: 2.25rem;
+    line-height: 1.75;
 }
 
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.05rem;
+    gap: 1.1rem;
     align-items: center;
 }
 
-/* Right-side overlapping composition backed by #024F5B & #A0E5E5 color-blocks */
+/* Screenprint Collage Stage with Ben-Day Halftone Backing Blocks */
 .hero-visual {
     position: relative;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    min-height: 460px;
+    min-height: 450px;
     padding: 2.5rem 1.5rem 2.75rem 2.25rem;
 }
 
 .hero-visual::before {
     content: "";
     position: absolute;
-    top: 4%;
+    top: 3%;
     right: 0;
-    width: 72%;
-    height: 76%;
-    background: var(--teal-deep);
+    width: 74%;
+    height: 78%;
+    background-color: var(--pop-turquoise);
+    background-image: radial-gradient(#111111 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
     z-index: 0;
 }
 
@@ -547,35 +571,38 @@ h1, h2, h3, .display-font {
     left: 6%;
     width: 64%;
     height: 58%;
-    background: var(--aqua-soft);
-    border: 1.5px solid var(--teal-deep);
+    background-color: var(--pop-pink);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.25) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
     z-index: 0;
 }
 
 .hero-frame-main {
     width: min(410px, 86%);
     background: var(--surface-card);
-    padding: 14px;
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 0 22px 48px rgba(2, 79, 91, 0.18);
+    padding: 10px;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
     position: relative;
     z-index: 1;
     cursor: pointer;
-    transition: transform 0.4s var(--ease-gallery), box-shadow 0.4s var(--ease-gallery);
+    transition: transform 0.14s var(--ease-snap), box-shadow 0.14s var(--ease-snap);
 }
 
 .hero-frame-main:hover {
-    transform: translate(-3px, -4px);
-    box-shadow: 8px 8px 0px var(--pop-pink);
+    transform: translate(3px, 3px);
+    box-shadow: var(--shadow-press);
 }
 
 .hero-frame-main img {
     width: 100%;
     height: auto;
     display: block;
+    border: 2px solid var(--ink);
 }
 
-/* Clean circular framing for the round "Fantasiens land" tondo */
 .hero-frame-round {
     position: absolute;
     bottom: 0;
@@ -584,20 +611,20 @@ h1, h2, h3, .display-font {
     aspect-ratio: 1 / 1;
     border-radius: 50%;
     background: var(--bg-gallery);
-    padding: 10px;
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 6px 6px 0px var(--teal-deep);
+    padding: 8px;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
     z-index: 2;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.4s var(--ease-gallery), box-shadow 0.4s var(--ease-gallery);
+    transition: transform 0.14s var(--ease-snap), box-shadow 0.14s var(--ease-snap);
 }
 
 .hero-frame-round:hover {
-    transform: translate(-2px, -4px);
-    box-shadow: 8px 8px 0px var(--pop-turquoise);
+    transform: translate(3px, 3px);
+    box-shadow: var(--shadow-press);
 }
 
 .hero-frame-round img {
@@ -605,23 +632,24 @@ h1, h2, h3, .display-font {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid var(--ink);
 }
 
-/* Slim, slow-scrolling Pop Art Marquee Bar in #741353 */
+/* Loud Screenprint Marquee Divider */
 .pop-marquee {
     width: 100%;
     overflow: hidden;
     background: var(--plum-luxury);
     color: var(--bg-gallery);
-    border-top: 1px solid var(--teal-deep);
-    border-bottom: 1px solid var(--teal-deep);
-    padding: 0.72rem 0;
+    border-top: 4px solid var(--ink);
+    border-bottom: 4px solid var(--ink);
+    padding: 0.78rem 0;
 }
 
 .pop-marquee-track {
     display: flex;
     width: max-content;
-    animation: pop-marquee-scroll 34s linear infinite;
+    animation: pop-marquee-scroll 30s linear infinite;
 }
 
 .pop-marquee:hover .pop-marquee-track {
@@ -629,22 +657,18 @@ h1, h2, h3, .display-font {
 }
 
 .pop-marquee-track span {
-    font-family: var(--font-display);
-    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
     font-weight: 700;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     white-space: nowrap;
     padding-right: 1.75rem;
 }
 
 @keyframes pop-marquee-scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -654,15 +678,17 @@ h1, h2, h3, .display-font {
 }
 
 /* ==========================================================================
-   GALLERY FILTER PILLS (ALLE / RUNDE / FIRKANTEDE)
+   GALLERY FILTERS & SORT CONTROLS
    ========================================================================== */
 .gallery-controls {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 2.25rem;
+    gap: 1.15rem;
+    margin-bottom: 2.75rem;
+    padding-bottom: 1.35rem;
+    border-bottom: 3px solid var(--ink);
 }
 
 .gallery-controls .filter-bar {
@@ -672,35 +698,40 @@ h1, h2, h3, .display-font {
 .sort-control {
     display: inline-flex;
     align-items: center;
-    gap: 0.55rem;
-    font-size: 0.84rem;
+    gap: 0.65rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--teal-deep);
+    text-transform: uppercase;
+    color: var(--ink);
 }
 
 .sort-select {
-    font-family: inherit;
-    font-size: 0.84rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--teal-deep);
+    text-transform: uppercase;
+    color: var(--ink);
     background: var(--surface-card);
-    border: 1.5px solid var(--teal-deep);
-    border-radius: 999px;
-    padding: 0.48rem 1rem;
+    border: var(--border-ink);
+    border-radius: 0;
+    padding: 0.52rem 0.95rem;
+    box-shadow: 4px 4px 0px var(--ink);
     cursor: pointer;
-    transition: background-color 0.18s ease, box-shadow 0.16s var(--ease-gallery);
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease;
 }
 
 .sort-select:hover {
     background: var(--aqua-soft);
-    box-shadow: 3px 3px 0px var(--teal-deep);
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--ink);
 }
 
 .filter-bar {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.65rem;
-    margin-bottom: 2.25rem;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
 }
 
 .filter-bar--centered {
@@ -711,45 +742,48 @@ h1, h2, h3, .display-font {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.5rem 1.15rem;
-    border-radius: 999px;
-    font-size: 0.84rem;
+    padding: 0.52rem 1.05rem;
+    border-radius: 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     font-weight: 700;
-    color: var(--teal-deep);
+    text-transform: uppercase;
+    color: var(--ink);
     background: var(--surface-card);
-    border: 1.5px solid var(--teal-deep);
-    transition: background-color 0.18s ease, color 0.18s ease, transform 0.16s var(--ease-gallery), box-shadow 0.16s var(--ease-gallery);
+    border: var(--border-ink);
+    box-shadow: 4px 4px 0px var(--ink);
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease, color 0.15s ease;
 }
 
 .filter-pill:hover {
     background: var(--aqua-soft);
-    transform: translate(-1px, -1px);
-    box-shadow: 3px 3px 0px var(--teal-deep);
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--ink);
 }
 
 .filter-pill[aria-pressed="true"] {
-    background: var(--teal-deep);
+    background: var(--ink);
     color: var(--bg-gallery);
-    box-shadow: 3px 3px 0px var(--pop-pink);
+    box-shadow: 4px 4px 0px var(--pop-pink);
 }
 
 .filter-pill-count {
-    font-size: 0.74rem;
-    opacity: 0.8;
+    font-size: 0.72rem;
+    opacity: 0.82;
 }
 
 /* ==========================================================================
-   TIL SALG (#til-salg) — GENEROUS GALLERY WALL + ALTERNATING POP ART HOVERS
+   TIL SALG (#til-salg) — UNIFIED SCREENPRINT ARTWORK PRESENTATION
    ========================================================================== */
 .gallery-section {
-    padding: clamp(5rem, 8.5vw, 7.25rem) 0;
+    padding: clamp(4.75rem, 8vw, 7rem) 0;
     background: var(--bg-gallery);
 }
 
 .sale-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2.65rem;
+    gap: 3rem 2.5rem;
 }
 
 .art-card {
@@ -759,7 +793,7 @@ h1, h2, h3, .display-font {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 0.35rem;
+    padding-top: 0.25rem;
     cursor: pointer;
 }
 
@@ -779,10 +813,10 @@ h1, h2, h3, .display-font {
 
 .art-mat img {
     display: block;
-    border: 1.5px solid var(--gold-ring);
-    background: var(--bg-gallery);
-    box-shadow: 0 10px 26px rgba(2, 79, 91, 0.1);
-    transition: transform 0.24s var(--ease-gallery), box-shadow 0.24s var(--ease-gallery), border-color 0.24s ease;
+    border: var(--border-ink);
+    background: var(--surface-card);
+    box-shadow: var(--shadow-hard);
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap);
 }
 
 .art-mat img.is-round {
@@ -801,75 +835,73 @@ h1, h2, h3, .display-font {
     border-radius: 0;
 }
 
-/* Alternating hard-edged 8px 8px 0px Neo-Pop hover directly on the artwork */
+/* Mechanical Screenprint Press Click on Hover & Active */
 .art-card:hover .art-mat img {
-    transform: translate(-4px, -4px);
+    transform: translate(3px, 3px);
+    box-shadow: var(--shadow-press);
 }
 
-.art-card:nth-child(3n + 1):hover .art-mat img {
-    box-shadow: 8px 8px 0px var(--pop-pink);
+.art-card:active .art-mat img {
+    transform: translate(6px, 6px);
+    box-shadow: 0px 0px 0px var(--ink);
 }
 
-.art-card:nth-child(3n + 2):hover .art-mat img {
-    box-shadow: 8px 8px 0px var(--pop-turquoise);
-}
-
-.art-card:nth-child(3n + 3):hover .art-mat img {
-    box-shadow: 8px 8px 0px var(--olive-tag);
-}
-
-/* Sleek Museum Placard Status Tag (inline beneath artwork) */
+/* Screenprint Status Badge */
 .sale-badge {
     display: inline-block;
-    padding: 0.26rem 0.78rem;
-    border-radius: 999px;
+    padding: 0.24rem 0.72rem;
+    border-radius: 0;
     background: var(--pop-pink);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.18) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
     color: #FFFFFF;
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0px var(--ink);
+    font-family: var(--font-mono);
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.25rem;
 }
 
-/* Cleanly centered museum placard beneath every artwork */
 .art-info {
     width: 100%;
-    padding: 1.65rem 0.75rem 0.5rem;
+    padding: 1.55rem 0.5rem 0.25rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
     flex: 1;
-    gap: 0.6rem;
+    gap: 0.55rem;
 }
 
 .art-title {
     font-family: var(--font-display);
-    font-size: 1.32rem;
-    font-weight: 700;
-    color: var(--teal-deep);
+    font-size: 1.38rem;
+    color: var(--ink);
+    text-transform: uppercase;
 }
 
-/* Olive Metadata Pill for Dimensions & Medium */
 .art-meta {
     display: inline-block;
     align-self: center;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    padding: 0.26rem 0.75rem;
-    border-radius: 999px;
-    background: rgba(139, 146, 10, 0.13);
-    color: var(--olive-tag);
-    border: 1px solid rgba(139, 146, 10, 0.35);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.24rem 0.68rem;
+    border-radius: 0;
+    background: var(--surface-card);
+    color: var(--ink);
+    border: 2px solid var(--ink);
 }
 
 .art-price-row {
     width: 100%;
     margin-top: auto;
-    padding-top: 0.9rem;
-    border-top: 1px solid var(--border-hairline);
+    padding-top: 0.85rem;
+    border-top: 3px solid var(--ink);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -877,49 +909,52 @@ h1, h2, h3, .display-font {
 }
 
 .art-price {
-    font-family: var(--font-display);
-    font-size: 1.18rem;
-    font-weight: 800;
-    color: var(--teal-deep);
-    padding: 0.22rem 0.72rem;
-    background: var(--bg-gallery);
-    border: 1px solid var(--border-hairline);
+    font-family: var(--font-mono);
+    font-size: 1.12rem;
+    font-weight: 700;
+    color: var(--ink);
+    padding: 0.24rem 0.72rem;
+    background: var(--aqua-soft);
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0px var(--ink);
 }
 
 .art-cta-link {
-    font-size: 0.82rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
     font-weight: 700;
-    color: var(--teal-deep);
+    text-transform: uppercase;
+    color: var(--ink);
     display: inline-flex;
     align-items: center;
     gap: 0.38rem;
-    transition: color 0.2s ease, gap 0.2s ease;
+    transition: color 0.15s ease, gap 0.15s ease;
 }
 
 .art-card:hover .art-cta-link {
-    color: var(--plum-luxury);
+    color: var(--pop-pink);
     gap: 0.6rem;
 }
 
 /* ==========================================================================
-   TRUST / COLLECTOR INFO STRIP — 3-COLUMN #A0E5E5 BAR WITH #024F5B BORDERS
+   TRUST / COLLECTOR INFO STRIP — 3-COL #A0E5E5 BAR WITH 3px INK & 6px SHADOW
    ========================================================================== */
 .collector-strip {
-    margin-top: clamp(3rem, 5.5vw, 4.5rem);
+    margin-top: clamp(3.25rem, 5.5vw, 4.75rem);
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     background: var(--aqua-soft);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 5px 5px 0px var(--teal-deep);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
 }
 
 .collector-item {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
-    padding: 1.6rem 1.75rem;
-    border-right: 1.5px solid var(--teal-deep);
-    color: var(--teal-deep);
+    padding: 1.65rem 1.75rem;
+    border-right: var(--border-ink);
+    color: var(--ink);
 }
 
 .collector-item:last-child {
@@ -927,199 +962,227 @@ h1, h2, h3, .display-font {
 }
 
 .collector-icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background: var(--teal-deep);
-    color: var(--bg-gallery);
+    width: 42px;
+    height: 42px;
+    border-radius: 0;
+    background: var(--pop-pink);
+    border: var(--border-ink);
+    box-shadow: 3px 3px 0px var(--ink);
+    color: #FFFFFF;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.92rem;
+    font-size: 1rem;
     flex-shrink: 0;
     margin-top: 0.1rem;
 }
 
 .collector-item h3 {
     font-family: var(--font-display);
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: var(--teal-deep);
-    margin-bottom: 0.25rem;
+    font-size: 1.08rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
 }
 
 .collector-item p {
-    font-size: 0.88rem;
-    color: var(--teal-deep);
-    opacity: 0.88;
-    line-height: 1.5;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--ink);
+    line-height: 1.55;
 }
 
 /* ==========================================================================
-   POETIC QUOTE BAND — FULL-WIDTH #741353 PLUM + OVERSIZED #E9409B QUOTE MARK
+   POETIC QUOTE BAND — DEEP PLUM + BEN-DAY HALFTONE DOTS + 4px INK DIVIDERS
    ========================================================================== */
 .quote-band {
-    background: var(--plum-luxury);
+    background-color: var(--plum-luxury);
+    background-image: radial-gradient(rgba(160, 229, 229, 0.24) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
     color: var(--bg-gallery);
     padding: clamp(4.75rem, 8.5vw, 6.75rem) 0;
-    border-top: 1.5px solid var(--teal-deep);
-    border-bottom: 1.5px solid var(--teal-deep);
+    border-top: 4px solid var(--ink);
+    border-bottom: 4px solid var(--ink);
     text-align: center;
 }
 
 .quote-band-inner {
-    max-width: 840px;
+    max-width: 880px;
     margin-inline: auto;
+    background: var(--teal-deep);
+    border: var(--border-ink);
+    box-shadow: 8px 8px 0px var(--ink);
+    padding: clamp(2.25rem, 4.5vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
 }
 
 .quote-mark {
-    font-family: var(--font-accent);
-    font-size: clamp(5.5rem, 9vw, 8.2rem);
-    line-height: 0.55;
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 6vw, 5rem);
+    line-height: 0.7;
     color: var(--pop-pink);
     display: block;
-    margin-bottom: 1.15rem;
+    margin-bottom: 1rem;
+    -webkit-text-stroke: 1.5px var(--ink);
 }
 
 .quote-text {
-    font-family: var(--font-accent);
-    font-style: italic;
-    font-weight: 500;
-    font-size: clamp(1.85rem, 3.5vw, 2.65rem);
-    line-height: 1.38;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.8vw, 2.15rem);
+    line-height: 1.24;
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
     color: var(--bg-gallery);
     margin-bottom: 1.6rem;
 }
 
 .quote-author {
     display: inline-block;
-    font-family: var(--font-body);
+    font-family: var(--font-mono);
     font-size: 0.82rem;
     font-weight: 700;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--aqua-soft);
-    padding-top: 0.7rem;
-    border-top: 2px solid var(--pop-pink);
+    background: var(--pop-pink);
+    color: #FFFFFF;
+    padding: 0.35rem 1rem;
+    border: var(--border-ink);
+    box-shadow: 4px 4px 0px var(--ink);
 }
 
 /* ==========================================================================
-   SOLGTE VÆRKER (#solgte) — RESTRAINED ARCHIVAL WALL + #A0E5E5 BESTILLINGSVÆRK
+   SOLGTE VÆRKER (#solgte) — UNIFIED SCREENPRINT PRESENTATION & HOVER
    ========================================================================== */
 .sold-section {
-    padding: clamp(5rem, 8.5vw, 7.25rem) 0;
+    padding: clamp(4.75rem, 8vw, 7rem) 0;
     background: var(--bg-gallery);
 }
 
 .sold-masonry {
-    columns: 3 310px;
-    column-gap: 2.35rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 3rem 2.5rem;
+    align-items: start;
 }
 
 .sold-card {
-    break-inside: avoid;
-    margin-bottom: 2.75rem;
-    padding-top: 0.5rem;
     background: transparent;
     border: none;
     box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0.25rem;
     cursor: pointer;
 }
 
 .sold-img-wrap {
     position: relative;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 1 / 1;
     background: transparent;
     padding: 0;
     border: none;
     display: flex;
+    align-items: center;
     justify-content: center;
 }
 
 .sold-img-wrap img {
     display: block;
-    background: var(--bg-gallery);
-    border: 1.5px solid var(--gold-ring);
-    box-shadow: 0 8px 22px rgba(2, 79, 91, 0.1);
-    transition: transform 0.25s var(--ease-gallery), border-color 0.25s ease, box-shadow 0.25s ease;
+    background: var(--surface-card);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap);
 }
 
 .sold-img-wrap img.is-round {
     width: 100%;
-    max-width: 320px;
-    aspect-ratio: 1 / 1;
+    height: 100%;
     object-fit: cover;
     border-radius: 50%;
 }
 
 .sold-img-wrap img.is-rect {
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
     height: auto;
+    object-fit: contain;
     border-radius: 0;
 }
 
+/* IDENTICAL Mechanical Screenprint Press Click on Hover & Active */
 .sold-card:hover .sold-img-wrap img {
-    transform: translateY(-3px);
-    border-color: var(--pop-turquoise);
-    box-shadow: 0 12px 26px rgba(28, 182, 187, 0.22);
+    transform: translate(3px, 3px);
+    box-shadow: var(--shadow-press);
 }
 
-/* Clean Deep Teal "Solgt" Pill Badge (inline beneath artwork) */
+.sold-card:active .sold-img-wrap img {
+    transform: translate(6px, 6px);
+    box-shadow: 0px 0px 0px var(--ink);
+}
+
 .sold-badge {
     display: inline-block;
-    padding: 0.24rem 0.76rem;
-    border-radius: 999px;
+    padding: 0.24rem 0.72rem;
+    border-radius: 0;
     background: var(--teal-deep);
     color: var(--bg-gallery);
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0px var(--ink);
+    font-family: var(--font-mono);
     font-size: 0.68rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    margin-bottom: 0.55rem;
+    margin-bottom: 0.25rem;
 }
 
 .sold-caption {
-    padding: 1.45rem 0.75rem 0.5rem;
+    padding: 1.5rem 0.5rem 0.25rem;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0.45rem;
 }
 
 .sold-title {
     font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--teal-deep);
-    margin-bottom: 0.45rem;
+    font-size: 1.22rem;
+    color: var(--ink);
+    text-transform: uppercase;
 }
 
 .sold-meta {
     display: inline-block;
-    font-size: 0.73rem;
-    font-weight: 600;
-    padding: 0.2rem 0.65rem;
-    border-radius: 999px;
-    background: rgba(139, 146, 10, 0.11);
-    color: var(--olive-tag);
-    border: 1px solid rgba(139, 146, 10, 0.3);
-    margin-bottom: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.62rem;
+    border-radius: 0;
+    background: var(--surface-card);
+    color: var(--ink);
+    border: 2px solid var(--ink);
 }
 
 .sold-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: 0.86rem;
+    color: #2c2c2c;
     line-height: 1.55;
     max-width: 34ch;
 }
 
-/* Bestillingsværk Editorial Card on #A0E5E5 with sharp 6px 6px 0px #024F5B shadow */
+/* Bestillingsværk Screenprint Poster Card */
 .commission-banner {
-    margin-top: 3.5rem;
+    margin-top: 4rem;
     padding: 2.5rem 2.75rem;
-    background: var(--aqua-soft);
-    color: var(--teal-deep);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 6px 6px 0px var(--teal-deep);
+    background-color: var(--pop-turquoise);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.16) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1132,24 +1195,27 @@ h1, h2, h3, .display-font {
 }
 
 .commission-banner-text h3 {
-    font-size: 1.85rem;
-    font-weight: 800;
-    color: var(--teal-deep);
-    margin-bottom: 0.4rem;
+    font-size: clamp(1.65rem, 3vw, 2.2rem);
+    color: var(--ink);
+    margin-bottom: 0.45rem;
 }
 
 .commission-banner-text p {
-    color: var(--teal-deep);
-    font-size: 1rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 0.92rem;
 }
 
 /* ==========================================================================
-   OM JULIE (#om) — FULL-WIDTH #024F5B COLOR-BLOCK + GOLD HAIRLINE & #E9409B OFFSET
+   OM JULIE (#om) — DEEP TEAL PRINT BLOCK + PINK OFFSET + 4px INK DIVIDERS
    ========================================================================== */
 .about-section {
     padding: clamp(5rem, 9vw, 7.5rem) 0;
     background: var(--teal-deep);
     color: var(--bg-gallery);
+    border-top: 4px solid var(--ink);
+    border-bottom: 4px solid var(--ink);
     overflow: hidden;
 }
 
@@ -1165,7 +1231,6 @@ h1, h2, h3, .display-font {
     padding: 0 18px 18px 0;
 }
 
-/* Offset #E9409B geometric rectangle behind the painting */
 .about-media::before {
     content: "";
     position: absolute;
@@ -1173,17 +1238,20 @@ h1, h2, h3, .display-font {
     left: 18px;
     right: 0;
     bottom: 0;
-    background: var(--pop-pink);
+    background-color: var(--pop-pink);
+    background-image: radial-gradient(rgba(17, 17, 17, 0.28) 1.5px, transparent 1.5px);
+    background-size: 10px 10px;
+    border: var(--border-ink);
     z-index: 0;
 }
 
-/* Thin gold (#C5A059) hairline frame */
 .about-image-frame {
     position: relative;
     z-index: 1;
-    background: var(--teal-deep);
-    padding: 12px;
-    border: 1px solid var(--gold-ring);
+    background: var(--surface-card);
+    padding: 10px;
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
 }
 
 .about-image-frame img {
@@ -1191,10 +1259,12 @@ h1, h2, h3, .display-font {
     aspect-ratio: 3 / 4;
     object-fit: cover;
     display: block;
+    border: 2px solid var(--ink);
 }
 
 .about-copy .eyebrow {
-    color: var(--aqua-soft);
+    background: var(--aqua-soft);
+    color: var(--ink);
 }
 
 .about-copy .section-title {
@@ -1203,28 +1273,28 @@ h1, h2, h3, .display-font {
 }
 
 .about-copy p {
-    color: rgba(250, 249, 246, 0.92);
-    font-size: 1.03rem;
-    line-height: 1.84;
+    color: rgba(247, 244, 235, 0.94);
+    font-size: 1.02rem;
+    line-height: 1.82;
     margin-bottom: 1.25rem;
 }
 
 .about-signature {
-    font-family: var(--font-accent);
+    font-family: var(--font-mono);
     font-style: italic;
-    font-weight: 600;
-    font-size: 1.85rem;
+    font-weight: 700;
+    font-size: 1.35rem;
     color: var(--aqua-soft);
     margin-top: 1.6rem;
 }
 
 /* ==========================================================================
-   KONTAKT (#kontakt) — #FAF9F6 SPLIT + SHARP #A0E5E5 CARD & EDITORIAL FORM
+   KONTAKT (#kontakt) — HEAVY INK CARDS + MECHANICAL FORM
    ========================================================================== */
 .contact-section {
     padding: clamp(5rem, 8.5vw, 7.25rem) 0;
     background: var(--bg-gallery);
-    color: var(--teal-deep);
+    color: var(--ink);
 }
 
 .contact-grid {
@@ -1238,11 +1308,10 @@ h1, h2, h3, .display-font {
     margin-bottom: 2rem;
 }
 
-/* Unified sharp-edged #A0E5E5 contact card */
 .contact-channels {
     background: var(--aqua-soft);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 6px 6px 0px var(--teal-deep);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
     display: flex;
     flex-direction: column;
 }
@@ -1254,9 +1323,9 @@ h1, h2, h3, .display-font {
     gap: 1rem;
     padding: 1.2rem 1.4rem;
     background: transparent;
-    border-bottom: 1px solid rgba(2, 79, 91, 0.22);
-    color: var(--teal-deep);
-    transition: background-color 0.2s ease;
+    border-bottom: var(--border-ink);
+    color: var(--ink);
+    transition: background-color 0.15s ease;
 }
 
 .channel-card:last-child {
@@ -1264,7 +1333,7 @@ h1, h2, h3, .display-font {
 }
 
 .channel-card:hover {
-    background: rgba(250, 249, 246, 0.35);
+    background: rgba(255, 255, 255, 0.55);
 }
 
 .channel-card--static,
@@ -1281,20 +1350,21 @@ h1, h2, h3, .display-font {
 }
 
 .channel-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--teal-deep);
+    width: 42px;
+    height: 42px;
+    border-radius: 0;
+    background: var(--ink);
     color: var(--bg-gallery);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.96rem;
+    font-size: 1rem;
     flex-shrink: 0;
 }
 
 .channel-label {
-    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -1303,45 +1373,47 @@ h1, h2, h3, .display-font {
 }
 
 .channel-value {
-    font-size: 0.96rem;
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
     font-weight: 700;
-    color: var(--teal-deep);
+    color: var(--ink);
     word-break: break-word;
 }
 
-/* Kopiér button with #8B920A "Kopieret!" confirmation state */
 .copy-email-btn {
-    padding: 0.46rem 0.95rem;
-    border-radius: 999px;
-    background: var(--bg-gallery);
-    color: var(--teal-deep);
-    border: 1.5px solid var(--teal-deep);
-    font-size: 0.76rem;
+    padding: 0.44rem 0.9rem;
+    border-radius: 0;
+    background: var(--surface-card);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: 3px 3px 0px var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
     font-weight: 700;
+    text-transform: uppercase;
     white-space: nowrap;
     flex-shrink: 0;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.18s ease;
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease, color 0.15s ease;
 }
 
 .copy-email-btn:hover {
-    background: var(--teal-deep);
-    color: var(--bg-gallery);
+    background: var(--pop-pink);
+    color: #FFFFFF;
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--ink);
 }
 
 .copy-email-btn.is-copied {
     background: var(--olive-tag);
-    border-color: var(--olive-tag);
     color: #FFFFFF;
-    transform: scale(1.03);
 }
 
-/* Right: Clean Editorial Form Card */
 .contact-form-card {
     background: var(--surface-card);
-    color: var(--teal-deep);
+    color: var(--ink);
     padding: clamp(2rem, 4vw, 2.85rem);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 6px 6px 0px var(--teal-deep);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
 }
 
 .form-row {
@@ -1350,33 +1422,34 @@ h1, h2, h3, .display-font {
 
 .form-row label {
     display: block;
-    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--teal-deep);
+    color: var(--ink);
     margin-bottom: 0.45rem;
 }
 
 .form-row input,
 .form-row textarea {
     width: 100%;
-    padding: 0.9rem 1rem;
+    padding: 0.88rem 1rem;
     border-radius: 0;
-    border: 1.5px solid var(--teal-deep);
+    border: var(--border-ink);
     background: var(--bg-gallery);
-    font-family: inherit;
-    font-size: 0.96rem;
-    color: var(--teal-deep);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--ink);
+    box-shadow: 4px 4px 0px var(--ink);
+    transition: border-color 0.15s ease, box-shadow 0.12s ease, background-color 0.15s ease;
 }
 
 .form-row input:focus,
 .form-row textarea:focus {
     outline: none;
-    border-color: var(--pop-pink);
     background: #FFFFFF;
-    box-shadow: 0 0 0 3px rgba(233, 64, 155, 0.22);
+    box-shadow: 4px 4px 0px var(--pop-pink);
 }
 
 .form-row textarea {
@@ -1387,7 +1460,7 @@ h1, h2, h3, .display-font {
 .form-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.85rem;
 }
 
 .form-submit-btn {
@@ -1399,11 +1472,11 @@ h1, h2, h3, .display-font {
 }
 
 .form-status {
-    font-size: 0.88rem;
-    font-weight: 600;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 700;
     color: var(--olive-tag);
-    margin-top: 0.75rem;
-    min-height: 0;
+    margin-top: 0.85rem;
 }
 
 .form-status:empty {
@@ -1415,36 +1488,36 @@ h1, h2, h3, .display-font {
 }
 
 .form-note {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    margin-top: 0.95rem;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: #333333;
+    margin-top: 1rem;
 }
 
 /* ==========================================================================
-   MINIMALIST HIGH-FASHION FOOTER — #024F5B + OVERSIZED #1CB6BB WATERMARK
+   SCREENPRINT FOOTER — #111111 INK + OVERSIZED WATERMARK
    ========================================================================== */
 .site-footer {
     position: relative;
-    background: var(--teal-deep);
+    background: var(--ink);
     color: var(--bg-gallery);
     padding: clamp(3.25rem, 6vw, 4.75rem) 0 clamp(2.5rem, 4.5vw, 3.25rem);
     overflow: hidden;
-    border-top: 1px solid rgba(250, 249, 246, 0.14);
+    border-top: 4px solid var(--pop-pink);
 }
 
 .footer-watermark {
     position: absolute;
     left: 50%;
-    bottom: -0.18em;
+    bottom: -0.15em;
     transform: translateX(-50%);
     font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(3.25rem, 11.5vw, 9.5rem);
-    letter-spacing: 0.06em;
+    font-size: clamp(3.25rem, 12vw, 10rem);
+    letter-spacing: 0.02em;
     line-height: 0.9;
     white-space: nowrap;
     color: var(--pop-turquoise);
-    opacity: 0.11;
+    opacity: 0.12;
     pointer-events: none;
     user-select: none;
     z-index: 0;
@@ -1470,62 +1543,63 @@ h1, h2, h3, .display-font {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 1.5px solid var(--gold-ring);
+    border: 3px solid var(--bg-gallery);
     object-fit: cover;
-    background: #F6F3EC;
+    background: var(--surface-card);
 }
 
 .footer-brand span {
     font-family: var(--font-display);
     font-size: 1.2rem;
-    font-weight: 800;
-    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--bg-gallery);
 }
 
 .footer-copy {
-    font-size: 0.88rem;
-    color: rgba(250, 249, 246, 0.8);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: rgba(247, 244, 235, 0.85);
 }
 
 .footer-social {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
-    font-size: 0.88rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
     font-weight: 700;
-    color: var(--bg-gallery);
-    padding: 0.58rem 1.25rem;
-    border-radius: 999px;
-    background: transparent;
-    border: 1.5px solid var(--aqua-soft);
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    color: var(--ink);
+    padding: 0.55rem 1.2rem;
+    border-radius: 0;
+    background: var(--aqua-soft);
+    border: 3px solid var(--bg-gallery);
+    box-shadow: 4px 4px 0px var(--pop-pink);
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease, color 0.15s ease;
 }
 
 .footer-social:hover {
     background: var(--pop-pink);
-    border-color: var(--pop-pink);
     color: #FFFFFF;
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--aqua-soft);
 }
 
 /* ==========================================================================
-   FULL-SCREEN LIGHTBOX — #FAF9F6 GALLERY BACKDROP & MUSEUM PLACARD
+   FULL-SCREEN LIGHTBOX — UNIFIED ROUND & RECT VIEWER + WALL SCALE PREVIEW
    ========================================================================== */
 .lightbox {
     position: fixed;
     inset: 0;
     z-index: 300;
-    background: rgba(250, 249, 246, 0.98);
-    backdrop-filter: blur(12px);
+    background: rgba(247, 244, 235, 0.98);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: clamp(2rem, 4.5vw, 3.75rem) clamp(1.5rem, 4vw, 3rem);
+    padding: clamp(2rem, 4.5vw, 3.5rem) clamp(1.5rem, 4vw, 3rem);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.2s ease;
 }
 
 .lightbox.open {
@@ -1545,24 +1619,26 @@ h1, h2, h3, .display-font {
 
 .lb-counter {
     padding: 0.35rem 0.85rem;
-    border-radius: 999px;
+    border-radius: 0;
     background: var(--surface-card);
-    color: var(--teal-deep);
-    border: 1.5px solid var(--teal-deep);
-    font-size: 0.8rem;
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: 3px 3px 0px var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
 }
 
 .lb-zoom-badge {
     padding: 0.35rem 0.8rem;
-    border-radius: 999px;
+    border-radius: 0;
     background: var(--aqua-soft);
-    color: var(--teal-deep);
-    border: 1.5px solid var(--teal-deep);
-    font-size: 0.78rem;
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: 3px 3px 0px var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
     font-weight: 700;
-    transition: background-color 0.2s ease;
 }
 
 .lb-zoom-badge:hover {
@@ -1573,18 +1649,45 @@ h1, h2, h3, .display-font {
     display: none;
 }
 
+.lb-wall-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    height: 44px;
+    padding: 0 0.95rem;
+    border-radius: 0;
+    background: var(--surface-card);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: 3px 3px 0px var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease, color 0.15s ease;
+}
+
+.lb-wall-btn:hover,
+.lb-wall-btn[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--bg-gallery);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--pop-pink);
+}
+
 .lb-btn {
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: 0;
     background: var(--surface-card);
-    color: var(--teal-deep);
-    border: 1.5px solid var(--teal-deep);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: 3px 3px 0px var(--ink);
     font-size: 1rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
+    transition: transform 0.12s var(--ease-snap), box-shadow 0.12s var(--ease-snap), background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
 
 .lb-btn--sm {
@@ -1595,8 +1698,9 @@ h1, h2, h3, .display-font {
 
 .lb-btn:hover:not(:disabled) {
     background: var(--pop-pink);
-    border-color: var(--pop-pink);
     color: #FFFFFF;
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px var(--ink);
 }
 
 .lb-btn:disabled {
@@ -1609,23 +1713,23 @@ h1, h2, h3, .display-font {
     top: 50%;
     transform: translateY(-50%);
     z-index: 310;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border-radius: 0;
     background: var(--surface-card);
-    color: var(--teal-deep);
-    border: 1.5px solid var(--teal-deep);
+    color: var(--ink);
+    border: var(--border-ink);
+    box-shadow: 4px 4px 0px var(--ink);
     font-size: 1.15rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .lb-nav:hover {
     background: var(--pop-turquoise);
-    border-color: var(--teal-deep);
-    color: var(--teal-deep);
+    color: var(--ink);
 }
 
 .lb-prev { left: 1.5rem; }
@@ -1640,10 +1744,11 @@ h1, h2, h3, .display-font {
 }
 
 .lb-swipe-hint {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    letter-spacing: 0.03em;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #333333;
 }
 
 .lightbox-stage {
@@ -1679,11 +1784,11 @@ h1, h2, h3, .display-font {
     width: auto;
     height: auto;
     object-fit: contain;
-    border: 1.5px solid var(--gold-ring);
-    box-shadow: 0 18px 44px rgba(2, 79, 91, 0.16);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
     background: var(--surface-card);
     cursor: zoom-in;
-    transition: transform 0.25s var(--ease-gallery);
+    transition: transform 0.2s var(--ease-snap);
     user-select: none;
     -webkit-user-drag: none;
 }
@@ -1702,34 +1807,13 @@ h1, h2, h3, .display-font {
     display: none;
 }
 
-.lb-wall-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    height: 44px;
-    padding: 0 1rem;
-    border-radius: 999px;
-    background: var(--surface-card);
-    color: var(--teal-deep);
-    border: 1.5px solid var(--teal-deep);
-    font-size: 0.82rem;
-    font-weight: 700;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-}
-
-.lb-wall-btn:hover,
-.lb-wall-btn[aria-pressed="true"] {
-    background: var(--teal-deep);
-    color: var(--bg-gallery);
-}
-
 /* True-to-Scale Wall Preview (220 cm sofa reference) */
 .wall-preview {
     width: min(92vw, 760px);
     height: min(64vh, 520px);
-    background: linear-gradient(180deg, #F3F0E8 0%, #EAE5DA 76%, #DDD6C8 76%, #D6CEBE 100%);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 0 18px 44px rgba(2, 79, 91, 0.12);
+    background: linear-gradient(180deg, #F7F4EB 0%, #EFECE0 76%, #E2DEC9 76%, #D9D4BE 100%);
+    border: var(--border-ink);
+    box-shadow: var(--shadow-hard);
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -1759,19 +1843,14 @@ h1, h2, h3, .display-font {
 
 .wall-art-img {
     display: block;
-    border: 1.5px solid var(--gold-ring);
-    box-shadow: 0 14px 28px rgba(2, 79, 91, 0.22);
-    background: var(--bg-gallery);
+    border: var(--border-ink);
+    box-shadow: 4px 4px 0px var(--ink);
+    background: var(--surface-card);
     object-fit: cover;
 }
 
-.wall-art-img.is-round {
-    border-radius: 50%;
-}
-
-.wall-art-img.is-rect {
-    border-radius: 0;
-}
+.wall-art-img.is-round { border-radius: 50%; }
+.wall-art-img.is-rect { border-radius: 0; }
 
 .wall-sofa {
     width: 78%;
@@ -1784,18 +1863,16 @@ h1, h2, h3, .display-font {
 .wall-sofa-back {
     width: 92%;
     height: 44px;
-    background: #C7C1B5;
-    border: 1.5px solid rgba(2, 79, 91, 0.28);
+    background: var(--aqua-soft);
+    border: var(--border-ink);
     border-bottom: none;
-    border-radius: 10px 10px 0 0;
 }
 
 .wall-sofa-seat {
     width: 100%;
     height: 30px;
-    background: #B9B2A5;
-    border: 1.5px solid rgba(2, 79, 91, 0.32);
-    border-radius: 6px;
+    background: var(--pop-turquoise);
+    border: var(--border-ink);
 }
 
 .wall-sofa-legs {
@@ -1805,51 +1882,48 @@ h1, h2, h3, .display-font {
 }
 
 .wall-sofa-legs span {
-    width: 8px;
+    width: 10px;
     height: 12px;
-    background: var(--teal-deep);
-    opacity: 0.55;
-    border-radius: 0 0 3px 3px;
+    background: var(--ink);
 }
 
 .wall-scale-note {
-    font-size: 0.74rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
-    color: var(--teal-deep);
-    opacity: 0.78;
+    text-transform: uppercase;
+    color: var(--ink);
 }
 
 .lightbox-details {
-    margin-top: 1.1rem;
+    margin-top: 1.15rem;
     max-width: 780px;
     width: 100%;
     text-align: center;
-    color: var(--teal-deep);
+    color: var(--ink);
 }
 
 .lightbox-details h3 {
-    font-size: clamp(1.35rem, 2.4vw, 1.65rem);
-    font-weight: 800;
-    color: var(--teal-deep);
-    margin-bottom: 0.3rem;
+    font-size: clamp(1.35rem, 2.6vw, 1.85rem);
+    color: var(--ink);
+    margin-bottom: 0.35rem;
 }
 
 .lightbox-meta-line {
     display: inline-block;
-    font-size: 0.76rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
     font-weight: 700;
-    padding: 0.22rem 0.75rem;
-    border-radius: 999px;
-    background: rgba(139, 146, 10, 0.13);
-    color: var(--olive-tag);
-    border: 1px solid rgba(139, 146, 10, 0.35);
-    margin-bottom: 0.45rem;
+    padding: 0.22rem 0.7rem;
+    background: var(--surface-card);
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    margin-bottom: 0.5rem;
 }
 
 .lightbox-desc {
     font-size: 0.92rem;
-    color: var(--text-muted);
+    color: #262626;
     margin-bottom: 0.95rem;
 }
 
@@ -1858,25 +1932,22 @@ h1, h2, h3, .display-font {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0.8rem;
+    gap: 0.85rem;
 }
 
 .lightbox-price-pill {
-    padding: 0.6rem 1.2rem;
-    border-radius: 999px;
-    background: var(--teal-deep);
+    padding: 0.6rem 1.15rem;
+    border-radius: 0;
+    background: var(--ink);
     color: var(--bg-gallery);
-    font-family: var(--font-display);
+    border: var(--border-ink);
+    box-shadow: 4px 4px 0px var(--pop-pink);
+    font-family: var(--font-mono);
     font-weight: 700;
-    font-size: 0.98rem;
+    font-size: 0.96rem;
 }
 
-/* ==========================================================================
-   LIGHTBOX MODAL — UNIFIED VIEWER (ROUND TONDO VS SHARP RECTANGULAR)
-   ========================================================================== */
-.lb-img--rect {
-    border-radius: 0;
-}
+.lb-img--rect { border-radius: 0; }
 
 .lb-img--round {
     aspect-ratio: 1 / 1;
@@ -1889,7 +1960,7 @@ h1, h2, h3, .display-font {
     background: var(--bg-gallery);
 }
 
-/* Full-Screen Artwork Mode (.lightbox--fullscreen) */
+/* Full-Screen Artwork Mode */
 .lightbox.lightbox--fullscreen {
     padding: clamp(0.75rem, 2vw, 1.5rem);
 }
@@ -1918,18 +1989,19 @@ h1, h2, h3, .display-font {
     bottom: 1.5rem;
     right: 1.5rem;
     z-index: 250;
-    padding: 0.82rem 1.4rem;
-    border-radius: 999px;
-    background: var(--teal-deep);
+    padding: 0.82rem 1.35rem;
+    border-radius: 0;
+    background: var(--ink);
     color: var(--bg-gallery);
-    border: 1.5px solid var(--aqua-soft);
-    box-shadow: 4px 4px 0px var(--pop-pink);
-    font-size: 0.88rem;
-    font-weight: 600;
+    border: 3px solid var(--bg-gallery);
+    box-shadow: 5px 5px 0px var(--pop-pink);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    font-weight: 700;
     opacity: 0;
     transform: translateY(10px);
     pointer-events: none;
-    transition: opacity 0.22s ease, transform 0.22s var(--ease-gallery);
+    transition: opacity 0.2s ease, transform 0.2s var(--ease-snap);
 }
 
 .toast.show {
@@ -1942,8 +2014,8 @@ h1, h2, h3, .display-font {
    ========================================================================== */
 .reveal {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s var(--ease-gallery), transform 0.6s var(--ease-gallery);
+    transform: translateY(18px);
+    transition: opacity 0.55s var(--ease-snap), transform 0.55s var(--ease-snap);
 }
 
 .reveal.visible {
@@ -1955,9 +2027,10 @@ h1, h2, h3, .display-font {
    RESPONSIVE BREAKPOINTS — ZERO HORIZONTAL OVERFLOW ON MOBILE
    ========================================================================== */
 @media (max-width: 1024px) {
-    .sale-grid {
+    .sale-grid,
+    .sold-masonry {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 2rem;
+        gap: 2.5rem 2rem;
     }
 
     .hero-grid,
@@ -1982,7 +2055,7 @@ h1, h2, h3, .display-font {
     }
 
     .nav-bar {
-        height: 68px;
+        height: 70px;
         gap: 0.75rem;
     }
 
@@ -2009,28 +2082,28 @@ h1, h2, h3, .display-font {
     }
 
     .hero-eyebrow {
-        margin-bottom: 0.85rem;
-        font-size: 0.7rem;
+        margin-bottom: 0.9rem;
+        font-size: 0.68rem;
     }
 
     .hero-title {
-        font-size: clamp(2rem, 8.6vw, 2.75rem);
+        font-size: clamp(2.1rem, 9vw, 2.9rem);
         margin-bottom: 0.9rem;
     }
 
     .hero-text {
         font-size: 0.96rem;
         line-height: 1.65;
-        margin-bottom: 1.35rem;
+        margin-bottom: 1.4rem;
     }
 
     .hero-actions {
-        gap: 0.75rem;
+        gap: 0.8rem;
     }
 
     .hero-actions .btn {
-        padding: 0.75rem 1.35rem;
-        font-size: 0.86rem;
+        padding: 0.75rem 1.25rem;
+        font-size: 0.78rem;
     }
 
     .hero-visual {
@@ -2042,13 +2115,13 @@ h1, h2, h3, .display-font {
         width: 118px;
         bottom: 0;
         left: 0;
-        padding: 7px;
-        box-shadow: 4px 4px 0px var(--teal-deep);
+        padding: 5px;
     }
 
-    .sale-grid {
+    .sale-grid,
+    .sold-masonry {
         grid-template-columns: 1fr;
-        gap: 1.85rem;
+        gap: 2.5rem;
     }
 
     .about-media {
@@ -2060,21 +2133,14 @@ h1, h2, h3, .display-font {
         left: 12px;
     }
 
-    .commission-banner,
-    .collector-strip,
-    .contact-channels,
-    .contact-form-card {
-        box-shadow: 4px 4px 0px var(--teal-deep);
-    }
-
     .collector-strip {
         grid-template-columns: 1fr;
     }
 
     .collector-item {
         border-right: none;
-        border-bottom: 1.5px solid var(--teal-deep);
-        padding: 1.3rem 1.35rem;
+        border-bottom: var(--border-ink);
+        padding: 1.35rem 1.4rem;
     }
 
     .collector-item:last-child {
@@ -2082,7 +2148,7 @@ h1, h2, h3, .display-font {
     }
 
     .commission-banner {
-        padding: 1.75rem;
+        padding: 1.85rem 1.5rem;
     }
 
     .channel-card {
