@@ -1,5 +1,5 @@
 // =============================================================================
-// SCRIPT.JS — Interaktivitet, Galleri, Lightbox & Farvetema for Julie Kofod
+// SCRIPT.JS — Interaktivitet, Galleri & Lightbox for Julie Kofod
 // =============================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    initTheme();
     hydrateContent();
     renderSaleGallery();
     renderSoldGallery();
@@ -19,46 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // -----------------------------------------------------------------------------
-// 1. LIVE PALETTE SWITCHER ("lillypad" <-> "sunset")
-// -----------------------------------------------------------------------------
-function initTheme() {
-    const switcher = document.getElementById("theme-switcher");
-    const buttons = document.querySelectorAll("[data-set-theme]");
-
-    if (!indhold.site.visTemaSkifter && switcher) {
-        switcher.style.display = "none";
-    }
-
-    const saved = localStorage.getItem("juliekofod-theme");
-    const initialTheme = saved || indhold.site.standardTema || "lillypad";
-    applyTheme(initialTheme, false);
-
-    buttons.forEach((btn) => {
-        btn.addEventListener("click", () => {
-            const nextTheme = btn.getAttribute("data-set-theme");
-            applyTheme(nextTheme, true);
-        });
-    });
-}
-
-function applyTheme(themeName, announce) {
-    document.documentElement.setAttribute("data-theme", themeName);
-    localStorage.setItem("juliekofod-theme", themeName);
-
-    document.querySelectorAll("[data-set-theme]").forEach((btn) => {
-        const isActive = btn.getAttribute("data-set-theme") === themeName;
-        btn.classList.toggle("active", isActive);
-        btn.setAttribute("aria-pressed", String(isActive));
-    });
-
-    if (announce) {
-        const label = themeName === "sunset" ? "Sunset Flower Field" : "Lillypad Garden";
-        showToast(`Farvetema: ${label}`);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// 2. HYDRATE TEXT, LOGO & LINKS FROM INDHOLD.JS
+// 1. HYDRATE TEXT, LOGO & CONTACT CHANNELS FROM INDHOLD.JS
 // -----------------------------------------------------------------------------
 function hydrateContent() {
     document.title = indhold.site.titel;
@@ -121,10 +81,15 @@ function hydrateContent() {
     setText("kontakt-overskrift", indhold.kontakt.overskrift);
     setText("kontakt-tekst", indhold.kontakt.tekst);
     setText("kontakt-email-text", indhold.kontakt.email);
+    setText("kontakt-telefon-text", indhold.kontakt.telefon);
+    setText("kontakt-by-text", indhold.kontakt.by);
     setText("kontakt-instagram-text", indhold.kontakt.instagramHandle);
 
     const emailLink = document.getElementById("kontakt-email-link");
     if (emailLink) emailLink.href = `mailto:${indhold.kontakt.email}`;
+
+    const phoneLink = document.getElementById("kontakt-telefon-link");
+    if (phoneLink) phoneLink.href = `tel:${indhold.kontakt.telefonLink}`;
 
     ["nav-instagram", "drawer-instagram", "kontakt-instagram-link", "footer-instagram", "lb-instagram"].forEach((id) => {
         const el = document.getElementById(id);
@@ -141,7 +106,7 @@ function setText(id, value) {
 }
 
 // -----------------------------------------------------------------------------
-// 3. RENDER "TIL SALG" GALLERY
+// 2. RENDER "TIL SALG" GALLERY
 // -----------------------------------------------------------------------------
 function renderSaleGallery() {
     const grid = document.getElementById("sale-grid");
@@ -155,11 +120,12 @@ function renderSaleGallery() {
         card.setAttribute("role", "button");
         card.setAttribute("aria-label", `Se ${item.titel} i stor visning`);
 
-        const metaParts = [item.format, item.maal].filter(Boolean).join(" · ");
+        const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
+        const shapeClass = item.erRund ? "is-round" : "is-rect";
 
         card.innerHTML = `
             <div class="art-mat">
-                <img src="${item.filnavn}" alt="${item.titel}" loading="lazy">
+                <img src="${item.filnavn}" alt="${item.titel}" class="${shapeClass}" loading="lazy">
                 <span class="art-zoom-hint" aria-hidden="true"><i class="fas fa-expand"></i></span>
             </div>
             <div class="art-info">
@@ -186,7 +152,7 @@ function renderSaleGallery() {
 }
 
 // -----------------------------------------------------------------------------
-// 4. RENDER "SOLGTE VÆRKER" MASONRY GALLERY
+// 3. RENDER "SOLGTE VÆRKER" MASONRY GALLERY
 // -----------------------------------------------------------------------------
 function renderSoldGallery() {
     const grid = document.getElementById("sold-grid");
@@ -200,6 +166,8 @@ function renderSoldGallery() {
         card.setAttribute("role", "button");
         card.setAttribute("aria-label", `Se solgt værk: ${item.titel}`);
 
+        const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
+
         card.innerHTML = `
             <div class="sold-img-wrap">
                 <img src="${item.filnavn}" alt="${item.titel}" loading="lazy">
@@ -207,6 +175,7 @@ function renderSoldGallery() {
             </div>
             <div class="sold-caption">
                 <h3 class="sold-title">${item.titel}</h3>
+                ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
                 ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
             </div>
         `;
@@ -226,23 +195,21 @@ function renderSoldGallery() {
     const commissionBtn = document.getElementById("commission-cta");
     if (commissionBtn) {
         commissionBtn.addEventListener("click", () => {
-            prefillContact("Bestillingsværk", "Hej Julie,\n\nJeg er vild med dine værker og vil meget gerne høre om muligheden for et bestillingsværk.\n\nBedste hilsner,");
+            prefillContact(
+                "Bestillingsværk",
+                "Hej Julie,\n\nJeg er vild med dine værker og vil meget gerne høre om muligheden for et bestillingsværk.\n\nBedste hilsner,"
+            );
         });
     }
 }
 
 // -----------------------------------------------------------------------------
-// 5. STICKY HEADER & MOBILE DRAWER
+// 4. MOBILE DRAWER NAVIGATION
 // -----------------------------------------------------------------------------
 function initNavigation() {
-    const header = document.getElementById("site-header");
     const drawer = document.getElementById("mobile-drawer");
     const openBtn = document.getElementById("mobile-menu-open");
     const closeBtn = document.getElementById("mobile-menu-close");
-
-    window.addEventListener("scroll", () => {
-        if (header) header.classList.toggle("scrolled", window.scrollY > 24);
-    }, { passive: true });
 
     const setDrawer = (isOpen) => {
         if (!drawer) return;
@@ -265,7 +232,7 @@ function initNavigation() {
 }
 
 // -----------------------------------------------------------------------------
-// 6. FULL-SCREEN LIGHTBOX WITH ZOOM & INQUIRY CTA
+// 5. FULL-SCREEN LIGHTBOX WITH ZOOM & INQUIRY CTA
 // -----------------------------------------------------------------------------
 let lbState = { group: "sale", index: 0, zoom: 1 };
 
@@ -312,7 +279,7 @@ function initLightbox() {
         if (lbState.group === "sale") {
             prefillContact(
                 `Forespørgsel om "${item.titel}"`,
-                `Hej Julie,\n\nJeg er interesseret i maleriet "${item.titel}" (${item.pris}). Kan du fortælle mig lidt mere om værket og muligheden for køb/afhentning?\n\nBedste hilsner,`
+                `Hej Julie,\n\nJeg er interesseret i maleriet "${item.titel}" (${item.maal}, ${item.pris}). Kan du fortælle mig lidt mere om værket og muligheden for køb/afhentning?\n\nBedste hilsner,`
             );
         } else {
             prefillContact(
@@ -370,19 +337,20 @@ function updateLightboxView() {
     const priceEl = document.getElementById("lb-price");
     const inquireBtn = document.getElementById("lb-inquire");
 
+    const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
+    metaEl.textContent = metaParts || "Akryl på lærred";
+
     if (lbState.group === "sale") {
-        metaEl.textContent = [item.format, item.maal].filter(Boolean).join(" · ");
         priceEl.textContent = item.pris;
         inquireBtn.innerHTML = `<i class="fas fa-envelope"></i> Forespørg om dette værk`;
     } else {
-        metaEl.textContent = "Tidligere originalværk";
         priceEl.textContent = "Solgt";
         inquireBtn.innerHTML = `<i class="fas fa-palette"></i> Forespørg om lignende værk`;
     }
 }
 
 // -----------------------------------------------------------------------------
-// 7. CONTACT FORM (SMART MAILTO) & COPY EMAIL
+// 6. CONTACT FORM (SMART MAILTO) & COPY EMAIL
 // -----------------------------------------------------------------------------
 function initContactForm() {
     const form = document.getElementById("contact-form");
@@ -404,7 +372,7 @@ function initContactForm() {
             e.preventDefault();
             const name = document.getElementById("form-name").value.trim();
             const email = document.getElementById("form-email").value.trim();
-            const subject = document.getElementById("form-subject").value.trim() || "Forespørgsel fra juliekofod.dk";
+            const subject = document.getElementById("form-subject").value.trim() || "Forespørgsel fra juliekofod.com";
             const message = document.getElementById("form-message").value.trim();
 
             const body = `${message}\n\n---\nSendt af: ${name}\nEmail: ${email}`;
@@ -433,7 +401,7 @@ function prefillContact(subjectText, messageText) {
 }
 
 // -----------------------------------------------------------------------------
-// 8. SCROLL REVEAL & TOAST
+// 7. SCROLL REVEAL & TOAST
 // -----------------------------------------------------------------------------
 function initScrollReveal() {
     const elements = document.querySelectorAll(".reveal");

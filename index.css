@@ -1,115 +1,42 @@
 /* ==========================================================================
-   JULIE KOFOD — KUNSTNER PORTFOLIO & GALLERI
-   Dual-palette Design System: "Lillypad Garden" & "Sunset Flower Field"
+   JULIE KOFOD — POP-ART LILLYPAD GARDEN GALLERI
+   Sharp edges (0px radius), zero white page backgrounds, bold color-blocking,
+   and crisp black-and-white museum frames around every painting.
+   Palette: #741353 · #E9409B · #8B920A · #024F5B · #1CB6BB · #A0E5E5
    ========================================================================== */
 
 :root {
-    /* Typography — Belleza echoes the flared humanist lettering of Julie's logo */
+    /* Lillypad Garden Exact Hex Palette */
+    --plum: #741353;
+    --pink: #E9409B;
+    --moss: #8B920A;
+    --teal: #024F5B;
+    --turquoise: #1CB6BB;
+    --aqua: #A0E5E5;
+
+    /* Graphic Pop-Art Ink & Frame Neutrals */
+    --ink: #0B1317;
+    --ink-soft: #1B2D33;
+    --frame-white: #FFFFFF;
+    --gold: #C6A052;
+
+    /* Typography — Belleza echoes the lettering in Julie's logo */
     --font-display: 'Belleza', sans-serif;
     --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-quote: 'Cormorant Garamond', Georgia, serif;
 
-    /* Shared Logo Gold & Neutrals */
-    --gold: #C6A052;
-    --gold-soft: #E5CE96;
-    --logo-navy: #0F1C36;
-    --white: #FFFFFF;
-
-    /* Layout & Motion */
-    --container: 1240px;
-    --radius-sm: 10px;
-    --radius-md: 18px;
-    --radius-lg: 28px;
-    --radius-pill: 999px;
-    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-    --shadow-soft: 0 12px 36px rgba(15, 28, 54, 0.08);
-    --shadow-card: 0 18px 46px rgba(15, 28, 54, 0.11);
-    --shadow-art: 0 14px 32px rgba(15, 28, 54, 0.18);
+    /* Pop-Art Sharp Geometry */
+    --container: 1260px;
+    --border-heavy: 3px solid var(--ink);
+    --shadow-pop: 8px 8px 0 var(--ink);
+    --shadow-pop-sm: 5px 5px 0 var(--ink);
+    --shadow-pop-teal: 8px 8px 0 var(--teal);
+    --shadow-pop-pink: 8px 8px 0 var(--pink);
+    --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* ==========================================================================
-   PALETTE 1: LILLYPAD GARDEN
-   #741353 · #E9409B · #8B920A · #024F5B · #1CB6BB · #A0E5E5
-   ========================================================================== */
-[data-theme="lillypad"],
-:root {
-    --p-deep: #024F5B;
-    --p-secondary: #741353;
-    --p-accent: #E9409B;
-    --p-bright: #1CB6BB;
-    --p-mist: #A0E5E5;
-    --p-botanical: #8B920A;
-
-    --bg-page: #FAF8F4;
-    --bg-surface: #FFFFFF;
-    --bg-tint: #EEF7F7;
-    --bg-mat: #F4F1EA;
-    --border-subtle: rgba(2, 79, 91, 0.12);
-
-    --text-main: #0F2329;
-    --text-muted: #466168;
-    --text-on-deep: #FAF8F4;
-    --text-on-deep-muted: rgba(250, 248, 244, 0.84);
-
-    --hero-bg: linear-gradient(135deg, #024F5B 0%, #03606E 52%, #741353 100%);
-    --hero-glow-1: rgba(28, 182, 187, 0.32);
-    --hero-glow-2: rgba(233, 64, 155, 0.28);
-    --quote-bg: linear-gradient(125deg, #741353 0%, #024F5B 100%);
-    --contact-bg: linear-gradient(135deg, #024F5B 0%, #0B6A75 55%, #1CB6BB 100%);
-    --footer-bg: #023B45;
-
-    --btn-primary-bg: #E9409B;
-    --btn-primary-hover: #D42C86;
-    --btn-primary-text: #FFFFFF;
-
-    --price-color: #741353;
-    --eyebrow-color: #024F5B;
-    --badge-sold-bg: rgba(116, 19, 83, 0.9);
-    --badge-sold-text: #FFFFFF;
-}
-
-/* ==========================================================================
-   PALETTE 2: SUNSET FLOWER FIELD
-   #5E90A7 · #AF85C2 · #76236C · #BE4586 · #E36E75 · #F09448
-   ========================================================================== */
-[data-theme="sunset"] {
-    --p-deep: #76236C;
-    --p-secondary: #BE4586;
-    --p-accent: #F09448;
-    --p-bright: #E36E75;
-    --p-mist: #AF85C2;
-    --p-botanical: #5E90A7;
-
-    --bg-page: #FBF7F4;
-    --bg-surface: #FFFFFF;
-    --bg-tint: #F7EFF5;
-    --bg-mat: #F5EFEA;
-    --border-subtle: rgba(118, 35, 108, 0.12);
-
-    --text-main: #241326;
-    --text-muted: #5F4A61;
-    --text-on-deep: #FFF9F5;
-    --text-on-deep-muted: rgba(255, 249, 245, 0.86);
-
-    --hero-bg: linear-gradient(135deg, #76236C 0%, #BE4586 54%, #E36E75 100%);
-    --hero-glow-1: rgba(240, 148, 72, 0.34);
-    --hero-glow-2: rgba(175, 133, 194, 0.34);
-    --quote-bg: linear-gradient(125deg, #5E90A7 0%, #76236C 55%, #BE4586 100%);
-    --contact-bg: linear-gradient(135deg, #76236C 0%, #BE4586 58%, #F09448 100%);
-    --footer-bg: #4E1547;
-
-    --btn-primary-bg: #F09448;
-    --btn-primary-hover: #DE7E30;
-    --btn-primary-text: #241326;
-
-    --price-color: #76236C;
-    --eyebrow-color: #BE4586;
-    --badge-sold-bg: rgba(118, 35, 108, 0.9);
-    --badge-sold-text: #FFFFFF;
-}
-
-/* ==========================================================================
-   BASE RESET & TYPOGRAPHY
+   BASE RESET
    ========================================================================== */
 *,
 *::before,
@@ -117,6 +44,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    border-radius: 0;
 }
 
 html {
@@ -126,12 +54,11 @@ html {
 
 body {
     font-family: var(--font-body);
-    background-color: var(--bg-page);
-    color: var(--text-main);
+    background-color: var(--teal);
+    color: var(--ink);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    transition: background-color 0.45s var(--ease-out), color 0.35s var(--ease-out);
 }
 
 img {
@@ -152,7 +79,7 @@ button {
 }
 
 .container {
-    width: min(var(--container), 100% - 3rem);
+    width: min(var(--container), 100% - 2.75rem);
     margin-inline: auto;
 }
 
@@ -160,12 +87,37 @@ h1, h2, h3, .display-font {
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: 0.02em;
-    line-height: 1.12;
+    line-height: 1.08;
 }
 
+/* ==========================================================================
+   POP-ART RIBBON DIVIDER
+   ========================================================================== */
+.palette-ribbon {
+    display: flex;
+    height: 12px;
+    width: 100%;
+    border-top: var(--border-heavy);
+    border-bottom: var(--border-heavy);
+}
+
+.palette-ribbon span {
+    flex: 1;
+}
+
+.palette-ribbon span:nth-child(1) { background: var(--plum); }
+.palette-ribbon span:nth-child(2) { background: var(--pink); }
+.palette-ribbon span:nth-child(3) { background: var(--moss); }
+.palette-ribbon span:nth-child(4) { background: var(--teal); }
+.palette-ribbon span:nth-child(5) { background: var(--turquoise); }
+.palette-ribbon span:nth-child(6) { background: var(--aqua); }
+
+/* ==========================================================================
+   SECTION HEADERS & EYEBROWS
+   ========================================================================== */
 .section-header {
-    max-width: 680px;
-    margin-bottom: 3.25rem;
+    max-width: 740px;
+    margin-bottom: 3rem;
 }
 
 .section-header.centered {
@@ -177,103 +129,104 @@ h1, h2, h3, .display-font {
     display: inline-block;
     font-family: var(--font-body);
     font-size: 0.78rem;
-    font-weight: 700;
+    font-weight: 800;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--eyebrow-color);
-    margin-bottom: 0.75rem;
-    transition: color 0.35s ease;
-}
-
-.section-title {
-    font-size: clamp(2.2rem, 4.2vw, 3.35rem);
-    color: var(--text-main);
+    padding: 0.38rem 0.9rem;
+    background: var(--ink);
+    color: var(--aqua);
+    border: 2px solid var(--ink);
     margin-bottom: 1rem;
 }
 
+.section-title {
+    font-size: clamp(2.4rem, 4.8vw, 3.8rem);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
 .section-intro {
-    font-size: 1.05rem;
-    color: var(--text-muted);
-    line-height: 1.75;
+    font-size: 1.06rem;
+    line-height: 1.72;
+    font-weight: 500;
 }
 
 /* ==========================================================================
-   BUTTONS
+   SHARP POP-ART BUTTONS
    ========================================================================== */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    padding: 0.92rem 1.85rem;
-    border-radius: var(--radius-pill);
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    transition: transform 0.25s var(--ease-out), background-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    gap: 0.65rem;
+    padding: 0.95rem 1.85rem;
+    font-size: 0.92rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: var(--border-heavy);
+    box-shadow: var(--shadow-pop-sm);
+    transition: transform 0.18s var(--ease-snap), box-shadow 0.18s var(--ease-snap), background-color 0.18s ease, color 0.18s ease;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--ink);
 }
 
-.btn-primary {
-    background-color: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+.btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
 }
 
-.btn-primary:hover {
-    background-color: var(--btn-primary-hover);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+.btn-pink {
+    background: var(--pink);
+    color: #FFFFFF;
 }
 
-.btn-outline-light {
-    border: 1.5px solid rgba(255, 255, 255, 0.55);
-    color: var(--text-on-deep);
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
+.btn-pink:hover {
+    background: var(--plum);
+    color: var(--aqua);
 }
 
-.btn-outline-light:hover {
-    background: rgba(255, 255, 255, 0.18);
-    border-color: #FFFFFF;
+.btn-aqua {
+    background: var(--aqua);
+    color: var(--ink);
 }
 
-.btn-outline-dark {
-    border: 1.5px solid var(--p-deep);
-    color: var(--p-deep);
-    background: transparent;
+.btn-aqua:hover {
+    background: var(--turquoise);
+    color: var(--ink);
 }
 
-.btn-outline-dark:hover {
-    background: var(--p-deep);
-    color: var(--white);
+.btn-ink {
+    background: var(--ink);
+    color: var(--aqua);
+}
+
+.btn-ink:hover {
+    background: var(--pink);
+    color: #FFFFFF;
 }
 
 /* ==========================================================================
-   STICKY HEADER & NAVIGATION
+   STICKY HEADER — DEEP LAGOON TEAL
    ========================================================================== */
 .site-header {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(250, 248, 244, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border-subtle);
-    transition: background-color 0.35s ease, box-shadow 0.35s ease;
-}
-
-.site-header.scrolled {
-    box-shadow: 0 6px 24px rgba(15, 28, 54, 0.07);
+    background: var(--teal);
+    color: #FFFFFF;
+    border-bottom: var(--border-heavy);
 }
 
 .nav-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 78px;
+    height: 76px;
     gap: 1.5rem;
 }
 
@@ -284,76 +237,64 @@ h1, h2, h3, .display-font {
 }
 
 .brand-logo-thumb {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    width: 48px;
+    height: 48px;
     object-fit: cover;
-    border: 1.5px solid var(--gold);
-    box-shadow: 0 4px 12px rgba(15, 28, 54, 0.12);
-    background-color: #F6F3EC;
+    border: 2px solid var(--ink);
+    background: #F6F3EC;
+    box-shadow: 3px 3px 0 var(--pink);
 }
 
 .brand-wordmark {
     font-family: var(--font-display);
-    font-size: 1.45rem;
+    font-size: 1.55rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--logo-navy);
+    color: #FFFFFF;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
     list-style: none;
-    gap: 2rem;
+    gap: 0.35rem;
 }
 
 .nav-links a {
-    font-size: 0.92rem;
-    font-weight: 500;
-    color: var(--text-main);
-    position: relative;
-    padding-block: 0.3rem;
-    transition: color 0.25s ease;
-}
-
-.nav-links a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background: var(--p-accent);
-    border-radius: 2px;
-    transition: width 0.28s var(--ease-out);
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: #FFFFFF;
+    padding: 0.55rem 0.95rem;
+    border: 2px solid transparent;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .nav-links a:hover {
-    color: var(--p-deep);
-}
-
-.nav-links a:hover::after {
-    width: 100%;
+    background: var(--pink);
+    border-color: var(--ink);
+    color: #FFFFFF;
 }
 
 .nav-instagram {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--bg-tint);
-    color: var(--p-deep);
-    font-size: 1.1rem;
-    transition: transform 0.25s var(--ease-out), background-color 0.25s ease, color 0.25s ease;
+    width: 42px;
+    height: 42px;
+    background: var(--pink);
+    color: #FFFFFF;
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    font-size: 1.15rem;
+    transition: transform 0.18s ease, background-color 0.18s ease;
 }
 
 .nav-instagram:hover {
-    background: var(--p-accent);
-    color: #FFFFFF;
-    transform: translateY(-2px);
+    background: var(--aqua);
+    color: var(--ink);
+    transform: translate(-2px, -2px);
 }
 
 .mobile-menu-toggle {
@@ -362,9 +303,10 @@ h1, h2, h3, .display-font {
     justify-content: center;
     width: 44px;
     height: 44px;
-    border-radius: 50%;
-    background: var(--bg-tint);
-    color: var(--text-main);
+    background: var(--pink);
+    color: #FFFFFF;
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
     font-size: 1.2rem;
 }
 
@@ -373,11 +315,10 @@ h1, h2, h3, .display-font {
     position: fixed;
     inset: 0;
     z-index: 200;
-    background: rgba(15, 28, 54, 0.52);
-    backdrop-filter: blur(6px);
+    background: rgba(11, 19, 23, 0.72);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease;
 }
 
 .mobile-drawer.open {
@@ -389,16 +330,17 @@ h1, h2, h3, .display-font {
     position: absolute;
     top: 0;
     right: 0;
-    width: min(320px, 84vw);
+    width: min(320px, 85vw);
     height: 100%;
-    background: var(--bg-page);
+    background: var(--plum);
+    color: #FFFFFF;
+    border-left: var(--border-heavy);
     padding: 2rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
     transform: translateX(100%);
-    transition: transform 0.35s var(--ease-out);
-    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.18);
+    transition: transform 0.3s var(--ease-snap);
 }
 
 .mobile-drawer.open .mobile-drawer-panel {
@@ -412,11 +354,11 @@ h1, h2, h3, .display-font {
 }
 
 .mobile-drawer-close {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--bg-tint);
-    color: var(--text-main);
+    width: 42px;
+    height: 42px;
+    background: var(--pink);
+    color: #FFFFFF;
+    border: 2px solid var(--ink);
     font-size: 1.2rem;
 }
 
@@ -424,53 +366,62 @@ h1, h2, h3, .display-font {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 0.75rem;
 }
 
 .mobile-drawer-links a {
     font-family: var(--font-display);
-    font-size: 1.65rem;
-    color: var(--text-main);
+    font-size: 1.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #FFFFFF;
     display: block;
+    padding: 0.4rem 0.6rem;
+    border: 2px solid transparent;
+}
+
+.mobile-drawer-links a:hover {
+    background: var(--pink);
+    border-color: var(--ink);
 }
 
 /* ==========================================================================
-   HERO SECTION — VIBRANT EDITORIAL COLOR-BLOCKING + JULIE'S LOGO
+   HERO SECTION — ELECTRIC POP-ART COLOR EXPLOSION
    ========================================================================== */
 .hero-section {
     position: relative;
-    background: var(--hero-bg);
-    color: var(--text-on-deep);
-    padding: clamp(4rem, 8vw, 6.5rem) 0 clamp(4.5rem, 9vw, 7rem);
+    background:
+        linear-gradient(115deg, var(--plum) 0%, var(--plum) 46%, var(--teal) 46%, var(--teal) 100%);
+    color: #FFFFFF;
+    padding: clamp(3.5rem, 7vw, 5.5rem) 0 clamp(4rem, 8vw, 6rem);
     overflow: hidden;
-    transition: background 0.55s ease;
 }
 
-/* Subtle organic watercolor/light washes for painterly depth */
-.hero-section::before,
-.hero-section::after {
+/* Bold pop-art geometric accent blocks */
+.hero-section::before {
     content: "";
     position: absolute;
-    border-radius: 50%;
-    filter: blur(70px);
-    pointer-events: none;
+    top: 0;
+    right: 0;
+    width: 180px;
+    height: 180px;
+    background: var(--pink);
+    border-left: var(--border-heavy);
+    border-bottom: var(--border-heavy);
     z-index: 0;
 }
 
-.hero-section::before {
-    width: 520px;
-    height: 520px;
-    top: -160px;
-    right: -100px;
-    background: var(--hero-glow-1);
-}
-
 .hero-section::after {
-    width: 460px;
-    height: 460px;
-    bottom: -180px;
-    left: -120px;
-    background: var(--hero-glow-2);
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 240px;
+    height: 36px;
+    background: var(--moss);
+    border-top: var(--border-heavy);
+    border-right: var(--border-heavy);
+    z-index: 0;
 }
 
 .hero-grid {
@@ -479,50 +430,56 @@ h1, h2, h3, .display-font {
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
     align-items: center;
-    gap: clamp(2.5rem, 5vw, 4.5rem);
+    gap: clamp(2.5rem, 5vw, 4rem);
 }
 
-.hero-logo-emblem {
-    width: 118px;
-    height: 118px;
-    border-radius: 50%;
-    padding: 4px;
-    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
-    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.25);
-    margin-bottom: 1.75rem;
+.hero-logo-box {
+    display: inline-block;
+    width: 122px;
+    height: 122px;
+    padding: 6px;
+    background: #F6F3EC;
+    border: var(--border-heavy);
+    box-shadow: 6px 6px 0 var(--pink);
+    margin-bottom: 1.5rem;
 }
 
-.hero-logo-emblem img {
+.hero-logo-box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;
-    background: #F6F3EC;
 }
 
 .hero-eyebrow {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--gold-soft);
-    margin-bottom: 0.9rem;
-    display: block;
+    background: var(--moss);
+    color: #FFFFFF;
+    padding: 0.4rem 0.85rem;
+    border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    margin-bottom: 1.15rem;
 }
 
 .hero-title {
-    font-size: clamp(2.5rem, 5.2vw, 4.25rem);
-    color: var(--text-on-deep);
-    margin-bottom: 1.35rem;
-    letter-spacing: 0.015em;
+    font-size: clamp(2.65rem, 5.4vw, 4.5rem);
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    margin-bottom: 1.25rem;
+    text-shadow: 4px 4px 0 var(--ink);
 }
 
 .hero-text {
-    font-size: 1.08rem;
-    color: var(--text-on-deep-muted);
-    max-width: 530px;
-    margin-bottom: 2.2rem;
-    line-height: 1.75;
+    font-size: 1.06rem;
+    color: var(--aqua);
+    max-width: 540px;
+    margin-bottom: 2.15rem;
+    line-height: 1.72;
+    font-weight: 500;
 }
 
 .hero-actions {
@@ -532,86 +489,71 @@ h1, h2, h3, .display-font {
     align-items: center;
 }
 
-/* Right-side painterly artwork composition */
+/* Right-side framed pop-art painting showcase */
 .hero-visual {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 440px;
+    min-height: 410px;
+    padding: 1rem;
 }
 
 .hero-frame-main {
-    width: min(390px, 84%);
-    background: rgba(255, 255, 255, 0.96);
-    padding: 14px;
-    border-radius: var(--radius-md);
-    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.34);
-    transform: rotate(-1.5deg);
-    transition: transform 0.5s var(--ease-out);
-}
-
-.hero-frame-main:hover {
-    transform: rotate(0deg) translateY(-4px);
+    width: min(440px, 92%);
+    background: var(--frame-white);
+    padding: 16px;
+    border: var(--border-heavy);
+    box-shadow: 12px 12px 0 var(--pink);
+    position: relative;
+    z-index: 1;
 }
 
 .hero-frame-main img {
     width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
-    border-radius: 10px;
+    height: auto;
+    display: block;
+    border: 2px solid var(--ink);
 }
 
 .hero-frame-round {
     position: absolute;
-    bottom: -14px;
-    left: 0;
-    width: clamp(145px, 34%, 190px);
+    bottom: -18px;
+    left: -6px;
+    width: clamp(150px, 34%, 195px);
     aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    padding: 6px;
-    background: linear-gradient(135deg, var(--gold-soft), var(--white));
-    box-shadow: 0 20px 44px rgba(0, 0, 0, 0.32);
-    transition: transform 0.5s var(--ease-out);
-}
-
-.hero-frame-round:hover {
-    transform: scale(1.04);
+    background: var(--frame-white);
+    padding: 12px;
+    border: var(--border-heavy);
+    box-shadow: 8px 8px 0 var(--moss);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-frame-round img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 12px rgba(11, 19, 23, 0.25));
 }
-
-/* Palette swatch ribbon at bottom of hero */
-.palette-ribbon {
-    display: flex;
-    height: 6px;
-    width: 100%;
-}
-
-.palette-ribbon span {
-    flex: 1;
-    transition: background-color 0.45s ease;
-}
-
-.palette-ribbon span:nth-child(1) { background: var(--p-deep); }
-.palette-ribbon span:nth-child(2) { background: var(--p-secondary); }
-.palette-ribbon span:nth-child(3) { background: var(--p-accent); }
-.palette-ribbon span:nth-child(4) { background: var(--p-bright); }
-.palette-ribbon span:nth-child(5) { background: var(--p-mist); }
-.palette-ribbon span:nth-child(6) { background: var(--p-botanical); }
 
 /* ==========================================================================
-   TIL SALG — PAINTINGS FOR SALE GALLERY
+   TIL SALG — ELECTRIC TURQUOISE GALLERY WITH CRISP MUSEUM FRAMES
    ========================================================================== */
 .gallery-section {
-    padding: clamp(4.5rem, 8vw, 7rem) 0;
-    background-color: var(--bg-page);
-    transition: background-color 0.45s ease;
+    padding: clamp(4.5rem, 8vw, 6.5rem) 0;
+    background: var(--turquoise);
+    color: var(--ink);
+}
+
+.gallery-section .section-title {
+    color: var(--ink);
+}
+
+.gallery-section .section-intro {
+    color: var(--ink-soft);
 }
 
 .sale-grid {
@@ -621,34 +563,31 @@ h1, h2, h3, .display-font {
 }
 
 .art-card {
-    background: var(--bg-surface);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-subtle);
-    overflow: hidden;
+    background: var(--ink);
+    border: var(--border-heavy);
+    box-shadow: var(--shadow-pop-teal);
     display: flex;
     flex-direction: column;
-    box-shadow: var(--shadow-soft);
-    transition: transform 0.38s var(--ease-out), box-shadow 0.38s var(--ease-out), border-color 0.3s ease;
     cursor: pointer;
+    transition: transform 0.22s var(--ease-snap), box-shadow 0.22s var(--ease-snap);
 }
 
 .art-card:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-card);
-    border-color: var(--p-bright);
+    transform: translate(-5px, -5px);
+    box-shadow: 13px 13px 0 var(--plum);
 }
 
-/* Museum mat frame: guarantees ZERO awkward cropping for round, tall, or wide canvases */
+/* Crisp White Museum Frame with Black Border so painting NEVER touches colored bg */
 .art-mat {
     position: relative;
-    background: var(--bg-mat);
-    padding: 1.5rem;
-    aspect-ratio: 4 / 4.15;
+    background: var(--frame-white);
+    padding: 1.65rem;
+    aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-bottom: var(--border-heavy);
     overflow: hidden;
-    transition: background-color 0.4s ease;
 }
 
 .art-mat img {
@@ -657,62 +596,72 @@ h1, h2, h3, .display-font {
     width: auto;
     height: auto;
     object-fit: contain;
-    border-radius: 6px;
-    box-shadow: var(--shadow-art);
-    transition: transform 0.55s var(--ease-out);
+    transition: transform 0.4s var(--ease-snap);
+}
+
+.art-mat img.is-rect {
+    border: 1px solid rgba(11, 19, 23, 0.14);
+    box-shadow: 0 10px 24px rgba(11, 19, 23, 0.18);
+}
+
+.art-mat img.is-round {
+    filter: drop-shadow(0 10px 18px rgba(11, 19, 23, 0.24));
 }
 
 .art-card:hover .art-mat img {
-    transform: scale(1.035);
+    transform: scale(1.04);
 }
 
 .art-zoom-hint {
     position: absolute;
-    bottom: 0.9rem;
-    right: 0.9rem;
+    top: 0.75rem;
+    right: 0.75rem;
     width: 36px;
     height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.92);
-    color: var(--p-deep);
+    background: var(--pink);
+    color: #FFFFFF;
+    border: 2px solid var(--ink);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.88rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.25s ease, transform 0.25s var(--ease-out);
+    transition: opacity 0.2s ease;
 }
 
 .art-card:hover .art-zoom-hint {
     opacity: 1;
-    transform: translateY(0);
 }
 
 .art-info {
-    padding: 1.4rem 1.55rem 1.65rem;
+    background: var(--teal);
+    color: #FFFFFF;
+    padding: 1.35rem 1.45rem 1.45rem;
     display: flex;
     flex-direction: column;
     flex: 1;
-    gap: 0.45rem;
+    gap: 0.4rem;
 }
 
 .art-title {
     font-family: var(--font-display);
-    font-size: 1.45rem;
-    color: var(--text-main);
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #FFFFFF;
 }
 
 .art-meta {
     font-size: 0.86rem;
-    color: var(--text-muted);
+    font-weight: 600;
+    color: var(--aqua);
 }
 
 .art-price-row {
     margin-top: auto;
-    padding-top: 0.85rem;
-    border-top: 1px solid var(--border-subtle);
+    padding-top: 0.95rem;
+    margin-top: 0.65rem;
+    border-top: 2px solid rgba(160, 229, 229, 0.35);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -720,162 +669,194 @@ h1, h2, h3, .display-font {
 }
 
 .art-price {
-    font-size: 1.12rem;
-    font-weight: 700;
-    color: var(--price-color);
-    transition: color 0.35s ease;
+    font-size: 1.18rem;
+    font-weight: 800;
+    background: var(--pink);
+    color: #FFFFFF;
+    padding: 0.32rem 0.78rem;
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
 }
 
 .art-cta-link {
-    font-size: 0.84rem;
-    font-weight: 600;
-    color: var(--p-deep);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--aqua);
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    transition: color 0.25s ease, gap 0.25s ease;
+    gap: 0.4rem;
+    transition: color 0.2s ease, gap 0.2s ease;
 }
 
 .art-card:hover .art-cta-link {
-    color: var(--p-accent);
-    gap: 0.55rem;
+    color: #FFFFFF;
+    gap: 0.65rem;
 }
 
 /* ==========================================================================
-   POETIC COLOR-BLOCK QUOTE BAND
+   POETIC QUOTE BAND — ELECTRIC LOTUS PINK
    ========================================================================== */
 .quote-band {
-    position: relative;
-    background: var(--quote-bg);
-    color: var(--text-on-deep);
-    padding: clamp(4rem, 7vw, 6rem) 0;
+    background: var(--pink);
+    color: #FFFFFF;
+    padding: clamp(4rem, 7vw, 5.5rem) 0;
+    border-top: var(--border-heavy);
+    border-bottom: var(--border-heavy);
     text-align: center;
-    overflow: hidden;
-    transition: background 0.55s ease;
 }
 
 .quote-band-inner {
-    max-width: 820px;
+    max-width: 860px;
     margin-inline: auto;
-    position: relative;
-    z-index: 1;
+    background: var(--plum);
+    padding: clamp(2.2rem, 5vw, 3.5rem);
+    border: var(--border-heavy);
+    box-shadow: 10px 10px 0 var(--ink);
 }
 
 .quote-mark {
     font-family: var(--font-quote);
-    font-size: 4.5rem;
-    line-height: 0.5;
-    color: var(--gold-soft);
+    font-size: 4.2rem;
+    line-height: 0.45;
+    color: var(--aqua);
     display: block;
-    margin-bottom: 1.25rem;
-    opacity: 0.85;
+    margin-bottom: 1.2rem;
 }
 
 .quote-text {
     font-family: var(--font-quote);
     font-style: italic;
-    font-size: clamp(1.7rem, 3.4vw, 2.55rem);
-    line-height: 1.4;
-    color: var(--text-on-deep);
-    margin-bottom: 1.35rem;
+    font-size: clamp(1.65rem, 3.2vw, 2.4rem);
+    line-height: 1.38;
+    color: #FFFFFF;
+    margin-bottom: 1.3rem;
 }
 
 .quote-author {
+    display: inline-block;
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: 1rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--gold-soft);
+    background: var(--moss);
+    color: #FFFFFF;
+    padding: 0.35rem 1rem;
+    border: 2px solid var(--ink);
 }
 
 /* ==========================================================================
-   SOLGTE VÆRKER — SOLD WORKS MASONRY GALLERY
+   SOLGTE VÆRKER — DEEP PLUM GALLERY WITH CRISP BLACK/WHITE FRAMES
    ========================================================================== */
 .sold-section {
-    padding: clamp(4.5rem, 8vw, 7rem) 0;
-    background-color: var(--bg-tint);
-    transition: background-color 0.45s ease;
+    padding: clamp(4.5rem, 8vw, 6.5rem) 0;
+    background: var(--plum);
+    color: #FFFFFF;
+}
+
+.sold-section .eyebrow {
+    background: var(--pink);
+    color: #FFFFFF;
+}
+
+.sold-section .section-title {
+    color: #FFFFFF;
+    text-shadow: 3px 3px 0 var(--ink);
+}
+
+.sold-section .section-intro {
+    color: var(--aqua);
 }
 
 .sold-masonry {
     columns: 3 310px;
-    column-gap: 1.75rem;
+    column-gap: 2rem;
 }
 
 .sold-card {
     break-inside: avoid;
-    margin-bottom: 1.75rem;
-    background: var(--bg-surface);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-subtle);
-    overflow: hidden;
-    box-shadow: var(--shadow-soft);
+    margin-bottom: 2rem;
+    background: var(--ink);
+    border: var(--border-heavy);
+    box-shadow: 7px 7px 0 var(--pink);
     cursor: pointer;
-    transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+    transition: transform 0.22s var(--ease-snap), box-shadow 0.22s var(--ease-snap);
 }
 
 .sold-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-card);
+    transform: translate(-4px, -4px);
+    box-shadow: 11px 11px 0 var(--turquoise);
 }
 
+/* Crisp white museum mat inside black pop-art frame */
 .sold-img-wrap {
     position: relative;
-    overflow: hidden;
-    background: var(--bg-mat);
+    background: var(--frame-white);
+    padding: 14px;
+    border-bottom: var(--border-heavy);
 }
 
 .sold-img-wrap img {
     width: 100%;
     height: auto;
     display: block;
-    transition: transform 0.55s var(--ease-out);
-}
-
-.sold-card:hover .sold-img-wrap img {
-    transform: scale(1.03);
+    border: 1px solid rgba(11, 19, 23, 0.16);
 }
 
 .sold-badge {
     position: absolute;
-    top: 0.85rem;
-    left: 0.85rem;
-    padding: 0.3rem 0.78rem;
-    border-radius: var(--radius-pill);
-    background: var(--badge-sold-bg);
-    color: var(--badge-sold-text);
+    top: 22px;
+    left: 22px;
+    padding: 0.28rem 0.72rem;
+    background: var(--pink);
+    color: #FFFFFF;
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
     font-size: 0.74rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-weight: 800;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    backdrop-filter: blur(6px);
 }
 
 .sold-caption {
-    padding: 1rem 1.2rem 1.15rem;
+    padding: 1.05rem 1.25rem 1.2rem;
+    background: var(--teal);
+    color: #FFFFFF;
 }
 
 .sold-title {
     font-family: var(--font-display);
-    font-size: 1.2rem;
-    color: var(--text-main);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #FFFFFF;
     margin-bottom: 0.25rem;
 }
 
+.sold-meta {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--aqua);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.3rem;
+}
+
 .sold-desc {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.86);
     line-height: 1.5;
 }
 
-/* Commissions Callout Banner */
+/* Commission Callout Banner — Bold Moss Gold Block */
 .commission-banner {
     margin-top: 3rem;
     padding: 2.25rem 2.5rem;
-    border-radius: var(--radius-lg);
-    background: var(--bg-surface);
-    border: 1px solid var(--border-subtle);
-    box-shadow: var(--shadow-soft);
+    background: var(--moss);
+    color: #FFFFFF;
+    border: var(--border-heavy);
+    box-shadow: 10px 10px 0 var(--ink);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -888,30 +869,34 @@ h1, h2, h3, .display-font {
 }
 
 .commission-banner-text h3 {
-    font-size: 1.65rem;
-    color: var(--text-main);
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: #FFFFFF;
     margin-bottom: 0.35rem;
 }
 
 .commission-banner-text p {
-    color: var(--text-muted);
-    font-size: 0.98rem;
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 /* ==========================================================================
-   OM JULIE — ABOUT SECTION
+   OM JULIE — AQUA MIST & MOSS GOLD EDITORIAL COLOR BLOCK
    ========================================================================== */
 .about-section {
-    padding: clamp(4.5rem, 8vw, 7rem) 0;
-    background-color: var(--bg-page);
-    transition: background-color 0.45s ease;
+    padding: clamp(4.5rem, 8vw, 6.5rem) 0;
+    background: var(--aqua);
+    color: var(--ink);
+    border-top: var(--border-heavy);
+    border-bottom: var(--border-heavy);
 }
 
 .about-grid {
     display: grid;
-    grid-template-columns: 0.92fr 1.08fr;
-    align-items: center;
-    gap: clamp(2.5rem, 5vw, 5rem);
+    grid-template-columns: 0.88fr 1.12fr;
+    align-items: start;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
 }
 
 .about-media {
@@ -919,64 +904,71 @@ h1, h2, h3, .display-font {
 }
 
 .about-image-frame {
-    background: var(--bg-surface);
-    padding: 14px;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    border: 1px solid var(--border-subtle);
+    background: var(--frame-white);
+    padding: 16px;
+    border: var(--border-heavy);
+    box-shadow: 12px 12px 0 var(--plum);
 }
 
 .about-image-frame img {
     width: 100%;
-    border-radius: 18px;
+    border: 2px solid var(--ink);
     object-fit: cover;
 }
 
 .about-logo-seal {
     position: absolute;
     bottom: -24px;
-    right: -18px;
-    width: 106px;
-    height: 106px;
-    border-radius: 50%;
-    padding: 4px;
-    background: linear-gradient(135deg, var(--gold-soft), var(--gold));
-    box-shadow: 0 14px 32px rgba(15, 28, 54, 0.2);
+    right: -16px;
+    width: 108px;
+    height: 108px;
+    padding: 6px;
+    background: #F6F3EC;
+    border: var(--border-heavy);
+    box-shadow: 6px 6px 0 var(--pink);
 }
 
 .about-logo-seal img {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     object-fit: cover;
-    background: #F6F3EC;
+}
+
+.about-copy {
+    background: var(--turquoise);
+    padding: clamp(2rem, 4vw, 3rem);
+    border: var(--border-heavy);
+    box-shadow: 10px 10px 0 var(--teal);
+}
+
+.about-copy .section-title {
+    color: var(--ink);
 }
 
 .about-copy p {
-    color: var(--text-muted);
-    font-size: 1.04rem;
-    line-height: 1.82;
-    margin-bottom: 1.25rem;
+    color: var(--ink);
+    font-size: 1.02rem;
+    line-height: 1.78;
+    margin-bottom: 1.2rem;
+    font-weight: 500;
 }
 
 .about-signature {
     font-family: var(--font-quote);
     font-style: italic;
-    font-size: 1.65rem;
-    color: var(--p-deep);
-    margin-top: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--plum);
+    margin-top: 1.4rem;
 }
 
 /* ==========================================================================
-   KONTAKT SECTION
+   KONTAKT SECTION — DEEP LAGOON TEAL + AQUA FORM CARD
    ========================================================================== */
 .contact-section {
-    padding: clamp(4.5rem, 8vw, 7rem) 0;
-    background: var(--contact-bg);
-    color: var(--text-on-deep);
-    position: relative;
-    overflow: hidden;
-    transition: background 0.55s ease;
+    padding: clamp(4.5rem, 8vw, 6.5rem) 0;
+    background: var(--teal);
+    color: #FFFFFF;
 }
 
 .contact-grid {
@@ -987,15 +979,17 @@ h1, h2, h3, .display-font {
 }
 
 .contact-info .eyebrow {
-    color: var(--gold-soft);
+    background: var(--pink);
+    color: #FFFFFF;
 }
 
 .contact-info .section-title {
-    color: var(--text-on-deep);
+    color: #FFFFFF;
+    text-shadow: 3px 3px 0 var(--ink);
 }
 
 .contact-info .section-intro {
-    color: var(--text-on-deep-muted);
+    color: var(--aqua);
     margin-bottom: 2rem;
 }
 
@@ -1010,18 +1004,17 @@ h1, h2, h3, .display-font {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1.05rem 1.3rem;
-    border-radius: var(--radius-md);
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    backdrop-filter: blur(10px);
-    color: var(--text-on-deep);
-    transition: background-color 0.25s ease, transform 0.25s var(--ease-out);
+    padding: 1rem 1.25rem;
+    background: var(--plum);
+    border: var(--border-heavy);
+    box-shadow: 6px 6px 0 var(--ink);
+    color: #FFFFFF;
+    transition: transform 0.18s var(--ease-snap), background-color 0.18s ease;
 }
 
 .channel-card:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
+    background: var(--pink);
+    transform: translate(-3px, -3px);
 }
 
 .channel-left {
@@ -1033,8 +1026,8 @@ h1, h2, h3, .display-font {
 .channel-icon {
     width: 42px;
     height: 42px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--ink);
+    color: var(--aqua);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1043,73 +1036,77 @@ h1, h2, h3, .display-font {
 }
 
 .channel-label {
-    font-size: 0.78rem;
+    font-size: 0.74rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    opacity: 0.8;
+    letter-spacing: 0.14em;
+    color: var(--aqua);
     display: block;
 }
 
 .channel-value {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
+    color: #FFFFFF;
 }
 
 .copy-email-btn {
-    padding: 0.48rem 0.95rem;
-    border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.2);
-    color: var(--text-on-deep);
-    font-size: 0.8rem;
-    font-weight: 600;
-    transition: background-color 0.2s ease;
+    padding: 0.45rem 0.9rem;
+    background: var(--aqua);
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     white-space: nowrap;
 }
 
 .copy-email-btn:hover {
-    background: rgba(255, 255, 255, 0.34);
+    background: #FFFFFF;
 }
 
-/* Contact Form Card */
+/* Contact Form Card — Aqua Mist (zero white page background) */
 .contact-form-card {
-    background: var(--bg-surface);
-    color: var(--text-main);
+    background: var(--aqua);
+    color: var(--ink);
     padding: clamp(1.85rem, 4vw, 2.75rem);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+    border: var(--border-heavy);
+    box-shadow: 10px 10px 0 var(--pink);
 }
 
 .form-row {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.2rem;
 }
 
 .form-row label {
     display: block;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-main);
+    font-size: 0.82rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
     margin-bottom: 0.45rem;
 }
 
 .form-row input,
 .form-row textarea {
     width: 100%;
-    padding: 0.88rem 1.05rem;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid var(--border-subtle);
-    background: var(--bg-page);
+    padding: 0.85rem 1rem;
+    border: var(--border-heavy);
+    background: #E8F8F8;
     font-family: inherit;
     font-size: 0.96rem;
-    color: var(--text-main);
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    font-weight: 500;
+    color: var(--ink);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-row input:focus,
 .form-row textarea:focus {
     outline: none;
-    border-color: var(--p-bright);
     background: #FFFFFF;
-    box-shadow: 0 0 0 4px rgba(28, 182, 187, 0.14);
+    box-shadow: 4px 4px 0 var(--plum);
 }
 
 .form-row textarea {
@@ -1119,18 +1116,18 @@ h1, h2, h3, .display-font {
 
 .form-note {
     font-size: 0.82rem;
-    color: var(--text-muted);
-    margin-top: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-top: 0.9rem;
 }
 
 /* ==========================================================================
    FOOTER
    ========================================================================== */
 .site-footer {
-    background: var(--footer-bg);
-    color: rgba(255, 255, 255, 0.82);
-    padding: 3rem 0 2.5rem;
-    transition: background-color 0.45s ease;
+    background: var(--ink);
+    color: var(--aqua);
+    padding: 2.75rem 0 2.5rem;
 }
 
 .footer-inner {
@@ -1150,50 +1147,52 @@ h1, h2, h3, .display-font {
 .footer-brand img {
     width: 44px;
     height: 44px;
-    border-radius: 50%;
-    border: 1.5px solid var(--gold);
+    border: 2px solid var(--pink);
     object-fit: cover;
+    background: #F6F3EC;
 }
 
 .footer-brand span {
     font-family: var(--font-display);
-    font-size: 1.25rem;
-    letter-spacing: 0.12em;
+    font-size: 1.35rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #FFFFFF;
 }
 
 .footer-copy {
     font-size: 0.88rem;
-    opacity: 0.78;
+    color: var(--aqua);
 }
 
 .footer-social {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
-    font-size: 0.92rem;
-    font-weight: 500;
+    font-size: 0.88rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     color: #FFFFFF;
-    padding: 0.55rem 1.1rem;
-    border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.1);
-    transition: background-color 0.25s ease;
+    padding: 0.6rem 1.15rem;
+    background: var(--pink);
+    border: 2px solid #FFFFFF;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .footer-social:hover {
-    background: var(--p-accent);
+    background: var(--turquoise);
+    color: var(--ink);
 }
 
 /* ==========================================================================
-   LIGHTBOX MODAL
+   FULL-SCREEN LIGHTBOX — SHARP MUSEUM VIEWER
    ========================================================================== */
 .lightbox {
     position: fixed;
     inset: 0;
     z-index: 300;
-    background: rgba(12, 18, 28, 0.94);
-    backdrop-filter: blur(12px);
+    background: rgba(11, 19, 23, 0.95);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1201,7 +1200,7 @@ h1, h2, h3, .display-font {
     padding: 1.5rem;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease;
 }
 
 .lightbox.open {
@@ -1215,26 +1214,26 @@ h1, h2, h3, .display-font {
     right: 1.25rem;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
     z-index: 310;
 }
 
 .lb-btn {
     width: 44px;
     height: 44px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--pink);
     color: #FFFFFF;
+    border: 2px solid #FFFFFF;
     font-size: 1.05rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .lb-btn:hover {
-    background: rgba(255, 255, 255, 0.26);
-    transform: scale(1.06);
+    background: var(--aqua);
+    color: var(--ink);
 }
 
 .lb-nav {
@@ -1244,9 +1243,9 @@ h1, h2, h3, .display-font {
     z-index: 310;
     width: 48px;
     height: 48px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--teal);
     color: #FFFFFF;
+    border: 2px solid #FFFFFF;
     font-size: 1.2rem;
     display: inline-flex;
     align-items: center;
@@ -1255,53 +1254,58 @@ h1, h2, h3, .display-font {
 }
 
 .lb-nav:hover {
-    background: rgba(255, 255, 255, 0.26);
+    background: var(--pink);
 }
 
 .lb-prev { left: 1.25rem; }
 .lb-next { right: 1.25rem; }
 
 .lightbox-stage {
-    max-width: min(92vw, 960px);
-    max-height: 66vh;
+    max-width: min(90vw, 880px);
+    max-height: 62vh;
+    background: var(--frame-white);
+    padding: 16px;
+    border: 3px solid var(--pink);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border-radius: 12px;
 }
 
 .lightbox-stage img {
     max-width: 100%;
-    max-height: 66vh;
+    max-height: calc(62vh - 32px);
     object-fit: contain;
-    border-radius: 8px;
-    transition: transform 0.3s var(--ease-out);
+    transition: transform 0.28s var(--ease-snap);
     user-select: none;
 }
 
 .lightbox-details {
-    margin-top: 1.35rem;
-    max-width: 680px;
+    margin-top: 1.25rem;
+    max-width: 700px;
     width: 100%;
     text-align: center;
     color: #FFFFFF;
 }
 
 .lightbox-details h3 {
-    font-size: 1.75rem;
-    margin-bottom: 0.35rem;
+    font-size: 1.9rem;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
 }
 
 .lightbox-meta-line {
-    font-size: 0.92rem;
-    color: rgba(255, 255, 255, 0.72);
-    margin-bottom: 0.55rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--aqua);
+    margin-bottom: 0.5rem;
 }
 
 .lightbox-desc {
     font-size: 0.96rem;
-    color: rgba(255, 255, 255, 0.86);
+    color: rgba(255, 255, 255, 0.88);
     margin-bottom: 1.15rem;
 }
 
@@ -1314,75 +1318,12 @@ h1, h2, h3, .display-font {
 }
 
 .lightbox-price-pill {
-    padding: 0.58rem 1.2rem;
-    border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.14);
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--gold-soft);
-}
-
-/* ==========================================================================
-   FLOATING LIVE PALETTE SWITCHER (FOR JULIE'S EXPERIMENT)
-   ========================================================================== */
-.theme-switcher {
-    position: fixed;
-    bottom: 1.25rem;
-    right: 1.25rem;
-    z-index: 150;
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.4rem;
-    border-radius: var(--radius-pill);
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 12px 34px rgba(15, 28, 54, 0.22);
-    border: 1px solid rgba(15, 28, 54, 0.1);
-}
-
-.theme-switcher-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #5A6470;
-    padding: 0 0.55rem 0 0.7rem;
-}
-
-.theme-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.48rem 0.9rem;
-    border-radius: var(--radius-pill);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #24303C;
-    transition: background-color 0.25s ease, color 0.25s ease;
-}
-
-.theme-btn.active {
-    background: var(--p-deep);
+    padding: 0.72rem 1.2rem;
+    background: var(--moss);
     color: #FFFFFF;
-}
-
-.swatch-dots {
-    display: inline-flex;
-    align-items: center;
-}
-
-.swatch-dots i {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    display: inline-block;
-    border: 1.5px solid #FFFFFF;
-    margin-left: -3px;
-}
-
-.swatch-dots i:first-child {
-    margin-left: 0;
+    border: 2px solid #FFFFFF;
+    font-weight: 800;
+    font-size: 1.05rem;
 }
 
 /* ==========================================================================
@@ -1390,20 +1331,22 @@ h1, h2, h3, .display-font {
    ========================================================================== */
 .toast {
     position: fixed;
-    bottom: 5.2rem;
-    right: 1.25rem;
+    bottom: 1.5rem;
+    right: 1.5rem;
     z-index: 250;
-    padding: 0.8rem 1.3rem;
-    border-radius: var(--radius-pill);
-    background: var(--logo-navy);
+    padding: 0.85rem 1.35rem;
+    background: var(--pink);
     color: #FFFFFF;
+    border: var(--border-heavy);
+    box-shadow: var(--shadow-pop-sm);
     font-size: 0.88rem;
-    font-weight: 600;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     opacity: 0;
     transform: translateY(10px);
     pointer-events: none;
-    transition: opacity 0.25s ease, transform 0.25s var(--ease-out);
+    transition: opacity 0.22s ease, transform 0.22s var(--ease-snap);
 }
 
 .toast.show {
@@ -1412,12 +1355,12 @@ h1, h2, h3, .display-font {
 }
 
 /* ==========================================================================
-   SCROLL REVEAL ANIMATION
+   SCROLL REVEAL
    ========================================================================== */
 .reveal {
     opacity: 0;
-    transform: translateY(22px);
-    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+    transform: translateY(20px);
+    transition: opacity 0.55s var(--ease-snap), transform 0.55s var(--ease-snap);
 }
 
 .reveal.visible {
@@ -1429,6 +1372,10 @@ h1, h2, h3, .display-font {
    RESPONSIVE BREAKPOINTS
    ========================================================================== */
 @media (max-width: 1024px) {
+    .hero-section {
+        background: var(--plum);
+    }
+
     .sale-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1440,12 +1387,11 @@ h1, h2, h3, .display-font {
     }
 
     .hero-visual {
-        min-height: 360px;
-        margin-top: 1rem;
+        min-height: 340px;
     }
 
     .about-logo-seal {
-        right: 10px;
+        right: 8px;
         bottom: -18px;
     }
 }
@@ -1462,7 +1408,13 @@ h1, h2, h3, .display-font {
 
     .sale-grid {
         grid-template-columns: 1fr;
-        gap: 1.65rem;
+        gap: 1.85rem;
+    }
+
+    .hero-frame-round {
+        width: 132px;
+        bottom: -12px;
+        left: 0;
     }
 
     .commission-banner {
@@ -1470,17 +1422,6 @@ h1, h2, h3, .display-font {
     }
 
     .lb-nav {
-        display: none;
-    }
-
-    .theme-switcher {
-        bottom: 0.85rem;
-        right: 0.85rem;
-        left: 0.85rem;
-        justify-content: center;
-    }
-
-    .theme-switcher-label {
         display: none;
     }
 }

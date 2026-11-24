@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="da" data-theme="lillypad">
+<html lang="da">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Originale malerier af Julie Kofod — drømmende landskaber, svævende øer, måneskin og levende farver.">
+    <meta name="description" content="Originale akrylmalerier af Julie Kofod i Lindenborg, Gistrup — drømmende natur, lys, farver og ro.">
     <meta property="og:title" content="Julie Kofod | Original Kunst & Malerier">
-    <meta property="og:description" content="Udforsk originale malerier til salg og tidligere værker af Julie Kofod.">
+    <meta property="og:description" content="Udforsk originale akrylmalerier til salg og tidligere værker af Julie Kofod.">
     <meta property="og:type" content="website">
     <title>Julie Kofod | Original Kunst & Malerier</title>
 
@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Belleza&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Belleza&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
         rel="stylesheet">
 
     <!-- Font Awesome Icons -->
@@ -72,7 +72,7 @@
                 <li><a href="#kontakt" class="drawer-link">Kontakt</a></li>
             </ul>
             <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer"
-                class="btn btn-primary" id="drawer-instagram">
+                class="btn btn-aqua" id="drawer-instagram">
                 <i class="fab fa-instagram"></i> @juliekofodart
             </a>
         </div>
@@ -83,18 +83,20 @@
         <section id="start" class="hero-section">
             <div class="container hero-grid">
                 <div class="hero-content">
-                    <div class="hero-logo-emblem">
+                    <div class="hero-logo-box">
                         <img src="assets/logo.jpg" alt="Julie Kofod kunstnerlogo" id="hero-logo">
                     </div>
-                    <span class="hero-eyebrow" id="hero-overtitel"></span>
+                    <div>
+                        <span class="hero-eyebrow" id="hero-overtitel"></span>
+                    </div>
                     <h1 class="hero-title" id="hero-titel"></h1>
                     <p class="hero-text" id="hero-tekst"></p>
                     <div class="hero-actions">
-                        <a href="#til-salg" class="btn btn-primary" id="hero-cta-primary">
+                        <a href="#til-salg" class="btn btn-pink" id="hero-cta-primary">
                             <span id="hero-knap-primaer"></span>
                             <i class="fas fa-arrow-down"></i>
                         </a>
-                        <a href="#kontakt" class="btn btn-outline-light" id="hero-cta-secondary">
+                        <a href="#kontakt" class="btn btn-aqua" id="hero-cta-secondary">
                             <span id="hero-knap-sekundaer"></span>
                         </a>
                     </div>
@@ -102,16 +104,16 @@
 
                 <div class="hero-visual">
                     <div class="hero-frame-main">
-                        <img src="" alt="Fremhævet kunstværk af Julie Kofod" id="hero-img-main">
+                        <img src="" alt="Pink Sky maleri af Julie Kofod" id="hero-img-main">
                     </div>
                     <div class="hero-frame-round">
-                        <img src="" alt="Rundt maleri af Julie Kofod" id="hero-img-round">
+                        <img src="" alt="Fantasiens land rundt maleri af Julie Kofod" id="hero-img-round">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Palette Color Ribbon -->
+        <!-- Pop-Art Palette Ribbon -->
         <div class="palette-ribbon" aria-hidden="true">
             <span></span><span></span><span></span><span></span><span></span><span></span>
         </div>
@@ -158,7 +160,7 @@
                         <h3>Bestillingsværk</h3>
                         <p id="bestilling-tekst"></p>
                     </div>
-                    <button type="button" class="btn btn-primary" id="commission-cta">
+                    <button type="button" class="btn btn-ink" id="commission-cta">
                         <span id="bestilling-knap"></span>
                         <i class="fas fa-arrow-right"></i>
                     </button>
@@ -174,7 +176,7 @@
                         <img src="" alt="Maleri af Julie Kofod" id="om-billede">
                     </div>
                     <div class="about-logo-seal">
-                        <img src="assets/logo.jpg" alt="Julie Kofod segl" id="om-logo">
+                        <img src="assets/logo.jpg" alt="Julie Kofod logo" id="om-logo">
                     </div>
                 </div>
 
@@ -209,6 +211,27 @@
                             </button>
                         </div>
 
+                        <a href="#" class="channel-card" id="kontakt-telefon-link">
+                            <span class="channel-left">
+                                <span class="channel-icon"><i class="fas fa-phone"></i></span>
+                                <span>
+                                    <span class="channel-label">Telefon</span>
+                                    <span class="channel-value" id="kontakt-telefon-text"></span>
+                                </span>
+                            </span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+
+                        <div class="channel-card" style="cursor: default;">
+                            <span class="channel-left">
+                                <span class="channel-icon"><i class="fas fa-location-dot"></i></span>
+                                <span>
+                                    <span class="channel-label">By</span>
+                                    <span class="channel-value" id="kontakt-by-text"></span>
+                                </span>
+                            </span>
+                        </div>
+
                         <a href="#" target="_blank" rel="noopener noreferrer" class="channel-card"
                             id="kontakt-instagram-link">
                             <span class="channel-left">
@@ -235,21 +258,26 @@
                         </div>
                         <div class="form-row">
                             <label for="form-subject">Emne eller maleri</label>
-                            <input type="text" id="form-subject" placeholder="F.eks. Forespørgsel om Måneskin over Bjergene">
+                            <input type="text" id="form-subject" placeholder="F.eks. Forespørgsel om Pink Sky">
                         </div>
                         <div class="form-row">
                             <label for="form-message">Din besked</label>
                             <textarea id="form-message" placeholder="Skriv din besked til Julie her..." required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <button type="submit" class="btn btn-pink" style="width: 100%;">
                             <i class="fas fa-paper-plane"></i> Åbn besked i mailprogram
                         </button>
-                        <p class="form-note">Knappen åbner dit mailprogram med beskeden klar til afsendelse — eller skriv direkte til Julie på Instagram.</p>
+                        <p class="form-note">Knappen åbner dit mailprogram med beskeden klar til afsendelse — eller ring/skriv direkte på Instagram.</p>
                     </form>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Pop-Art Palette Ribbon -->
+    <div class="palette-ribbon" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
 
     <!-- Footer -->
     <footer class="site-footer">
@@ -298,35 +326,14 @@
             <p class="lightbox-desc" id="lb-desc"></p>
             <div class="lightbox-actions">
                 <span class="lightbox-price-pill" id="lb-price"></span>
-                <button type="button" class="btn btn-primary" id="lb-inquire">
+                <button type="button" class="btn btn-pink" id="lb-inquire">
                     <i class="fas fa-envelope"></i> Forespørg om dette værk
                 </button>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light" id="lb-instagram">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-aqua" id="lb-instagram">
                     <i class="fab fa-instagram"></i> Skriv på Instagram
                 </a>
             </div>
         </div>
-    </div>
-
-    <!-- Live Palette Switcher for Julie's 2 Color Combinations -->
-    <div class="theme-switcher" id="theme-switcher" role="group" aria-label="Vælg farvetema">
-        <span class="theme-switcher-label">Farvetema</span>
-        <button type="button" class="theme-btn" data-set-theme="lillypad" id="btn-theme-lillypad">
-            <span class="swatch-dots">
-                <i style="background:#024F5B"></i>
-                <i style="background:#1CB6BB"></i>
-                <i style="background:#E9409B"></i>
-            </span>
-            Lillypad
-        </button>
-        <button type="button" class="theme-btn" data-set-theme="sunset" id="btn-theme-sunset">
-            <span class="swatch-dots">
-                <i style="background:#76236C"></i>
-                <i style="background:#BE4586"></i>
-                <i style="background:#F09448"></i>
-            </span>
-            Sunset
-        </button>
     </div>
 
     <!-- Toast Notification -->
