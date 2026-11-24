@@ -9,7 +9,7 @@ const indhold = {
     // -------------------------------------------------------------------------
     site: {
         titel: "Julie Kofod | Original Kunst & Malerier",
-        beskrivelse: "Originale akrylmalerier af Julie Kofod i Lindenborg, Gistrup — drømmende natur, lys, farver og ro.",
+        beskrivelse: "Oplev originale akrylmalerier af Julie Kofod i Lindenborg, Gistrup — unikke strukturmalerier, runde tondo-værker og bestillingsværker med lys, natur og farver.",
         logo: "assets/logo.jpg",
         footerTekst: "© 2026 Julie Kofod · Lindenborg, Gistrup"
     },
@@ -24,7 +24,9 @@ const indhold = {
         knapPrimaer: "Se værker til salg",
         knapSekundaer: "Kontakt Julie",
         fremhaevetStort: "assets/til-salg/03-lyseroede-skyer-maane.jpg",
-        fremhaevetRundt: "assets/til-salg/01-rund-maane-bjerge.png"
+        fremhaevetStortId: "pink-sky",
+        fremhaevetRundt: "assets/til-salg/01-rund-maane-bjerge.webp",
+        fremhaevetRundtId: "fantasiens-land"
     },
 
     // -------------------------------------------------------------------------
@@ -40,7 +42,7 @@ const indhold = {
     tilSalg: [
         {
             id: "fantasiens-land",
-            filnavn: "assets/til-salg/01-rund-maane-bjerge.png",
+            filnavn: "assets/til-salg/01-rund-maane-bjerge.webp",
             titel: "Fantasiens land",
             pris: "1.000 kr.",
             medium: "Akryl på lærred",
@@ -80,7 +82,7 @@ const indhold = {
         },
         {
             id: "i-mellemrummet",
-            filnavn: "assets/til-salg/05-rund-birkeskov.png",
+            filnavn: "assets/til-salg/05-rund-birkeskov.webp",
             titel: "I mellemrummet",
             pris: "1.800 kr.",
             medium: "Akryl på lærred",
@@ -90,7 +92,7 @@ const indhold = {
         },
         {
             id: "vendepunktet",
-            filnavn: "assets/til-salg/06-rund-gylden-kyst.png",
+            filnavn: "assets/til-salg/06-rund-gylden-kyst.webp",
             titel: "Vendepunktet",
             pris: "1.800 kr.",
             medium: "Akryl på lærred",
@@ -122,6 +124,7 @@ const indhold = {
 
     solgte: [
         {
+            id: "min-fantasi-din-virkelighed",
             filnavn: "assets/solgt/solgt-03.jpg",
             titel: "Min fantasi - din virkelighed",
             medium: "Akryl på lærred",
@@ -130,6 +133,7 @@ const indhold = {
             beskrivelse: "Svævende vildblomst-ø i dybe rosa, blå og violette skyer."
         },
         {
+            id: "nu-falmer-skoven",
             filnavn: "assets/solgt/solgt-06.jpg",
             titel: "Nu falmer skoven trindt om land",
             medium: "Akryl på lærred",
@@ -138,6 +142,7 @@ const indhold = {
             beskrivelse: "Svævende birkeskov med gyldent efterårsløv mod dyb petrol-blå nattehimmel."
         },
         {
+            id: "efter-regnen",
             filnavn: "assets/solgt/solgt-07.jpg",
             titel: "Efter Regnen",
             medium: "Akryl på lærred",
@@ -146,6 +151,7 @@ const indhold = {
             beskrivelse: "En lille kolibri ved en svævende skovkant i koralrød og himmelblå solnedgang."
         },
         {
+            id: "et-stykke-fantasi",
             filnavn: "assets/solgt/solgt-02.jpg",
             titel: "Et stykke Fantasi",
             medium: "Akryl på lærred",
@@ -154,6 +160,7 @@ const indhold = {
             beskrivelse: "Svævende træ under fuldmånen i varme gyldne og turkise nuancer."
         },
         {
+            id: "wishing-you-well",
             filnavn: "assets/solgt/solgt-04.jpg",
             titel: "Wishing you well",
             medium: "Akryl på lærred",
@@ -162,7 +169,8 @@ const indhold = {
             beskrivelse: "En eventyrlig ønskebrønd på sin egen svævende ø i gyldent lys."
         },
         {
-            filnavn: "assets/solgt/solgt-en-stille-stund.png",
+            id: "en-stille-stund",
+            filnavn: "assets/solgt/solgt-en-stille-stund.webp",
             titel: "En stille stund",
             medium: "Akryl på lærred",
             maal: "Ø 40 cm",
@@ -170,6 +178,7 @@ const indhold = {
             beskrivelse: "Rundt maleri af en stille, månebelyst skovsø omgivet af birketræer."
         },
         {
+            id: "de-sidste-straaler",
             filnavn: "assets/solgt/solgt-08.jpg",
             titel: "De sidste stråler",
             medium: "Akryl på lærred",
@@ -178,6 +187,7 @@ const indhold = {
             beskrivelse: "Lysstråler der bryder gennem trækronerne i dybe skovgrønne og gyldne toner."
         },
         {
+            id: "vejen-hjem",
             filnavn: "assets/solgt/solgt-09.jpg",
             titel: "Vejen Hjem",
             medium: "Akryl på lærred",
@@ -186,6 +196,7 @@ const indhold = {
             beskrivelse: "En åben låge og en snoet sti over en gammel stenbro i morgendis og lavendellys."
         },
         {
+            id: "begyndelsen",
             filnavn: "assets/solgt/solgt-begyndelsen.jpg",
             titel: "Begyndelsen",
             medium: "Akryl på lærred",
@@ -194,7 +205,8 @@ const indhold = {
             beskrivelse: "En frodig, lysfyldt skovsti der fører blikket mod en lav, glødende sol."
         },
         {
-            filnavn: "assets/solgt/solgt-rund-uden-titel.png",
+            id: "solgt-rund-skovsoe",
+            filnavn: "assets/solgt/solgt-rund-uden-titel.webp",
             titel: "Uden titel",
             medium: "Akryl på lærred",
             maal: "Rundt lærred",
@@ -202,6 +214,7 @@ const indhold = {
             beskrivelse: "Rundt stemningsmaleri i sort, varm guld og orange nuancer ved en stille skovsø."
         },
         {
+            id: "solgt-stenbro",
             filnavn: "assets/solgt/solgt-12.jpg",
             titel: "Uden titel",
             medium: "Akryl på lærred",
@@ -210,6 +223,7 @@ const indhold = {
             beskrivelse: "Stemningsfuldt landskab med gammel stenbro, gyldent lysindfald og rig struktur."
         },
         {
+            id: "solgt-triptykon",
             filnavn: "assets/solgt/solgt-11.jpg",
             titel: "Uden titel",
             medium: "Akryl på lærred",
@@ -218,10 +232,11 @@ const indhold = {
             beskrivelse: "Tredelt maleri af en lang træbro gennem tåget sølandskab med en svævende rovfugl."
         },
         {
+            id: "valmuer-i-luften",
             filnavn: "assets/solgt/solgt-01.jpg",
             titel: "Valmuer i Luften",
             medium: "Akryl på lærred",
-            maal: "",
+            maal: "Firkantet lærred",
             shape: "rect",
             beskrivelse: "Sarte lyserøde valmuer på en svævende ø i bløde sand- og jordtoner."
         }
@@ -244,6 +259,8 @@ const indhold = {
 
     // -------------------------------------------------------------------------
     // KONTAKT
+    // Tip: Indsæt evt. en gratis Formspree-URL i formEndpoint for direkte
+    // afsendelse uden mailprogram (f.eks. "https://formspree.io/f/xxxxxxxx").
     // -------------------------------------------------------------------------
     kontakt: {
         overtitel: "Lad os tage en snak",
@@ -254,6 +271,7 @@ const indhold = {
         telefonLink: "+4523200448",
         by: "Lindenborg, Gistrup",
         instagramHandle: "@juliekofodart",
-        instagramUrl: "https://www.instagram.com/juliekofodart/"
+        instagramUrl: "https://www.instagram.com/juliekofodart/",
+        formEndpoint: ""
     }
 };

@@ -1,6 +1,9 @@
 // =============================================================================
-// SCRIPT.JS — Interaktivitet, Galleri & Lightbox for Julie Kofod
+// SCRIPT.JS — Interaktivitet, Galleri, Filtre & Lightbox for Julie Kofod
 // =============================================================================
+
+let saleFilter = "all";
+let soldFilter = "all";
 
 document.addEventListener("DOMContentLoaded", () => {
     if (typeof indhold === "undefined") {
@@ -9,12 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     hydrateContent();
+    initHeroArtworkLinks();
+    initGalleryFilters();
     renderSaleGallery();
     renderSoldGallery();
     initNavigation();
+    initScrollSpy();
     initLightbox();
     initContactForm();
     initScrollReveal();
+    openFromUrlHash();
+    window.addEventListener("hashchange", openFromUrlHash);
 });
 
 // -----------------------------------------------------------------------------
@@ -25,7 +33,6 @@ function hydrateContent() {
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) metaDesc.setAttribute("content", indhold.site.beskrivelse);
 
-    // Logo images (Navbar & Footer only)
     ["nav-logo", "footer-logo"].forEach((id) => {
         const el = document.getElementById(id);
         if (el) el.src = indhold.site.logo;
@@ -98,6 +105,12 @@ function hydrateContent() {
 
     setText("footer-instagram-handle", indhold.kontakt.instagramHandle);
     setText("site-footer-text", indhold.site.footerTekst);
+
+    // Adapt form submit button if direct formEndpoint is configured
+    if (indhold.kontakt.formEndpoint) {
+        setText("form-submit-label", "Send besked til Julie");
+        setText("form-note", "Din besked sendes direkte til Julie — du kan også ringe eller skrive på Instagram.");
+    }
 }
 
 function setText(id, value) {
@@ -116,60 +129,131 @@ function getArtworkShape(item) {
     return "rect";
 }
 
+function getFilteredList(group) {
+    const raw = group === "sale" ? indhold.tilSalg : indhold.solgte;
+    const activeFilter = group === "sale" ? saleFilter : soldFilter;
+    if (activeFilter === "all") return raw;
+    return raw.filter((item) => getArtworkShape(item) === activeFilter);
+}
+
 // -----------------------------------------------------------------------------
-// 2. RENDER "TIL SALG" GALLERY
+// 1B. INTERACTIVE HERO FRAMES
 // -----------------------------------------------------------------------------
-function renderSaleGallery() {
+function initHeroArtworkLinks() {
+    const wireHeroFrame = (elId, artworkId, fallbackIndex) => {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        const openHeroArtwork = () => {
+            saleFilter = "all";
+            updateFilterButtons("sale-filters", "all");
+            renderSaleGallery(true);
+            const idx = indhold.tilSalg.findIndex((item) => item.id === artworkId);
+            openLightbox("sale", idx >= 0 ? idx : fallbackIndex, el);
+        };
+        el.addEventListener("click", openHeroArtwork);
+        el.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openHeroArtwork();
+            }
+        });
+    };
+
+    wireHeroFrame("hero-frame-main", indhold.hero.fremhaevetStortId || "pink-sky", 2);
+    wireHeroFrame("hero-frame-round", indhold.hero.fremhaevetRundtId || "fantasiens-land", 0);
+}
+
+// -----------------------------------------------------------------------------
+// 2. GALLERY FORMAT FILTERS (ALLE / RUNDE / FIRKANTEDE)
+// -----------------------------------------------------------------------------
+function initGalleryFilters() {
+    buildFilterBar("sale-filters", indhold.tilSalg, (nextFilter) => {
+        saleFilter = nextFilter;
+        renderSaleGallery(true);
+    });
+
+    buildFilterBar("sold-filters", indhold.solgte, (nextFilter) => {
+        soldFilter = nextFilter;
+        renderSoldGallery(true);
+    });
+}
+
+function buildFilterBar(containerId, items, onSelect) {
+    const bar = document.getElementById(containerId);
+    if (!bar) return;
+
+    const roundCount = items.filter((item) => getArtworkShape(item) === "round").length;
+    const rectCount = items.filter((item) => getArtworkShape(item) === "rect").length;
+
+    const options = [
+        { key: "all", label: "Alle", count: items.length },
+        { key: "round", label: "Runde (Tondo)", count: roundCount },
+        { key: "rect", label: "Firkantede", count: rectCount }
+    ];
+
+    bar.innerHTML = "";
+    options.forEach((opt) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "filter-pill";
+        btn.dataset.filter = opt.key;
+        btn.setAttribute("aria-pressed", opt.key === "all" ? "true" : "false");
+        btn.innerHTML = `${opt.label} <span class="filter-pill-count">(${opt.count})</span>`;
+
+        btn.addEventListener("click", () => {
+            updateFilterButtons(containerId, opt.key);
+            onSelect(opt.key);
+        });
+
+        bar.appendChild(btn);
+    });
+}
+
+function updateFilterButtons(containerId, activeKey) {
+    const bar = document.getElementById(containerId);
+    if (!bar) return;
+    bar.querySelectorAll(".filter-pill").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.dataset.filter === activeKey ? "true" : "false");
+    });
+}
+
+// -----------------------------------------------------------------------------
+// 3. RENDER "TIL SALG" GALLERY
+// -----------------------------------------------------------------------------
+function renderSaleGallery(immediateVisible = false) {
     const grid = document.getElementById("sale-grid");
     if (!grid) return;
     grid.innerHTML = "";
 
-    indhold.tilSalg.forEach((item, index) => {
+    const items = getFilteredList("sale");
+
+    items.forEach((item, index) => {
         const shape = getArtworkShape(item);
-        const isRound = shape === "round";
 
         const card = document.createElement("article");
-        card.className = `art-card art-card--${shape} reveal`;
+        card.className = `art-card art-card--${shape} reveal${immediateVisible ? " visible" : ""}`;
         card.setAttribute("tabindex", "0");
         card.setAttribute("role", "button");
         card.setAttribute("aria-label", `Se ${item.titel} i stor visning`);
 
         const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
 
-        if (isRound) {
-            card.innerHTML = `
-                <div class="art-mat art-mat--round">
-                    <img src="${item.filnavn}" alt="${item.titel}" class="is-round" loading="lazy">
+        card.innerHTML = `
+            <div class="art-mat art-mat--${shape}">
+                <img src="${item.filnavn}" alt="${item.titel}" class="is-${shape}" loading="lazy" decoding="async">
+            </div>
+            <div class="art-info">
+                <span class="sale-badge sale-badge--inline">Til salg</span>
+                <h3 class="art-title">${item.titel}</h3>
+                <p class="art-meta">${metaParts}</p>
+                <div class="art-price-row">
+                    <span class="art-price">${item.pris}</span>
+                    <span class="art-cta-link">Se værk <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
                 </div>
-                <div class="art-info art-info--round">
-                    <span class="sale-badge sale-badge--inline">Til salg</span>
-                    <h3 class="art-title">${item.titel}</h3>
-                    <p class="art-meta">${metaParts}</p>
-                    <div class="art-price-row art-price-row--round">
-                        <span class="art-price">${item.pris}</span>
-                        <span class="art-cta-link">Se værk <i class="fas fa-arrow-right"></i></span>
-                    </div>
-                </div>
-            `;
-        } else {
-            card.innerHTML = `
-                <div class="art-mat">
-                    <img src="${item.filnavn}" alt="${item.titel}" class="is-rect" loading="lazy">
-                    <span class="sale-badge">Til salg</span>
-                    <span class="art-zoom-hint" aria-hidden="true"><i class="fas fa-expand"></i></span>
-                </div>
-                <div class="art-info">
-                    <h3 class="art-title">${item.titel}</h3>
-                    <p class="art-meta">${metaParts}</p>
-                    <div class="art-price-row">
-                        <span class="art-price">${item.pris}</span>
-                        <span class="art-cta-link">Se værk <i class="fas fa-arrow-right"></i></span>
-                    </div>
-                </div>
-            `;
-        }
+            </div>
+        `;
 
-        const openHandler = () => openLightbox("sale", index);
+        const openHandler = () => openLightbox("sale", index, card);
         card.addEventListener("click", openHandler);
         card.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -183,52 +267,40 @@ function renderSaleGallery() {
 }
 
 // -----------------------------------------------------------------------------
-// 3. RENDER "SOLGTE VÆRKER" MASONRY GALLERY
+// 4. RENDER "SOLGTE VÆRKER" MASONRY GALLERY
 // -----------------------------------------------------------------------------
-function renderSoldGallery() {
+let commissionWired = false;
+function renderSoldGallery(immediateVisible = false) {
     const grid = document.getElementById("sold-grid");
     if (!grid) return;
     grid.innerHTML = "";
 
-    indhold.solgte.forEach((item, index) => {
+    const items = getFilteredList("sold");
+
+    items.forEach((item, index) => {
         const shape = getArtworkShape(item);
-        const isRound = shape === "round";
 
         const card = document.createElement("article");
-        card.className = `sold-card sold-card--${shape} reveal`;
+        card.className = `sold-card sold-card--${shape} reveal${immediateVisible ? " visible" : ""}`;
         card.setAttribute("tabindex", "0");
         card.setAttribute("role", "button");
         card.setAttribute("aria-label", `Se solgt værk: ${item.titel}`);
 
         const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
 
-        if (isRound) {
-            card.innerHTML = `
-                <div class="sold-img-wrap sold-img-wrap--round">
-                    <img src="${item.filnavn}" alt="${item.titel}" class="is-round" loading="lazy">
-                </div>
-                <div class="sold-caption sold-caption--round">
-                    <span class="sold-badge sold-badge--inline">Solgt</span>
-                    <h3 class="sold-title">${item.titel}</h3>
-                    ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
-                    ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
-                </div>
-            `;
-        } else {
-            card.innerHTML = `
-                <div class="sold-img-wrap">
-                    <img src="${item.filnavn}" alt="${item.titel}" class="is-rect" loading="lazy">
-                    <span class="sold-badge">Solgt</span>
-                </div>
-                <div class="sold-caption">
-                    <h3 class="sold-title">${item.titel}</h3>
-                    ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
-                    ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
-                </div>
-            `;
-        }
+        card.innerHTML = `
+            <div class="sold-img-wrap sold-img-wrap--${shape}">
+                <img src="${item.filnavn}" alt="${item.titel}" class="is-${shape}" loading="lazy" decoding="async">
+            </div>
+            <div class="sold-caption">
+                <span class="sold-badge sold-badge--inline">Solgt</span>
+                <h3 class="sold-title">${item.titel}</h3>
+                ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
+                ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
+            </div>
+        `;
 
-        const openHandler = () => openLightbox("sold", index);
+        const openHandler = () => openLightbox("sold", index, card);
         card.addEventListener("click", openHandler);
         card.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -241,7 +313,8 @@ function renderSoldGallery() {
     });
 
     const commissionBtn = document.getElementById("commission-cta");
-    if (commissionBtn) {
+    if (commissionBtn && !commissionWired) {
+        commissionWired = true;
         commissionBtn.addEventListener("click", () => {
             prefillContact(
                 "Bestillingsværk",
@@ -252,7 +325,7 @@ function renderSoldGallery() {
 }
 
 // -----------------------------------------------------------------------------
-// 4. MOBILE DRAWER NAVIGATION
+// 5. MOBILE DRAWER NAVIGATION (WITH ESCAPE & FOCUS MANAGEMENT)
 // -----------------------------------------------------------------------------
 function initNavigation() {
     const drawer = document.getElementById("mobile-drawer");
@@ -263,7 +336,14 @@ function initNavigation() {
         if (!drawer) return;
         drawer.classList.toggle("open", isOpen);
         drawer.setAttribute("aria-hidden", String(!isOpen));
+        if (openBtn) openBtn.setAttribute("aria-expanded", String(isOpen));
         document.body.style.overflow = isOpen ? "hidden" : "";
+
+        if (isOpen && closeBtn) {
+            closeBtn.focus();
+        } else if (!isOpen && openBtn) {
+            openBtn.focus();
+        }
     };
 
     if (openBtn) openBtn.addEventListener("click", () => setDrawer(true));
@@ -276,13 +356,56 @@ function initNavigation() {
         drawer.querySelectorAll(".drawer-link").forEach((link) => {
             link.addEventListener("click", () => setDrawer(false));
         });
+        drawer.addEventListener("keydown", (e) => {
+            if (e.key === "Tab") {
+                trapFocus(drawer, e);
+            }
+        });
     }
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && drawer && drawer.classList.contains("open")) {
+            setDrawer(false);
+        }
+    });
 }
 
 // -----------------------------------------------------------------------------
-// 5. FULL-SCREEN LIGHTBOX WITH ZOOM, PAN & INQUIRY CTA
+// 5B. ACTIVE NAV SCROLL-SPY
+// -----------------------------------------------------------------------------
+function initScrollSpy() {
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+    const sections = navLinks
+        .map((link) => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+    if (!("IntersectionObserver" in window) || !sections.length) return;
+
+    const setActive = (id) => {
+        navLinks.forEach((link) => {
+            link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
+        });
+    };
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    setActive(entry.target.id);
+                }
+            });
+        },
+        { rootMargin: "-35% 0px -55% 0px", threshold: 0 }
+    );
+
+    sections.forEach((sec) => observer.observe(sec));
+}
+
+// -----------------------------------------------------------------------------
+// 6. FULL-SCREEN LIGHTBOX WITH SWIPE, CLAMPED PAN, FOCUS TRAP & DEEP-LINKING
 // -----------------------------------------------------------------------------
 let lbState = { group: "sale", index: 0, zoom: 1, panX: 0, panY: 0, fullscreen: false };
+let lastFocusedElement = null;
 
 function initLightbox() {
     const lightbox = document.getElementById("lightbox");
@@ -290,8 +413,12 @@ function initLightbox() {
     const closeBtn = document.getElementById("lb-close");
     const prevBtn = document.getElementById("lb-prev");
     const nextBtn = document.getElementById("lb-next");
+    const prevMobileBtn = document.getElementById("lb-prev-mobile");
+    const nextMobileBtn = document.getElementById("lb-next-mobile");
     const zoomInBtn = document.getElementById("lb-zoom-in");
     const zoomOutBtn = document.getElementById("lb-zoom-out");
+    const zoomBadge = document.getElementById("lb-zoom-level");
+    const copyLinkBtn = document.getElementById("lb-copy-link");
     const fullscreenBtn = document.getElementById("lb-fullscreen");
     const lbImg = document.getElementById("lb-img");
     const inquireBtn = document.getElementById("lb-inquire");
@@ -301,48 +428,94 @@ function initLightbox() {
     closeBtn.addEventListener("click", closeLightbox);
     prevBtn.addEventListener("click", () => stepLightbox(-1));
     nextBtn.addEventListener("click", () => stepLightbox(1));
+    if (prevMobileBtn) prevMobileBtn.addEventListener("click", () => stepLightbox(-1));
+    if (nextMobileBtn) nextMobileBtn.addEventListener("click", () => stepLightbox(1));
     zoomInBtn.addEventListener("click", () => setZoom(lbState.zoom + 0.5));
     zoomOutBtn.addEventListener("click", () => setZoom(lbState.zoom - 0.5));
+    if (zoomBadge) zoomBadge.addEventListener("click", () => setZoom(1));
     if (fullscreenBtn) fullscreenBtn.addEventListener("click", () => toggleLightboxFullscreen());
+
+    if (copyLinkBtn) {
+        copyLinkBtn.addEventListener("click", async () => {
+            const list = getFilteredList(lbState.group);
+            const item = list[lbState.index];
+            if (!item) return;
+            const shareUrl = `${window.location.origin}${window.location.pathname}#vaerk=${encodeURIComponent(item.id || item.titel)}`;
+            const ok = await copyTextToClipboard(shareUrl);
+            showToast(ok ? `Link kopieret til "${item.titel}"` : "Kunne ikke kopiere linket automatisk");
+        });
+    }
 
     lbImg.addEventListener("dblclick", () => {
         setZoom(lbState.zoom > 1 ? 1 : 2.2);
     });
 
-    // Smooth click-and-drag panning when zoomed in
+    // Smooth click-and-drag panning when zoomed + horizontal swipe when at 1x
     let dragging = false;
+    let swiping = false;
     let startX = 0;
     let startY = 0;
+    let swipeStartX = 0;
+    let swipeStartY = 0;
 
     if (stage) {
         stage.addEventListener("pointerdown", (e) => {
-            if (lbState.zoom <= 1) return;
-            dragging = true;
-            startX = e.clientX - lbState.panX;
-            startY = e.clientY - lbState.panY;
-            stage.classList.add("is-dragging");
-            stage.setPointerCapture(e.pointerId);
+            if (lbState.zoom > 1) {
+                dragging = true;
+                startX = e.clientX - lbState.panX;
+                startY = e.clientY - lbState.panY;
+                stage.classList.add("is-dragging");
+                stage.setPointerCapture(e.pointerId);
+            } else {
+                swiping = true;
+                swipeStartX = e.clientX;
+                swipeStartY = e.clientY;
+            }
         });
 
         stage.addEventListener("pointermove", (e) => {
             if (!dragging) return;
-            lbState.panX = e.clientX - startX;
-            lbState.panY = e.clientY - startY;
+            const rawX = e.clientX - startX;
+            const rawY = e.clientY - startY;
+            const clamped = clampPan(rawX, rawY);
+            lbState.panX = clamped.x;
+            lbState.panY = clamped.y;
             applyLightboxTransform();
         });
 
-        const stopDrag = () => {
-            if (!dragging) return;
-            dragging = false;
-            stage.classList.remove("is-dragging");
+        const stopPointer = (e) => {
+            if (dragging) {
+                dragging = false;
+                stage.classList.remove("is-dragging");
+            }
+            if (swiping) {
+                swiping = false;
+                const dx = e.clientX - swipeStartX;
+                const dy = e.clientY - swipeStartY;
+                if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+                    stepLightbox(dx < 0 ? 1 : -1);
+                }
+            }
         };
 
-        stage.addEventListener("pointerup", stopDrag);
-        stage.addEventListener("pointercancel", stopDrag);
+        stage.addEventListener("pointerup", stopPointer);
+        stage.addEventListener("pointercancel", () => {
+            dragging = false;
+            swiping = false;
+            stage.classList.remove("is-dragging");
+        });
     }
 
     lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) closeLightbox();
+        if (e.target === lightbox || (e.target === stage && lbState.zoom <= 1)) {
+            closeLightbox();
+        }
+    });
+
+    lightbox.addEventListener("keydown", (e) => {
+        if (e.key === "Tab") {
+            trapFocus(lightbox, e);
+        }
     });
 
     document.addEventListener("fullscreenchange", () => {
@@ -368,9 +541,9 @@ function initLightbox() {
     });
 
     inquireBtn.addEventListener("click", () => {
-        const list = lbState.group === "sale" ? indhold.tilSalg : indhold.solgte;
+        const list = getFilteredList(lbState.group);
         const item = list[lbState.index];
-        closeLightbox();
+        closeLightbox(false);
 
         const dimSuffix = item.maal ? ` (${item.maal})` : "";
         const subjectLine = `Forespørgsel: ${item.titel}${dimSuffix}`;
@@ -387,6 +560,17 @@ function initLightbox() {
             );
         }
     });
+}
+
+function clampPan(x, y) {
+    const img = document.getElementById("lb-img");
+    if (!img || lbState.zoom <= 1) return { x: 0, y: 0 };
+    const maxX = Math.max(0, ((img.clientWidth * lbState.zoom) - img.clientWidth) / 2 + 40);
+    const maxY = Math.max(0, ((img.clientHeight * lbState.zoom) - img.clientHeight) / 2 + 40);
+    return {
+        x: Math.max(-maxX, Math.min(maxX, x)),
+        y: Math.max(-maxY, Math.min(maxY, y))
+    };
 }
 
 function toggleLightboxFullscreen(forceState) {
@@ -408,15 +592,16 @@ function setLightboxFullscreen(isFull) {
     if (lightbox) lightbox.classList.toggle("lightbox--fullscreen", isFull);
     if (fullscreenBtn) {
         fullscreenBtn.innerHTML = isFull
-            ? `<i class="fas fa-compress"></i>`
-            : `<i class="fas fa-expand"></i>`;
+            ? `<i class="fas fa-compress" aria-hidden="true"></i>`
+            : `<i class="fas fa-expand" aria-hidden="true"></i>`;
         fullscreenBtn.setAttribute("aria-label", isFull ? "Afslut fuld skærm" : "Fuld skærm");
         fullscreenBtn.setAttribute("title", isFull ? "Afslut fuld skærm (F)" : "Fuld skærm (F)");
     }
     setZoom(1);
 }
 
-function openLightbox(group, index) {
+function openLightbox(group, index, triggerEl = null) {
+    lastFocusedElement = triggerEl || document.activeElement;
     lbState = { group, index, zoom: 1, panX: 0, panY: 0, fullscreen: false };
     setLightboxFullscreen(false);
     updateLightboxView();
@@ -425,9 +610,12 @@ function openLightbox(group, index) {
     lightbox.classList.add("open");
     lightbox.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
+
+    const closeBtn = document.getElementById("lb-close");
+    if (closeBtn) closeBtn.focus();
 }
 
-function closeLightbox() {
+function closeLightbox(restoreFocus = true) {
     if (document.fullscreenElement && document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
     }
@@ -436,10 +624,19 @@ function closeLightbox() {
     lightbox.classList.remove("open");
     lightbox.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
+
+    if (window.location.hash.startsWith("#vaerk=")) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+
+    if (restoreFocus && lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+    }
 }
 
 function stepLightbox(delta) {
-    const list = lbState.group === "sale" ? indhold.tilSalg : indhold.solgte;
+    const list = getFilteredList(lbState.group);
+    if (!list.length) return;
     lbState.index = (lbState.index + delta + list.length) % list.length;
     lbState.zoom = 1;
     lbState.panX = 0;
@@ -448,12 +645,31 @@ function stepLightbox(delta) {
 }
 
 function setZoom(nextZoom) {
-    lbState.zoom = Math.max(1, Math.min(3.5, nextZoom));
+    lbState.zoom = Math.max(1, Math.min(3.5, Math.round(nextZoom * 10) / 10));
     if (lbState.zoom <= 1) {
         lbState.panX = 0;
         lbState.panY = 0;
+    } else {
+        const clamped = clampPan(lbState.panX, lbState.panY);
+        lbState.panX = clamped.x;
+        lbState.panY = clamped.y;
     }
     applyLightboxTransform();
+    updateZoomControls();
+}
+
+function updateZoomControls() {
+    const zoomInBtn = document.getElementById("lb-zoom-in");
+    const zoomOutBtn = document.getElementById("lb-zoom-out");
+    const zoomBadge = document.getElementById("lb-zoom-level");
+
+    if (zoomOutBtn) zoomOutBtn.disabled = lbState.zoom <= 1;
+    if (zoomInBtn) zoomInBtn.disabled = lbState.zoom >= 3.5;
+    if (zoomBadge) {
+        const isZoomed = lbState.zoom > 1;
+        zoomBadge.hidden = !isZoomed;
+        zoomBadge.textContent = `${Math.round(lbState.zoom * 100)}%`;
+    }
 }
 
 function applyLightboxTransform() {
@@ -468,7 +684,7 @@ function applyLightboxTransform() {
 }
 
 function updateLightboxView() {
-    const list = lbState.group === "sale" ? indhold.tilSalg : indhold.solgte;
+    const list = getFilteredList(lbState.group);
     const item = list[lbState.index];
     if (!item) return;
 
@@ -481,9 +697,11 @@ function updateLightboxView() {
     lbState.panX = 0;
     lbState.panY = 0;
     applyLightboxTransform();
+    updateZoomControls();
     img.classList.toggle("lb-img--round", isRound);
-    if (stage) stage.classList.toggle("lightbox-stage--round", isRound);
+    img.classList.toggle("lb-img--rect", !isRound);
 
+    setText("lb-counter", `${lbState.index + 1} / ${list.length}`);
     setText("lb-title", item.titel);
     setText("lb-desc", item.beskrivelse || "");
 
@@ -496,48 +714,118 @@ function updateLightboxView() {
 
     if (lbState.group === "sale") {
         priceEl.textContent = item.pris;
-        inquireBtn.innerHTML = `<i class="fas fa-envelope"></i> Forespørg om dette værk`;
+        inquireBtn.innerHTML = `<i class="fas fa-envelope" aria-hidden="true"></i> Forespørg om dette værk`;
     } else {
         priceEl.textContent = "Solgt";
-        inquireBtn.innerHTML = `<i class="fas fa-palette"></i> Forespørg om lignende værk`;
+        inquireBtn.innerHTML = `<i class="fas fa-palette" aria-hidden="true"></i> Forespørg om lignende værk`;
+    }
+
+    if (item.id) {
+        history.replaceState(null, "", `#vaerk=${encodeURIComponent(item.id)}`);
+    }
+}
+
+function openFromUrlHash() {
+    const hash = window.location.hash;
+    if (!hash.startsWith("#vaerk=")) return;
+    const targetId = decodeURIComponent(hash.slice("#vaerk=".length));
+    const saleIdx = indhold.tilSalg.findIndex((item) => item.id === targetId);
+    if (saleIdx >= 0) {
+        openLightbox("sale", saleIdx);
+        return;
+    }
+    const soldIdx = indhold.solgte.findIndex((item) => item.id === targetId);
+    if (soldIdx >= 0) {
+        openLightbox("sold", soldIdx);
     }
 }
 
 // -----------------------------------------------------------------------------
-// 6. CONTACT FORM (SMART MAILTO) & COPY EMAIL
+// 7. CONTACT FORM (DIRECT ENDPOINT OR SMART MAILTO + COPY MESSAGE) & COPY EMAIL
 // -----------------------------------------------------------------------------
 function initContactForm() {
     const form = document.getElementById("contact-form");
     const copyBtn = document.getElementById("copy-email-btn");
+    const copyMessageBtn = document.getElementById("copy-message-btn");
+    const statusEl = document.getElementById("form-status");
+    const submitBtn = document.getElementById("form-submit-btn");
 
     if (copyBtn) {
         let copyResetTimer = null;
         copyBtn.addEventListener("click", async () => {
-            try {
-                await navigator.clipboard.writeText(indhold.kontakt.email);
-            } catch {
-                // Fallback still shows confirmation & toast
+            const ok = await copyTextToClipboard(indhold.kontakt.email);
+            if (!ok) {
+                showToast(`Kopiér manuelt: ${indhold.kontakt.email}`);
+                return;
             }
 
             copyBtn.classList.add("is-copied");
-            copyBtn.innerHTML = `<i class="fas fa-check"></i> Kopieret!`;
+            copyBtn.innerHTML = `<i class="fas fa-check" aria-hidden="true"></i> Kopieret!`;
             showToast(`Email kopieret: ${indhold.kontakt.email}`);
 
             clearTimeout(copyResetTimer);
             copyResetTimer = setTimeout(() => {
                 copyBtn.classList.remove("is-copied");
-                copyBtn.innerHTML = `<i class="far fa-copy"></i> Kopiér`;
+                copyBtn.innerHTML = `<i class="far fa-copy" aria-hidden="true"></i> Kopiér`;
             }, 2200);
         });
     }
 
+    if (copyMessageBtn) {
+        copyMessageBtn.addEventListener("click", async () => {
+            const name = document.getElementById("form-name").value.trim();
+            const email = document.getElementById("form-email").value.trim();
+            const subject = document.getElementById("form-subject").value.trim() || "Forespørgsel fra juliekofod.com";
+            const message = document.getElementById("form-message").value.trim();
+
+            if (!message) {
+                showToast("Skriv først din besked i feltet ovenfor");
+                document.getElementById("form-message").focus();
+                return;
+            }
+
+            const fullText = `Til: ${indhold.kontakt.email}\nEmne: ${subject}\n\n${message}${name || email ? `\n\n---\n${name ? `Navn: ${name}\n` : ""}${email ? `Email: ${email}` : ""}` : ""}`;
+            const ok = await copyTextToClipboard(fullText);
+            showToast(ok ? "Besked kopieret — klar til at indsætte i din webmail!" : "Kunne ikke kopiere beskeden automatisk");
+        });
+    }
+
     if (form) {
-        form.addEventListener("submit", (e) => {
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
             const name = document.getElementById("form-name").value.trim();
             const email = document.getElementById("form-email").value.trim();
             const subject = document.getElementById("form-subject").value.trim() || "Forespørgsel fra juliekofod.com";
             const message = document.getElementById("form-message").value.trim();
+
+            if (statusEl) {
+                statusEl.textContent = "";
+                statusEl.classList.remove("is-error");
+            }
+
+            if (indhold.kontakt.formEndpoint) {
+                if (submitBtn) submitBtn.disabled = true;
+                try {
+                    const res = await fetch(indhold.kontakt.formEndpoint, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json", Accept: "application/json" },
+                        body: JSON.stringify({ name, email, subject, message })
+                    });
+                    if (!res.ok) throw new Error("Server error");
+                    form.reset();
+                    if (statusEl) statusEl.textContent = "Tak for din besked! Julie vender tilbage hurtigst muligt.";
+                    showToast("Besked sendt til Julie!");
+                } catch {
+                    if (statusEl) {
+                        statusEl.textContent = "Kunne ikke sende automatisk — brug gerne 'Kopiér besked' eller skriv direkte på email/Instagram.";
+                        statusEl.classList.add("is-error");
+                    }
+                    showToast("Afsendelse fejlede — prøv 'Kopiér besked'");
+                } finally {
+                    if (submitBtn) submitBtn.disabled = false;
+                }
+                return;
+            }
 
             const body = `${message}\n\n---\nSendt af: ${name}\nEmail: ${email}`;
             const mailtoUrl = `mailto:${encodeURIComponent(indhold.kontakt.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -567,8 +855,51 @@ function prefillContact(subjectText, messageText) {
 }
 
 // -----------------------------------------------------------------------------
-// 7. SCROLL REVEAL & TOAST
+// 8. UTILITIES: FOCUS TRAP, CLIPBOARD, SCROLL REVEAL & TOAST
 // -----------------------------------------------------------------------------
+function trapFocus(container, event) {
+    const focusables = Array.from(
+        container.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), [tabindex]:not([tabindex="-1"])')
+    ).filter((el) => el.offsetParent !== null);
+
+    if (!focusables.length) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+    }
+}
+
+async function copyTextToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+            await navigator.clipboard.writeText(text);
+            return true;
+        } catch {
+            // Fall through to legacy textarea fallback
+        }
+    }
+    try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        const ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        return ok;
+    } catch {
+        return false;
+    }
+}
+
 function initScrollReveal() {
     const elements = document.querySelectorAll(".reveal");
     if (!("IntersectionObserver" in window)) {

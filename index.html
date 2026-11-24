@@ -5,13 +5,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Oplev originale akrylmalerier af Julie Kofod i Lindenborg, Gistrup — unikke strukturmalerier, runde tondo-værker og bestillingsværker med lys, natur og farver.">
+    <link rel="canonical" href="https://juliekofod.com/">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/favicon.png">
     <meta property="og:title" content="Julie Kofod | Original Kunst &amp; Akrylmalerier">
     <meta property="og:description" content="Udforsk originale akrylmalerier til salg, tidligere værker og muligheden for personlige bestillingsværker af Julie Kofod.">
     <meta property="og:image" content="https://juliekofod.com/assets/til-salg/03-lyseroede-skyer-maane.jpg">
+    <meta property="og:url" content="https://juliekofod.com/">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="da_DK">
     <meta name="twitter:card" content="summary_large_image">
     <title>Julie Kofod | Original Kunst &amp; Malerier</title>
+
+    <!-- Structured Data (SEO Rich Results) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Julie Kofod",
+        "url": "https://juliekofod.com/",
+        "image": "https://juliekofod.com/assets/logo.jpg",
+        "jobTitle": "Kunstmaler",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Lindenborg, Gistrup",
+            "addressCountry": "DK"
+        },
+        "sameAs": [
+            "https://www.instagram.com/juliekofodart/"
+        ]
+    }
+    </script>
 
     <!-- Google Fonts: Syne (Display), Cormorant Garamond (Editorial Accents), Plus Jakarta Sans (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,12 +52,13 @@
 </head>
 
 <body>
+    <a href="#main-content" class="skip-link">Spring til indhold</a>
 
     <!-- Sticky Header -->
     <header class="site-header" id="site-header">
         <div class="container nav-bar">
             <a href="#start" class="brand-link" aria-label="Julie Kofod forside">
-                <img src="assets/logo.jpg" alt="Julie Kofod logo" class="brand-logo-thumb" id="nav-logo">
+                <img src="assets/logo.jpg" alt="Julie Kofod logo" class="brand-logo-thumb" id="nav-logo" width="48" height="48">
                 <span class="brand-wordmark">Julie Kofod</span>
             </a>
 
@@ -49,22 +74,22 @@
 
             <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer"
                 class="nav-instagram" id="nav-instagram" aria-label="Julie Kofod på Instagram">
-                <i class="fab fa-instagram"></i>
+                <i class="fab fa-instagram" aria-hidden="true"></i>
             </a>
 
-            <button type="button" class="mobile-menu-toggle" id="mobile-menu-open" aria-label="Åbn menu">
-                <i class="fas fa-bars"></i>
+            <button type="button" class="mobile-menu-toggle" id="mobile-menu-open" aria-label="Åbn menu" aria-expanded="false" aria-controls="mobile-drawer">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
         </div>
     </header>
 
     <!-- Mobile Slide-out Drawer -->
-    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+    <div class="mobile-drawer" id="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobilnavigation" aria-hidden="true">
         <div class="mobile-drawer-panel">
             <div class="mobile-drawer-top">
                 <span class="brand-wordmark">Julie Kofod</span>
                 <button type="button" class="mobile-drawer-close" id="mobile-menu-close" aria-label="Luk menu">
-                    <i class="fas fa-times"></i>
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             </div>
             <ul class="mobile-drawer-links">
@@ -76,38 +101,38 @@
             </ul>
             <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer"
                 class="btn btn-aqua" id="drawer-instagram">
-                <i class="fab fa-instagram"></i> @juliekofodart
+                <i class="fab fa-instagram" aria-hidden="true"></i> @juliekofodart
             </a>
         </div>
     </div>
 
-    <main>
+    <main id="main-content">
         <!-- Hero Section -->
         <section id="start" class="hero-section">
             <div class="container hero-grid">
                 <div class="hero-content">
                     <div>
-                        <span class="hero-eyebrow" id="hero-overtitel"></span>
+                        <span class="hero-eyebrow" id="hero-overtitel">Original Kunst · Lindenborg, Gistrup</span>
                     </div>
-                    <h1 class="hero-title" id="hero-titel"></h1>
-                    <p class="hero-text" id="hero-tekst"></p>
+                    <h1 class="hero-title" id="hero-titel">Natur, lys og farver fra fantasien</h1>
+                    <p class="hero-text" id="hero-tekst">Velkommen til mit farverige univers. Jeg maler akryl på lærred med særligt fokus på lyset — minder om naturen, roen i ubalance og brudstykker af landskaber, som lever i min fantasi.</p>
                     <div class="hero-actions">
                         <a href="#til-salg" class="btn btn-pink" id="hero-cta-primary">
-                            <span id="hero-knap-primaer"></span>
-                            <i class="fas fa-arrow-down"></i>
+                            <span id="hero-knap-primaer">Se værker til salg</span>
+                            <i class="fas fa-arrow-down" aria-hidden="true"></i>
                         </a>
                         <a href="#kontakt" class="btn btn-aqua" id="hero-cta-secondary">
-                            <span id="hero-knap-sekundaer"></span>
+                            <span id="hero-knap-sekundaer">Kontakt Julie</span>
                         </a>
                     </div>
                 </div>
 
                 <div class="hero-visual">
-                    <div class="hero-frame-main">
-                        <img src="" alt="Pink Sky maleri af Julie Kofod" id="hero-img-main" width="1024" height="763">
+                    <div class="hero-frame-main" id="hero-frame-main" role="button" tabindex="0" aria-label="Se Pink Sky i stor visning">
+                        <img src="assets/til-salg/03-lyseroede-skyer-maane.jpg" alt="Pink Sky maleri af Julie Kofod" id="hero-img-main" width="1024" height="763" fetchpriority="high" decoding="async">
                     </div>
-                    <div class="hero-frame-round">
-                        <img src="" alt="Fantasiens land rundt maleri af Julie Kofod" id="hero-img-round" width="938" height="938">
+                    <div class="hero-frame-round" id="hero-frame-round" role="button" tabindex="0" aria-label="Se Fantasiens land i stor visning">
+                        <img src="assets/til-salg/01-rund-maane-bjerge.webp" alt="Fantasiens land rundt maleri af Julie Kofod" id="hero-img-round" width="938" height="938" fetchpriority="high" decoding="async">
                     </div>
                 </div>
             </div>
@@ -127,9 +152,13 @@
         <section id="til-salg" class="gallery-section">
             <div class="container">
                 <div class="section-header reveal">
-                    <span class="eyebrow" id="salg-overtitel"></span>
-                    <h2 class="section-title" id="salg-overskrift"></h2>
-                    <p class="section-intro" id="salg-intro"></p>
+                    <span class="eyebrow" id="salg-overtitel">Galleriet</span>
+                    <h2 class="section-title" id="salg-overskrift">Værker til salg</h2>
+                    <p class="section-intro" id="salg-intro">Alle tilgængelige originalværker fra en ende af — malet i akryl på lærred. Klik på et maleri for stor visning, zoom og forespørgsel.</p>
+                </div>
+
+                <div class="filter-bar reveal" id="sale-filters" role="group" aria-label="Filtrer værker til salg efter format">
+                    <!-- Rendered from script.js -->
                 </div>
 
                 <div class="sale-grid" id="sale-grid">
@@ -167,8 +196,8 @@
         <section class="quote-band" aria-label="Kunstnercitat">
             <div class="container quote-band-inner reveal">
                 <span class="quote-mark" aria-hidden="true">“</span>
-                <blockquote class="quote-text" id="citat-tekst"></blockquote>
-                <p class="quote-author" id="citat-forfatter"></p>
+                <blockquote class="quote-text" id="citat-tekst">Jeg maler naturen som jeg mærker den, ikke kun som jeg ser den. Brudstykker af natur, som lever i min fantasi.</blockquote>
+                <p class="quote-author" id="citat-forfatter">Julie Kofod</p>
             </div>
         </section>
 
@@ -176,9 +205,13 @@
         <section id="solgte" class="sold-section">
             <div class="container">
                 <div class="section-header centered reveal">
-                    <span class="eyebrow" id="solgte-overtitel"></span>
-                    <h2 class="section-title" id="solgte-overskrift"></h2>
-                    <p class="section-intro" id="solgte-intro"></p>
+                    <span class="eyebrow" id="solgte-overtitel">Tidligere værker</span>
+                    <h2 class="section-title" id="solgte-overskrift">Solgte værker</h2>
+                    <p class="section-intro" id="solgte-intro">Et udvalg af tidligere akrylmalerier, der allerede har fundet deres hjem. Bliver du inspireret af en stemning eller farverne, maler jeg meget gerne et bestillingsværk.</p>
+                </div>
+
+                <div class="filter-bar filter-bar--centered reveal" id="sold-filters" role="group" aria-label="Filtrer solgte værker efter format">
+                    <!-- Rendered from script.js -->
                 </div>
 
                 <div class="sold-masonry" id="sold-grid">
@@ -188,11 +221,11 @@
                 <div class="commission-banner reveal">
                     <div class="commission-banner-text">
                         <h3>Bestillingsværk</h3>
-                        <p id="bestilling-tekst"></p>
+                        <p id="bestilling-tekst">Drømmer du om et personligt maleri i samme stil eller dine helt egne farver?</p>
                     </div>
                     <button type="button" class="btn btn-pink" id="commission-cta">
-                        <span id="bestilling-knap"></span>
-                        <i class="fas fa-arrow-right"></i>
+                        <span id="bestilling-knap">Forespørg om bestillingsværk</span>
+                        <i class="fas fa-arrow-right" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
@@ -203,15 +236,15 @@
             <div class="container about-grid">
                 <div class="about-media reveal">
                     <div class="about-image-frame">
-                        <img src="" alt="Maleri af Julie Kofod" id="om-billede" loading="lazy">
+                        <img src="assets/solgt/solgt-07.jpg" alt="Efter Regnen — akrylmaleri af Julie Kofod" id="om-billede" loading="lazy" decoding="async">
                     </div>
                 </div>
 
                 <div class="about-copy reveal">
-                    <span class="eyebrow" id="om-overtitel"></span>
-                    <h2 class="section-title" id="om-overskrift"></h2>
+                    <span class="eyebrow" id="om-overtitel">Kunstneren bag penslen</span>
+                    <h2 class="section-title" id="om-overskrift">Om Julie</h2>
                     <div id="om-afsnit"></div>
-                    <p class="about-signature" id="om-underskrift"></p>
+                    <p class="about-signature" id="om-underskrift">— Julie Kofod</p>
                 </div>
             </div>
         </section>
@@ -220,55 +253,55 @@
         <section id="kontakt" class="contact-section">
             <div class="container contact-grid">
                 <div class="contact-info reveal">
-                    <span class="eyebrow" id="kontakt-overtitel"></span>
-                    <h2 class="section-title" id="kontakt-overskrift"></h2>
-                    <p class="section-intro" id="kontakt-tekst"></p>
+                    <span class="eyebrow" id="kontakt-overtitel">Lad os tage en snak</span>
+                    <h2 class="section-title" id="kontakt-overskrift">Kontakt &amp; Forespørgsel</h2>
+                    <p class="section-intro" id="kontakt-tekst">Interesseret i et af malerierne til salg, en fremvisning i Lindenborg eller et personligt bestillingsværk? Skriv eller ring endelig — jeg glæder mig til at høre fra dig.</p>
 
                     <div class="contact-channels">
                         <div class="channel-card">
-                            <a href="#" class="channel-left" id="kontakt-email-link">
-                                <span class="channel-icon"><i class="fas fa-envelope"></i></span>
+                            <a href="mailto:juliekofodnielsen@gmail.com" class="channel-left" id="kontakt-email-link">
+                                <span class="channel-icon" aria-hidden="true"><i class="fas fa-envelope"></i></span>
                                 <span>
                                     <span class="channel-label">Email</span>
-                                    <span class="channel-value" id="kontakt-email-text"></span>
+                                    <span class="channel-value" id="kontakt-email-text">juliekofodnielsen@gmail.com</span>
                                 </span>
                             </a>
                             <button type="button" class="copy-email-btn" id="copy-email-btn">
-                                <i class="far fa-copy"></i> Kopiér
+                                <i class="far fa-copy" aria-hidden="true"></i> Kopiér
                             </button>
                         </div>
 
-                        <a href="#" class="channel-card" id="kontakt-telefon-link">
+                        <a href="tel:+4523200448" class="channel-card" id="kontakt-telefon-link">
                             <span class="channel-left">
-                                <span class="channel-icon"><i class="fas fa-phone"></i></span>
+                                <span class="channel-icon" aria-hidden="true"><i class="fas fa-phone"></i></span>
                                 <span>
                                     <span class="channel-label">Telefon</span>
-                                    <span class="channel-value" id="kontakt-telefon-text"></span>
+                                    <span class="channel-value" id="kontakt-telefon-text">23 20 04 48</span>
                                 </span>
                             </span>
-                            <i class="fas fa-arrow-right"></i>
+                            <i class="fas fa-arrow-right" aria-hidden="true"></i>
                         </a>
 
-                        <div class="channel-card" style="cursor: default;">
+                        <div class="channel-card channel-card--static">
                             <span class="channel-left">
-                                <span class="channel-icon"><i class="fas fa-location-dot"></i></span>
+                                <span class="channel-icon" aria-hidden="true"><i class="fas fa-location-dot"></i></span>
                                 <span>
                                     <span class="channel-label">By</span>
-                                    <span class="channel-value" id="kontakt-by-text"></span>
+                                    <span class="channel-value" id="kontakt-by-text">Lindenborg, Gistrup</span>
                                 </span>
                             </span>
                         </div>
 
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="channel-card"
+                        <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer" class="channel-card"
                             id="kontakt-instagram-link">
                             <span class="channel-left">
-                                <span class="channel-icon"><i class="fab fa-instagram"></i></span>
+                                <span class="channel-icon" aria-hidden="true"><i class="fab fa-instagram"></i></span>
                                 <span>
                                     <span class="channel-label">Instagram</span>
-                                    <span class="channel-value" id="kontakt-instagram-text"></span>
+                                    <span class="channel-value" id="kontakt-instagram-text">@juliekofodart</span>
                                 </span>
                             </span>
-                            <i class="fas fa-arrow-up-right-from-square"></i>
+                            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
@@ -277,24 +310,30 @@
                     <form id="contact-form">
                         <div class="form-row">
                             <label for="form-name">Dit navn</label>
-                            <input type="text" id="form-name" placeholder="F.eks. Sofie Hansen" required>
+                            <input type="text" id="form-name" name="name" autocomplete="name" placeholder="F.eks. Sofie Hansen" required>
                         </div>
                         <div class="form-row">
                             <label for="form-email">Din email</label>
-                            <input type="email" id="form-email" placeholder="sofie@eksempel.dk" required>
+                            <input type="email" id="form-email" name="email" autocomplete="email" placeholder="sofie@eksempel.dk" required>
                         </div>
                         <div class="form-row">
                             <label for="form-subject">Emne eller maleri</label>
-                            <input type="text" id="form-subject" placeholder="F.eks. Forespørgsel om Pink Sky">
+                            <input type="text" id="form-subject" name="subject" placeholder="F.eks. Forespørgsel om Pink Sky">
                         </div>
                         <div class="form-row">
                             <label for="form-message">Din besked</label>
-                            <textarea id="form-message" placeholder="Skriv din besked til Julie her..." required></textarea>
+                            <textarea id="form-message" name="message" placeholder="Skriv din besked til Julie her..." required></textarea>
                         </div>
-                        <button type="submit" class="btn btn-pink" style="width: 100%;">
-                            <i class="fas fa-paper-plane"></i> Åbn besked i mailprogram
-                        </button>
-                        <p class="form-note">Knappen åbner dit mailprogram med beskeden klar til afsendelse — eller ring/skriv direkte på Instagram.</p>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-pink form-submit-btn" id="form-submit-btn">
+                                <i class="fas fa-paper-plane" aria-hidden="true"></i> <span id="form-submit-label">Åbn besked i mailprogram</span>
+                            </button>
+                            <button type="button" class="btn btn-outline-teal form-copy-btn" id="copy-message-btn" title="Kopiér beskeden hvis du bruger webmail">
+                                <i class="far fa-copy" aria-hidden="true"></i> Kopiér besked
+                            </button>
+                        </div>
+                        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+                        <p class="form-note" id="form-note">Knappen åbner dit mailprogram med beskeden klar — bruger du webmail, kan du blot trykke "Kopiér besked" eller skrive direkte på Instagram.</p>
                     </form>
                 </div>
             </div>
@@ -306,14 +345,14 @@
         <div class="footer-watermark" aria-hidden="true">JULIE KOFOD</div>
         <div class="container footer-inner">
             <div class="footer-brand">
-                <img src="assets/logo.jpg" alt="Julie Kofod logo" id="footer-logo">
+                <img src="assets/logo.jpg" alt="Julie Kofod logo" id="footer-logo" width="44" height="44" loading="lazy">
                 <span>Julie Kofod</span>
             </div>
-            <p class="footer-copy" id="site-footer-text"></p>
+            <p class="footer-copy" id="site-footer-text">© 2026 Julie Kofod · Lindenborg, Gistrup</p>
             <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer"
                 class="footer-social" id="footer-instagram">
-                <i class="fab fa-instagram"></i>
-                <span id="footer-instagram-handle"></span>
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+                <span id="footer-instagram-handle">@juliekofodart</span>
             </a>
         </div>
     </footer>
@@ -321,42 +360,56 @@
     <!-- Full-Screen Lightbox -->
     <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lb-title">
         <div class="lightbox-topbar">
+            <span class="lb-counter" id="lb-counter" aria-live="polite">1 / 6</span>
+            <button type="button" class="lb-zoom-badge" id="lb-zoom-level" aria-label="Nulstil zoom" title="Klik for at nulstille zoom" hidden>100%</button>
             <button type="button" class="lb-btn" id="lb-zoom-out" aria-label="Zoom ud" title="Zoom ud (-)">
-                <i class="fas fa-minus"></i>
+                <i class="fas fa-minus" aria-hidden="true"></i>
             </button>
             <button type="button" class="lb-btn" id="lb-zoom-in" aria-label="Zoom ind" title="Zoom ind (+)">
-                <i class="fas fa-plus"></i>
+                <i class="fas fa-plus" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="lb-btn" id="lb-copy-link" aria-label="Kopiér direkte link til værk" title="Kopiér link til værk">
+                <i class="fas fa-link" aria-hidden="true"></i>
             </button>
             <button type="button" class="lb-btn" id="lb-fullscreen" aria-label="Fuld skærm" title="Fuld skærm (F)">
-                <i class="fas fa-expand"></i>
+                <i class="fas fa-expand" aria-hidden="true"></i>
             </button>
             <button type="button" class="lb-btn" id="lb-close" aria-label="Luk visning" title="Luk (Esc)">
-                <i class="fas fa-times"></i>
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
 
         <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Forrige værk">
-            <i class="fas fa-chevron-left"></i>
+            <i class="fas fa-chevron-left" aria-hidden="true"></i>
         </button>
         <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Næste værk">
-            <i class="fas fa-chevron-right"></i>
+            <i class="fas fa-chevron-right" aria-hidden="true"></i>
         </button>
 
         <div class="lightbox-stage">
-            <img src="" alt="" id="lb-img">
+            <img alt="" id="lb-img">
         </div>
 
         <div class="lightbox-details">
+            <div class="lb-mobile-nav">
+                <button type="button" class="lb-btn lb-btn--sm" id="lb-prev-mobile" aria-label="Forrige værk">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                <span class="lb-swipe-hint">Swipe eller brug pilene</span>
+                <button type="button" class="lb-btn lb-btn--sm" id="lb-next-mobile" aria-label="Næste værk">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </button>
+            </div>
             <h3 id="lb-title"></h3>
             <p class="lightbox-meta-line" id="lb-meta"></p>
             <p class="lightbox-desc" id="lb-desc"></p>
             <div class="lightbox-actions">
                 <span class="lightbox-price-pill" id="lb-price"></span>
                 <button type="button" class="btn btn-pink" id="lb-inquire">
-                    <i class="fas fa-envelope"></i> Forespørg om dette værk
+                    <i class="fas fa-envelope" aria-hidden="true"></i> Forespørg om dette værk
                 </button>
-                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline-teal" id="lb-instagram">
-                    <i class="fab fa-instagram"></i> Skriv på Instagram
+                <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-teal" id="lb-instagram">
+                    <i class="fab fa-instagram" aria-hidden="true"></i> Skriv på Instagram
                 </a>
             </div>
         </div>

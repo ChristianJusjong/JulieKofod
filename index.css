@@ -6,13 +6,13 @@
    ========================================================================== */
 
 :root {
-    /* Strict Neo-Pop Gallery Color Tokens */
+    /* Strict Neo-Pop Gallery Color Tokens (WCAG AA Verified) */
     --bg-gallery: #FAF9F6;
     --teal-deep: #024F5B;
     --plum-luxury: #741353;
-    --pop-pink: #E9409B;
-    --pop-turquoise: #1CB6BB;
-    --olive-tag: #8B920A;
+    --pop-pink: #C8267E;
+    --pop-turquoise: #4FD1D5;
+    --olive-tag: #5E6406;
     --aqua-soft: #A0E5E5;
     --gold-ring: #C5A059;
 
@@ -37,7 +37,7 @@
 }
 
 /* ==========================================================================
-   BASE RESET
+   BASE RESET & ACCESSIBILITY
    ========================================================================== */
 *,
 *::before,
@@ -50,6 +50,7 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    overflow-x: clip;
 }
 
 body {
@@ -58,7 +59,37 @@ body {
     color: var(--teal-deep);
     line-height: 1.68;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+section[id] {
+    scroll-margin-top: 84px;
+}
+
+.skip-link {
+    position: fixed;
+    top: -100px;
+    left: 1rem;
+    z-index: 400;
+    padding: 0.7rem 1.25rem;
+    background: var(--teal-deep);
+    color: var(--bg-gallery);
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: 2px solid var(--aqua-soft);
+    border-radius: 999px;
+    transition: top 0.18s ease;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid var(--pop-pink);
+    outline-offset: 3px;
 }
 
 img {
@@ -89,27 +120,6 @@ h1, h2, h3, .display-font {
     letter-spacing: -0.02em;
     line-height: 1.06;
 }
-
-/* ==========================================================================
-   SUBTLE NEO-POP ARCHITECTURAL RIBBON
-   ========================================================================== */
-.palette-ribbon {
-    display: flex;
-    height: 5px;
-    width: 100%;
-    border-top: 1px solid var(--teal-deep);
-}
-
-.palette-ribbon span {
-    flex: 1;
-}
-
-.palette-ribbon span:nth-child(1) { background: var(--teal-deep); }
-.palette-ribbon span:nth-child(2) { background: var(--plum-luxury); }
-.palette-ribbon span:nth-child(3) { background: var(--pop-pink); }
-.palette-ribbon span:nth-child(4) { background: var(--olive-tag); }
-.palette-ribbon span:nth-child(5) { background: var(--pop-turquoise); }
-.palette-ribbon span:nth-child(6) { background: var(--aqua-soft); }
 
 /* ==========================================================================
    SECTION HEADERS & TYPOGRAPHIC ACCENTS
@@ -212,19 +222,7 @@ h1, h2, h3, .display-font {
 
 .btn-aqua:hover {
     background: var(--pop-turquoise);
-    color: #FFFFFF;
-}
-
-.btn-ink {
-    background: var(--teal-deep);
-    color: var(--bg-gallery);
-    box-shadow: 4px 4px 0px var(--pop-pink);
-}
-
-.btn-ink:hover {
-    background: var(--pop-pink);
-    color: #FFFFFF;
-    box-shadow: 2px 2px 0px var(--teal-deep);
+    color: var(--teal-deep);
 }
 
 .btn-outline-teal {
@@ -236,8 +234,8 @@ h1, h2, h3, .display-font {
 
 .btn-outline-teal:hover {
     background: var(--pop-turquoise);
-    border-color: var(--pop-turquoise);
-    color: #FFFFFF;
+    border-color: var(--teal-deep);
+    color: var(--teal-deep);
     transform: translateY(-2px);
     box-shadow: none;
 }
@@ -266,12 +264,13 @@ h1, h2, h3, .display-font {
 .brand-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.75rem;
+    min-width: 0;
 }
 
 .brand-logo-thumb {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     object-fit: cover;
     border: 1.5px solid var(--gold-ring);
@@ -281,10 +280,11 @@ h1, h2, h3, .display-font {
 
 .brand-wordmark {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: clamp(0.95rem, 3.8vw, 1.25rem);
     font-weight: 800;
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    white-space: nowrap;
     color: var(--teal-deep);
 }
 
@@ -310,15 +310,17 @@ h1, h2, h3, .display-font {
     bottom: -4px;
     width: 0;
     height: 2px;
-    background: var(--pop-turquoise);
+    background: var(--pop-pink);
     transition: width 0.25s var(--ease-gallery);
 }
 
-.nav-links a:not(.nav-kontakt-pill):hover {
-    color: var(--pop-turquoise);
+.nav-links a:not(.nav-kontakt-pill):hover,
+.nav-links a:not(.nav-kontakt-pill).is-active {
+    color: var(--plum-luxury);
 }
 
-.nav-links a:not(.nav-kontakt-pill):hover::after {
+.nav-links a:not(.nav-kontakt-pill):hover::after,
+.nav-links a:not(.nav-kontakt-pill).is-active::after {
     width: 100%;
 }
 
@@ -336,7 +338,8 @@ h1, h2, h3, .display-font {
     transition: transform 0.16s var(--ease-gallery), box-shadow 0.16s var(--ease-gallery), background-color 0.2s ease;
 }
 
-.nav-links a.nav-kontakt-pill:hover {
+.nav-links a.nav-kontakt-pill:hover,
+.nav-links a.nav-kontakt-pill.is-active {
     transform: translate(2px, 2px);
     box-shadow: 1px 1px 0px var(--teal-deep);
     background: var(--plum-luxury);
@@ -359,7 +362,7 @@ h1, h2, h3, .display-font {
 
 .nav-instagram:hover {
     background: var(--pop-turquoise);
-    color: #FFFFFF;
+    color: var(--teal-deep);
     transform: translateY(-2px);
 }
 
@@ -374,6 +377,7 @@ h1, h2, h3, .display-font {
     background: var(--aqua-soft);
     color: var(--teal-deep);
     font-size: 1.15rem;
+    flex-shrink: 0;
 }
 
 /* Mobile Drawer */
@@ -383,6 +387,7 @@ h1, h2, h3, .display-font {
     z-index: 200;
     background: rgba(2, 79, 91, 0.45);
     backdrop-filter: blur(6px);
+    overflow: hidden;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.25s ease;
@@ -468,24 +473,6 @@ h1, h2, h3, .display-font {
     gap: clamp(3rem, 6vw, 5.5rem);
 }
 
-.hero-logo-box {
-    width: 102px;
-    height: 102px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1.5px solid var(--gold-ring);
-    background: #F6F3EC;
-    box-shadow: 0 10px 26px rgba(2, 79, 91, 0.1);
-    margin-bottom: 1.75rem;
-}
-
-.hero-logo-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
 .hero-eyebrow {
     display: inline-block;
     font-family: var(--font-body);
@@ -565,11 +552,13 @@ h1, h2, h3, .display-font {
     box-shadow: 0 22px 48px rgba(2, 79, 91, 0.18);
     position: relative;
     z-index: 1;
-    transition: transform 0.4s var(--ease-gallery);
+    cursor: pointer;
+    transition: transform 0.4s var(--ease-gallery), box-shadow 0.4s var(--ease-gallery);
 }
 
 .hero-frame-main:hover {
     transform: translate(-3px, -4px);
+    box-shadow: 8px 8px 0px var(--pop-pink);
 }
 
 .hero-frame-main img {
@@ -591,14 +580,16 @@ h1, h2, h3, .display-font {
     border: 1.5px solid var(--teal-deep);
     box-shadow: 6px 6px 0px var(--teal-deep);
     z-index: 2;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.4s var(--ease-gallery);
+    transition: transform 0.4s var(--ease-gallery), box-shadow 0.4s var(--ease-gallery);
 }
 
 .hero-frame-round:hover {
     transform: translate(-2px, -4px);
+    box-shadow: 8px 8px 0px var(--pop-turquoise);
 }
 
 .hero-frame-round img {
@@ -655,6 +646,51 @@ h1, h2, h3, .display-font {
 }
 
 /* ==========================================================================
+   GALLERY FILTER PILLS (ALLE / RUNDE / FIRKANTEDE)
+   ========================================================================== */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: 2.25rem;
+}
+
+.filter-bar--centered {
+    justify-content: center;
+}
+
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 1.15rem;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--teal-deep);
+    background: var(--surface-card);
+    border: 1.5px solid var(--teal-deep);
+    transition: background-color 0.18s ease, color 0.18s ease, transform 0.16s var(--ease-gallery), box-shadow 0.16s var(--ease-gallery);
+}
+
+.filter-pill:hover {
+    background: var(--aqua-soft);
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px var(--teal-deep);
+}
+
+.filter-pill[aria-pressed="true"] {
+    background: var(--teal-deep);
+    color: var(--bg-gallery);
+    box-shadow: 3px 3px 0px var(--pop-pink);
+}
+
+.filter-pill-count {
+    font-size: 0.74rem;
+    opacity: 0.8;
+}
+
+/* ==========================================================================
    TIL SALG (#til-salg) — GENEROUS GALLERY WALL + ALTERNATING POP ART HOVERS
    ========================================================================== */
 .gallery-section {
@@ -669,74 +705,74 @@ h1, h2, h3, .display-font {
 }
 
 .art-card {
-    background: var(--surface-card);
-    border: 1.5px solid rgba(2, 79, 91, 0.28);
-    box-shadow: 0 6px 20px rgba(2, 79, 91, 0.05);
+    background: transparent;
+    border: none;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding-top: 0.35rem;
     cursor: pointer;
-    transition: transform 0.24s var(--ease-gallery), box-shadow 0.24s var(--ease-gallery), border-color 0.24s ease;
 }
 
-/* Alternating hard-edged 8px 8px 0px Neo-Pop offset shadows across the grid */
-.art-card:hover {
-    transform: translate(-4px, -4px);
-}
-
-.art-card:nth-child(3n + 1):hover {
-    border-color: var(--pop-pink);
-    box-shadow: 8px 8px 0px var(--pop-pink);
-}
-
-.art-card:nth-child(3n + 2):hover {
-    border-color: var(--pop-turquoise);
-    box-shadow: 8px 8px 0px var(--pop-turquoise);
-}
-
-.art-card:nth-child(3n + 3):hover {
-    border-color: var(--olive-tag);
-    box-shadow: 8px 8px 0px var(--olive-tag);
-}
-
-/* Generous museum mat so round & rectangular canvases breathe */
+/* Transparent square alignment stage so round & rectangular paintings align across rows */
 .art-mat {
     position: relative;
-    background: var(--surface-mat);
-    padding: 2rem;
+    width: 100%;
+    max-width: 340px;
     aspect-ratio: 1 / 1;
+    background: transparent;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 1px solid var(--border-hairline);
-    overflow: hidden;
+    overflow: visible;
 }
 
 .art-mat img {
+    display: block;
+    border: 1.5px solid var(--gold-ring);
+    background: var(--bg-gallery);
+    box-shadow: 0 10px 26px rgba(2, 79, 91, 0.1);
+    transition: transform 0.24s var(--ease-gallery), box-shadow 0.24s var(--ease-gallery), border-color 0.24s ease;
+}
+
+.art-mat img.is-round {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.art-mat img.is-rect {
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
     object-fit: contain;
-    transition: transform 0.45s var(--ease-gallery);
+    border-radius: 0;
 }
 
-.art-mat img.is-rect {
-    box-shadow: 0 14px 30px rgba(2, 79, 91, 0.16);
-}
-
-.art-mat img.is-round {
-    filter: drop-shadow(0 12px 22px rgba(2, 79, 91, 0.22));
-}
-
+/* Alternating hard-edged 8px 8px 0px Neo-Pop hover directly on the artwork */
 .art-card:hover .art-mat img {
-    transform: scale(1.03);
+    transform: translate(-4px, -4px);
 }
 
-/* Sleek Museum Placard Status Tag */
+.art-card:nth-child(3n + 1):hover .art-mat img {
+    box-shadow: 8px 8px 0px var(--pop-pink);
+}
+
+.art-card:nth-child(3n + 2):hover .art-mat img {
+    box-shadow: 8px 8px 0px var(--pop-turquoise);
+}
+
+.art-card:nth-child(3n + 3):hover .art-mat img {
+    box-shadow: 8px 8px 0px var(--olive-tag);
+}
+
+/* Sleek Museum Placard Status Tag (inline beneath artwork) */
 .sale-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
+    display: inline-block;
     padding: 0.26rem 0.78rem;
     border-radius: 999px;
     background: var(--pop-pink);
@@ -745,42 +781,19 @@ h1, h2, h3, .display-font {
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    margin-bottom: 0.15rem;
 }
 
-.art-zoom-hint {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: var(--surface-card);
-    color: var(--teal-deep);
-    border: 1px solid var(--teal-deep);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.82rem;
-    opacity: 0;
-    transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-}
-
-.art-card:hover .art-zoom-hint {
-    opacity: 1;
-}
-
-.art-zoom-hint:hover {
-    background: var(--pop-turquoise);
-    color: #FFFFFF;
-}
-
-/* Sleek Museum Placard */
+/* Cleanly centered museum placard beneath every artwork */
 .art-info {
-    padding: 1.45rem 1.6rem 1.6rem;
+    width: 100%;
+    padding: 1.65rem 0.75rem 0.5rem;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    text-align: center;
     flex: 1;
-    gap: 0.65rem;
+    gap: 0.6rem;
 }
 
 .art-title {
@@ -793,7 +806,7 @@ h1, h2, h3, .display-font {
 /* Olive Metadata Pill for Dimensions & Medium */
 .art-meta {
     display: inline-block;
-    align-self: flex-start;
+    align-self: center;
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.03em;
@@ -805,13 +818,14 @@ h1, h2, h3, .display-font {
 }
 
 .art-price-row {
+    width: 100%;
     margin-top: auto;
-    padding-top: 0.95rem;
+    padding-top: 0.9rem;
     border-top: 1px solid var(--border-hairline);
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
+    justify-content: center;
+    gap: 1.15rem;
 }
 
 .art-price {
@@ -835,7 +849,7 @@ h1, h2, h3, .display-font {
 }
 
 .art-card:hover .art-cta-link {
-    color: var(--pop-turquoise);
+    color: var(--plum-luxury);
     gap: 0.6rem;
 }
 
@@ -956,43 +970,54 @@ h1, h2, h3, .display-font {
 
 .sold-card {
     break-inside: avoid;
-    margin-bottom: 2.35rem;
-    background: var(--surface-card);
-    border: 1px solid rgba(2, 79, 91, 0.2);
+    margin-bottom: 2.75rem;
+    padding-top: 0.5rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
     cursor: pointer;
-    transition: border-color 0.25s ease, transform 0.25s var(--ease-gallery), box-shadow 0.25s ease;
-}
-
-.sold-card:hover {
-    border-color: var(--pop-turquoise);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 26px rgba(28, 182, 187, 0.14);
 }
 
 .sold-img-wrap {
     position: relative;
-    background: var(--surface-mat);
-    padding: 18px;
-    border-bottom: 1px solid rgba(2, 79, 91, 0.12);
+    background: transparent;
+    padding: 0;
+    border: none;
+    display: flex;
+    justify-content: center;
 }
 
 .sold-img-wrap img {
-    width: 100%;
-    height: auto;
     display: block;
-    box-shadow: 0 8px 18px rgba(2, 79, 91, 0.1);
+    background: var(--bg-gallery);
+    border: 1.5px solid var(--gold-ring);
+    box-shadow: 0 8px 22px rgba(2, 79, 91, 0.1);
+    transition: transform 0.25s var(--ease-gallery), border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .sold-img-wrap img.is-round {
-    box-shadow: none;
-    filter: drop-shadow(0 10px 16px rgba(2, 79, 91, 0.18));
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-/* Clean Deep Teal "Solgt" Pill Badge */
+.sold-img-wrap img.is-rect {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+}
+
+.sold-card:hover .sold-img-wrap img {
+    transform: translateY(-3px);
+    border-color: var(--pop-turquoise);
+    box-shadow: 0 12px 26px rgba(28, 182, 187, 0.22);
+}
+
+/* Clean Deep Teal "Solgt" Pill Badge (inline beneath artwork) */
 .sold-badge {
-    position: absolute;
-    top: 26px;
-    left: 26px;
+    display: inline-block;
     padding: 0.24rem 0.76rem;
     border-radius: 999px;
     background: var(--teal-deep);
@@ -1001,10 +1026,15 @@ h1, h2, h3, .display-font {
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    margin-bottom: 0.55rem;
 }
 
 .sold-caption {
-    padding: 1.2rem 1.4rem 1.35rem;
+    padding: 1.45rem 0.75rem 0.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .sold-title {
@@ -1031,6 +1061,7 @@ h1, h2, h3, .display-font {
     font-size: 0.85rem;
     color: var(--text-muted);
     line-height: 1.55;
+    max-width: 34ch;
 }
 
 /* Bestillingsværk Editorial Card on #A0E5E5 with sharp 6px 6px 0px #024F5B shadow */
@@ -1114,28 +1145,6 @@ h1, h2, h3, .display-font {
     display: block;
 }
 
-/* Crisp, understated circular logo seal */
-.about-logo-seal {
-    position: absolute;
-    bottom: -14px;
-    right: 4px;
-    z-index: 2;
-    width: 78px;
-    height: 78px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1.5px solid var(--gold-ring);
-    background: #F6F3EC;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
-}
-
-.about-logo-seal img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
 .about-copy .eyebrow {
     color: var(--aqua-soft);
 }
@@ -1208,6 +1217,12 @@ h1, h2, h3, .display-font {
 
 .channel-card:hover {
     background: rgba(250, 249, 246, 0.35);
+}
+
+.channel-card--static,
+.channel-card--static:hover {
+    cursor: default;
+    background: transparent;
 }
 
 .channel-left {
@@ -1319,6 +1334,36 @@ h1, h2, h3, .display-font {
 .form-row textarea {
     resize: vertical;
     min-height: 124px;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.form-submit-btn {
+    flex: 1 1 220px;
+}
+
+.form-copy-btn {
+    flex: 0 1 auto;
+}
+
+.form-status {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--olive-tag);
+    margin-top: 0.75rem;
+    min-height: 0;
+}
+
+.form-status:empty {
+    display: none;
+}
+
+.form-status.is-error {
+    color: var(--plum-luxury);
 }
 
 .form-note {
@@ -1442,12 +1487,42 @@ h1, h2, h3, .display-font {
 
 .lightbox-topbar {
     position: fixed;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 1.25rem;
+    right: 1.25rem;
     display: flex;
     align-items: center;
-    gap: 0.55rem;
+    gap: 0.5rem;
     z-index: 310;
+}
+
+.lb-counter {
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: var(--surface-card);
+    color: var(--teal-deep);
+    border: 1.5px solid var(--teal-deep);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.lb-zoom-badge {
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    background: var(--aqua-soft);
+    color: var(--teal-deep);
+    border: 1.5px solid var(--teal-deep);
+    font-size: 0.78rem;
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+}
+
+.lb-zoom-badge:hover {
+    background: var(--pop-turquoise);
+}
+
+.lb-zoom-badge[hidden] {
+    display: none;
 }
 
 .lb-btn {
@@ -1461,13 +1536,24 @@ h1, h2, h3, .display-font {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, opacity 0.2s ease;
 }
 
-.lb-btn:hover {
+.lb-btn--sm {
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+}
+
+.lb-btn:hover:not(:disabled) {
     background: var(--pop-pink);
     border-color: var(--pop-pink);
     color: #FFFFFF;
+}
+
+.lb-btn:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
 }
 
 .lb-nav {
@@ -1490,29 +1576,48 @@ h1, h2, h3, .display-font {
 
 .lb-nav:hover {
     background: var(--pop-turquoise);
-    border-color: var(--pop-turquoise);
-    color: #FFFFFF;
+    border-color: var(--teal-deep);
+    color: var(--teal-deep);
 }
 
 .lb-prev { left: 1.5rem; }
 .lb-next { right: 1.5rem; }
 
+.lb-mobile-nav {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.65rem;
+}
+
+.lb-swipe-hint {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+}
+
 .lightbox-stage {
-    max-width: min(92vw, 1220px);
-    max-height: 74vh;
-    background: var(--surface-card);
-    padding: clamp(0.75rem, 1.5vw, 1.25rem);
-    border: 1.5px solid var(--teal-deep);
-    box-shadow: 8px 8px 0px var(--aqua-soft);
+    position: relative;
+    width: min(92vw, 1140px);
+    height: min(64vh, 680px);
+    background: transparent;
+    padding: 0;
+    border: none;
+    box-shadow: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    cursor: zoom-in;
+    overflow: visible;
+    cursor: default;
+    touch-action: pan-y;
 }
 
 .lightbox-stage.is-zoomed {
+    overflow: hidden;
     cursor: grab;
+    touch-action: none;
 }
 
 .lightbox-stage.is-dragging {
@@ -1520,17 +1625,27 @@ h1, h2, h3, .display-font {
 }
 
 .lightbox-stage img {
+    display: block;
     max-width: 100%;
-    max-height: calc(74vh - 2.5rem);
+    max-height: 100%;
     width: auto;
     height: auto;
     object-fit: contain;
+    border: 1.5px solid var(--gold-ring);
+    box-shadow: 0 18px 44px rgba(2, 79, 91, 0.16);
+    background: var(--surface-card);
+    cursor: zoom-in;
     transition: transform 0.25s var(--ease-gallery);
     user-select: none;
     -webkit-user-drag: none;
 }
 
+.lightbox-stage.is-zoomed img {
+    cursor: grab;
+}
+
 .lightbox-stage.is-dragging img {
+    cursor: grabbing;
     transition: none;
 }
 
@@ -1586,185 +1701,21 @@ h1, h2, h3, .display-font {
 }
 
 /* ==========================================================================
-   CIRCULAR (TONDO) ARTWORK SYSTEM — shape: "round" vs shape: "rect"
+   LIGHTBOX MODAL — UNIFIED VIEWER (ROUND TONDO VS SHARP RECTANGULAR)
    ========================================================================== */
-
-/* Sharp 0px rectangular cards */
-.art-card--rect,
-.art-card--rect .art-mat,
-.art-card--rect .art-mat img,
-.sold-card--rect,
-.sold-card--rect .sold-img-wrap,
-.sold-card--rect .sold-img-wrap img {
+.lb-img--rect {
     border-radius: 0;
-}
-
-/* Round (Tondo) cards in #til-salg */
-.art-card--round {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    align-items: center;
-    padding-top: 0.35rem;
-}
-
-/* Override rectangular hover on outer wrapper — apply to the circle itself */
-.art-card--round:hover,
-.art-card--round:nth-child(3n + 1):hover,
-.art-card--round:nth-child(3n + 2):hover,
-.art-card--round:nth-child(3n + 3):hover {
-    transform: none;
-    border-color: transparent;
-    box-shadow: none;
-}
-
-.art-mat--round {
-    width: 100%;
-    max-width: 340px;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    padding: 0;
-    background: var(--bg-gallery);
-    border: 1.5px solid var(--gold-ring);
-    box-shadow: 0 10px 26px rgba(2, 79, 91, 0.1);
-    overflow: hidden;
-    transition: transform 0.24s var(--ease-gallery), box-shadow 0.24s var(--ease-gallery), border-color 0.24s ease;
-}
-
-.art-mat--round img {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    filter: none;
-}
-
-/* Circular hard-edged 8px 8px 0px Pop Art hover alternating #E9409B, #1CB6BB, #8B920A */
-.art-card--round:hover .art-mat--round {
-    transform: translate(-4px, -4px);
-}
-
-.art-card--round:nth-child(3n + 1):hover .art-mat--round {
-    box-shadow: 8px 8px 0px var(--pop-pink);
-}
-
-.art-card--round:nth-child(3n + 2):hover .art-mat--round {
-    box-shadow: 8px 8px 0px var(--pop-turquoise);
-}
-
-.art-card--round:nth-child(3n + 3):hover .art-mat--round {
-    box-shadow: 8px 8px 0px var(--olive-tag);
-}
-
-/* Cleanly centered museum placard beneath the circular canvas */
-.art-info--round {
-    width: 100%;
-    padding: 1.65rem 0.75rem 0.5rem;
-    text-align: center;
-    align-items: center;
-    gap: 0.6rem;
-}
-
-.art-info--round .art-meta {
-    align-self: center;
-}
-
-.sale-badge--inline {
-    position: static;
-    display: inline-block;
-    margin-bottom: 0.15rem;
-}
-
-.art-price-row--round {
-    width: 100%;
-    justify-content: center;
-    gap: 1.15rem;
-    margin-top: 0.45rem;
-    padding-top: 0.9rem;
-}
-
-/* Round (Tondo) archival cards in #solgte */
-.sold-card--round {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding-top: 0.5rem;
-}
-
-.sold-card--round:hover {
-    border-color: transparent;
-    transform: none;
-    box-shadow: none;
-}
-
-.sold-img-wrap--round {
-    width: 100%;
-    max-width: 320px;
-    margin-inline: auto;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    padding: 0;
-    background: var(--bg-gallery);
-    border: 1.5px solid var(--gold-ring);
-    box-shadow: 0 8px 22px rgba(2, 79, 91, 0.1);
-    overflow: hidden;
-    transition: transform 0.25s var(--ease-gallery), border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.sold-img-wrap--round img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    box-shadow: none;
-    filter: none;
-}
-
-.sold-card--round:hover .sold-img-wrap--round {
-    transform: translateY(-3px);
-    border-color: var(--pop-turquoise);
-    box-shadow: 0 12px 26px rgba(28, 182, 187, 0.22);
-}
-
-.sold-caption--round {
-    padding: 1.45rem 0.75rem 0.5rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.sold-badge--inline {
-    position: static;
-    display: inline-block;
-    margin-bottom: 0.55rem;
-}
-
-/* Lightbox Modal — Circular (Tondo) vs Sharp Rectangular */
-.lightbox-stage {
-    border-radius: 0;
-}
-
-.lightbox-stage--round {
-    background: var(--bg-gallery);
-    border: none;
-    box-shadow: none;
-    padding: clamp(0.75rem, 1.8vw, 1.25rem);
-    overflow: visible;
 }
 
 .lb-img--round {
     aspect-ratio: 1 / 1;
-    width: min(68vh, 84vw);
-    height: min(68vh, 84vw);
-    max-width: 720px;
-    max-height: 720px;
+    width: min(64vh, 84vw);
+    height: min(64vh, 84vw);
+    max-width: 680px;
+    max-height: 680px;
     object-fit: cover;
     border-radius: 50%;
-    border: 1.5px solid var(--gold-ring);
-    box-shadow: 0 18px 44px rgba(2, 79, 91, 0.14);
+    background: var(--bg-gallery);
 }
 
 /* Full-Screen Artwork Mode (.lightbox--fullscreen) */
@@ -1777,17 +1728,8 @@ h1, h2, h3, .display-font {
 }
 
 .lightbox.lightbox--fullscreen .lightbox-stage {
-    max-width: 94vw;
-    max-height: 92vh;
-    padding: 0.5rem;
-    border: none;
-    box-shadow: none;
-    background: transparent;
-}
-
-.lightbox.lightbox--fullscreen .lightbox-stage img {
-    max-width: 94vw;
-    max-height: 90vh;
+    width: 94vw;
+    height: 90vh;
 }
 
 .lightbox.lightbox--fullscreen .lb-img--round {
@@ -1868,6 +1810,16 @@ h1, h2, h3, .display-font {
         width: min(var(--container), 100% - 2rem);
     }
 
+    .nav-bar {
+        height: 68px;
+        gap: 0.75rem;
+    }
+
+    .brand-logo-thumb {
+        width: 40px;
+        height: 40px;
+    }
+
     .nav-links,
     .nav-instagram {
         display: none;
@@ -1877,20 +1829,55 @@ h1, h2, h3, .display-font {
         display: inline-flex;
     }
 
-    .sale-grid {
-        grid-template-columns: 1fr;
-        gap: 1.85rem;
+    .hero-section {
+        padding: 1.75rem 0 3rem;
+    }
+
+    .hero-grid {
+        gap: 2rem;
+    }
+
+    .hero-eyebrow {
+        margin-bottom: 0.85rem;
+        font-size: 0.7rem;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 8.6vw, 2.75rem);
+        margin-bottom: 0.9rem;
+    }
+
+    .hero-text {
+        font-size: 0.96rem;
+        line-height: 1.65;
+        margin-bottom: 1.35rem;
+    }
+
+    .hero-actions {
+        gap: 0.75rem;
+    }
+
+    .hero-actions .btn {
+        padding: 0.75rem 1.35rem;
+        font-size: 0.86rem;
     }
 
     .hero-visual {
-        padding: 1.5rem 0.75rem 2rem;
+        min-height: 260px;
+        padding: 1rem 0.5rem 1.5rem;
     }
 
     .hero-frame-round {
-        width: 132px;
+        width: 118px;
         bottom: 0;
         left: 0;
+        padding: 7px;
         box-shadow: 4px 4px 0px var(--teal-deep);
+    }
+
+    .sale-grid {
+        grid-template-columns: 1fr;
+        gap: 1.85rem;
     }
 
     .about-media {
@@ -1900,13 +1887,6 @@ h1, h2, h3, .display-font {
     .about-media::before {
         top: 12px;
         left: 12px;
-    }
-
-    .about-logo-seal {
-        width: 66px;
-        height: 66px;
-        bottom: -10px;
-        right: 2px;
     }
 
     .commission-banner,
@@ -1947,6 +1927,44 @@ h1, h2, h3, .display-font {
 
     .lb-nav {
         display: none;
+    }
+
+    .lb-mobile-nav {
+        display: flex;
+    }
+
+    .lightbox-topbar {
+        top: 0.85rem;
+        right: 0.85rem;
+        left: 0.85rem;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .lb-counter {
+        margin-right: auto;
+        font-size: 0.74rem;
+        padding: 0.28rem 0.7rem;
+    }
+
+    .lb-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 0.9rem;
+    }
+
+    .lightbox-stage {
+        width: 92vw;
+        height: min(46vh, 380px);
+        margin-top: 2.25rem;
+    }
+
+    .lb-img--round {
+        width: min(44vh, 78vw);
+        height: min(44vh, 78vw);
+        max-width: 360px;
+        max-height: 360px;
     }
 }
 
