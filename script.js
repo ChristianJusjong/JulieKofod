@@ -167,10 +167,11 @@ function renderSoldGallery() {
         card.setAttribute("aria-label", `Se solgt værk: ${item.titel}`);
 
         const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
+        const shapeClass = item.erRund ? "is-round" : "is-rect";
 
         card.innerHTML = `
             <div class="sold-img-wrap">
-                <img src="${item.filnavn}" alt="${item.titel}" loading="lazy">
+                <img src="${item.filnavn}" alt="${item.titel}" class="${shapeClass}" loading="lazy">
                 <span class="sold-badge">Solgt</span>
             </div>
             <div class="sold-caption">

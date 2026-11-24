@@ -804,6 +804,11 @@ h1, h2, h3, .display-font {
     border: 1px solid rgba(11, 19, 23, 0.16);
 }
 
+.sold-img-wrap img.is-round {
+    border: none;
+    filter: drop-shadow(0 8px 16px rgba(11, 19, 23, 0.22));
+}
+
 .sold-badge {
     position: absolute;
     top: 22px;

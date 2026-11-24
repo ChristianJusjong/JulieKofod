@@ -123,80 +123,107 @@ const indhold = {
     solgte: [
         {
             filnavn: "assets/solgt/solgt-03.jpg",
-            titel: "Blomsterø i Aftenrøde",
+            titel: "Min fantasi - din virkelighed",
             medium: "Akryl på lærred",
-            maal: "",
+            maal: "80 × 60 cm",
+            erRund: false,
             beskrivelse: "Svævende vildblomst-ø i dybe rosa, blå og violette skyer."
         },
         {
             filnavn: "assets/solgt/solgt-06.jpg",
-            titel: "Efterårsbirke i Natten",
+            titel: "Nu falmer skoven trindt om land",
             medium: "Akryl på lærred",
-            maal: "",
+            maal: "60 × 80 cm",
+            erRund: false,
             beskrivelse: "Svævende birkeskov med gyldent efterårsløv mod dyb petrol-blå nattehimmel."
         },
         {
             filnavn: "assets/solgt/solgt-07.jpg",
-            titel: "Kolibrien & Dugdråben",
+            titel: "Efter Regnen",
             medium: "Akryl på lærred",
-            maal: "",
+            maal: "60 × 80 cm",
+            erRund: false,
             beskrivelse: "En lille kolibri ved en svævende skovkant i koralrød og himmelblå solnedgang."
         },
         {
             filnavn: "assets/solgt/solgt-02.jpg",
-            titel: "Piletræet på Øen",
+            titel: "Et stykke Fantasi",
             medium: "Akryl på lærred",
-            maal: "",
+            maal: "60 × 80 cm",
+            erRund: false,
             beskrivelse: "Svævende træ under fuldmånen i varme gyldne og turkise nuancer."
         },
         {
             filnavn: "assets/solgt/solgt-04.jpg",
-            titel: "Ønskebrønden",
+            titel: "Wishing you well",
             medium: "Akryl på lærred",
-            maal: "",
+            maal: "60 × 80 cm",
+            erRund: false,
             beskrivelse: "En eventyrlig ønskebrønd på sin egen svævende ø i gyldent lys."
+        },
+        {
+            filnavn: "assets/solgt/solgt-en-stille-stund.png",
+            titel: "En stille stund",
+            medium: "Akryl på lærred",
+            maal: "Ø 40 cm",
+            erRund: true,
+            beskrivelse: "Rundt maleri af en stille, månebelyst skovsø omgivet af birketræer."
+        },
+        {
+            filnavn: "assets/solgt/solgt-08.jpg",
+            titel: "De sidste stråler",
+            medium: "Akryl på lærred",
+            maal: "30 × 40 cm",
+            erRund: false,
+            beskrivelse: "Lysstråler der bryder gennem trækronerne i dybe skovgrønne og gyldne toner."
+        },
+        {
+            filnavn: "assets/solgt/solgt-09.jpg",
+            titel: "Vejen Hjem",
+            medium: "Akryl på lærred",
+            maal: "80 × 100 cm",
+            erRund: false,
+            beskrivelse: "En åben låge og en snoet sti over en gammel stenbro i morgendis og lavendellys."
+        },
+        {
+            filnavn: "assets/solgt/solgt-begyndelsen.jpg",
+            titel: "Begyndelsen",
+            medium: "Akryl på lærred",
+            maal: "60 × 80 cm",
+            erRund: false,
+            beskrivelse: "En frodig, lysfyldt skovsti der fører blikket mod en lav, glødende sol."
+        },
+        {
+            filnavn: "assets/solgt/solgt-rund-uden-titel.png",
+            titel: "Uden titel",
+            medium: "Akryl på lærred",
+            maal: "Rundt lærred",
+            erRund: true,
+            beskrivelse: "Rundt stemningsmaleri i sort, varm guld og orange nuancer ved en stille skovsø."
+        },
+        {
+            filnavn: "assets/solgt/solgt-12.jpg",
+            titel: "Uden titel",
+            medium: "Akryl på lærred",
+            maal: "60 × 80 cm",
+            erRund: false,
+            beskrivelse: "Stemningsfuldt landskab med gammel stenbro, gyldent lysindfald og rig struktur."
+        },
+        {
+            filnavn: "assets/solgt/solgt-11.jpg",
+            titel: "Uden titel",
+            medium: "Akryl på lærred",
+            maal: "Triptykon",
+            erRund: false,
+            beskrivelse: "Tredelt maleri af en lang træbro gennem tåget sølandskab med en svævende rovfugl."
         },
         {
             filnavn: "assets/solgt/solgt-01.jpg",
             titel: "Valmuer i Luften",
             medium: "Akryl på lærred",
             maal: "",
+            erRund: false,
             beskrivelse: "Sarte lyserøde valmuer på en svævende ø i bløde sand- og jordtoner."
-        },
-        {
-            filnavn: "assets/solgt/solgt-08.jpg",
-            titel: "Solstråler i Skoven",
-            medium: "Akryl på lærred",
-            maal: "",
-            beskrivelse: "Lysstråler der bryder gennem trækronerne i dybe skovgrønne og gyldne toner."
-        },
-        {
-            filnavn: "assets/solgt/solgt-09.jpg",
-            titel: "Stenbroen gennem Dalen",
-            medium: "Akryl på lærred",
-            maal: "",
-            beskrivelse: "En åben låge og en snoet sti over en gammel stenbro i morgendis og lavendellys."
-        },
-        {
-            filnavn: "assets/solgt/solgt-10.jpg",
-            titel: "Den Grønne Sti",
-            medium: "Akryl på lærred",
-            maal: "",
-            beskrivelse: "En frodig, lysfyldt skovsti der fører blikket mod en lav, glødende sol."
-        },
-        {
-            filnavn: "assets/solgt/solgt-11.jpg",
-            titel: "Broen over Søen (Triptykon)",
-            medium: "Akryl på lærred",
-            maal: "",
-            beskrivelse: "Tredelt maleri af en lang træbro gennem tåget sølandskab med en svævende rovfugl."
-        },
-        {
-            filnavn: "assets/solgt/solgt-12.jpg",
-            titel: "Den Gamle Stenbro",
-            medium: "Akryl på lærred",
-            maal: "",
-            beskrivelse: "Stemningsfuldt landskab med stenbro, gyldent lysindfald og rig struktur."
         }
     ],
 
