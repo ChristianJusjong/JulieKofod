@@ -1,143 +1,340 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="da" data-theme="lillypad">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Julie Kofod - Kunstner. En samling af unika kunstværker og fotografier.">
-    <title>Julie Kofod | Kunstner Portfolio</title>
+    <meta name="description" content="Originale malerier af Julie Kofod — drømmende landskaber, svævende øer, måneskin og levende farver.">
+    <meta property="og:title" content="Julie Kofod | Original Kunst & Malerier">
+    <meta property="og:description" content="Udforsk originale malerier til salg og tidligere værker af Julie Kofod.">
+    <meta property="og:type" content="website">
+    <title>Julie Kofod | Original Kunst & Malerier</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Belleza (matches Julie's logo lettering), Plus Jakarta Sans, Cormorant Garamond -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Belleza&family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Styles -->
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="index.css">
-
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<!-- Custom Cursor Removed -->
 
-<header class="minimal-header">
-    <nav>
-        <div class="logo">Julie Kofod</div>
-        <ul class="nav-links">
-            <li><a href="#intro">Start</a></li>
-            <li><a href="#works">Værker</a></li>
-            <li><a href="#collage">Glimt</a></li>
-            <li><a href="#contact">Kontakt</a></li>
-        </ul>
-        <div class="mobile-menu-btn">
-            <i class="fas fa-bars"></i>
+<body>
+
+    <!-- Sticky Header -->
+    <header class="site-header" id="site-header">
+        <div class="container nav-bar">
+            <a href="#start" class="brand-link" aria-label="Julie Kofod forside">
+                <img src="assets/logo.jpg" alt="Julie Kofod logo" class="brand-logo-thumb" id="nav-logo">
+                <span class="brand-wordmark">Julie Kofod</span>
+            </a>
+
+            <nav aria-label="Hovednavigation">
+                <ul class="nav-links">
+                    <li><a href="#start">Start</a></li>
+                    <li><a href="#til-salg">Til salg</a></li>
+                    <li><a href="#solgte">Solgte værker</a></li>
+                    <li><a href="#om">Om Julie</a></li>
+                    <li><a href="#kontakt">Kontakt</a></li>
+                </ul>
+            </nav>
+
+            <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer"
+                class="nav-instagram" id="nav-instagram" aria-label="Julie Kofod på Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+
+            <button type="button" class="mobile-menu-toggle" id="mobile-menu-open" aria-label="Åbn menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-    </nav>
-</header>
+    </header>
 
-<main class="biography-flow">
+    <!-- Mobile Slide-out Drawer -->
+    <div class="mobile-drawer" id="mobile-drawer" aria-hidden="true">
+        <div class="mobile-drawer-panel">
+            <div class="mobile-drawer-top">
+                <span class="brand-wordmark">Julie Kofod</span>
+                <button type="button" class="mobile-drawer-close" id="mobile-menu-close" aria-label="Luk menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mobile-drawer-links">
+                <li><a href="#start" class="drawer-link">Start</a></li>
+                <li><a href="#til-salg" class="drawer-link">Til salg</a></li>
+                <li><a href="#solgte" class="drawer-link">Solgte værker</a></li>
+                <li><a href="#om" class="drawer-link">Om Julie</a></li>
+                <li><a href="#kontakt" class="drawer-link">Kontakt</a></li>
+            </ul>
+            <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer"
+                class="btn btn-primary" id="drawer-instagram">
+                <i class="fab fa-instagram"></i> @juliekofodart
+            </a>
+        </div>
+    </div>
 
-    <!-- Intro Section with Large Image and Title -->
-    <!-- Intro Section -->
-    <section id="intro" class="bio-section intro-section container">
-        <div class="intro-content">
-            <span class="eyebrow" id="intro-overtitel"></span>
-            <h1 class="main-title" id="intro-titel"></h1>
-            <p class="intro-text" id="intro-tekst"></p>
-            <div class="scroll-down">
-                <div class="line"></div>
+    <main>
+        <!-- Hero Section -->
+        <section id="start" class="hero-section">
+            <div class="container hero-grid">
+                <div class="hero-content">
+                    <div class="hero-logo-emblem">
+                        <img src="assets/logo.jpg" alt="Julie Kofod kunstnerlogo" id="hero-logo">
+                    </div>
+                    <span class="hero-eyebrow" id="hero-overtitel"></span>
+                    <h1 class="hero-title" id="hero-titel"></h1>
+                    <p class="hero-text" id="hero-tekst"></p>
+                    <div class="hero-actions">
+                        <a href="#til-salg" class="btn btn-primary" id="hero-cta-primary">
+                            <span id="hero-knap-primaer"></span>
+                            <i class="fas fa-arrow-down"></i>
+                        </a>
+                        <a href="#kontakt" class="btn btn-outline-light" id="hero-cta-secondary">
+                            <span id="hero-knap-sekundaer"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="hero-frame-main">
+                        <img src="" alt="Fremhævet kunstværk af Julie Kofod" id="hero-img-main">
+                    </div>
+                    <div class="hero-frame-round">
+                        <img src="" alt="Rundt maleri af Julie Kofod" id="hero-img-round">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Palette Color Ribbon -->
+        <div class="palette-ribbon" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <!-- Paintings For Sale -->
+        <section id="til-salg" class="gallery-section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="eyebrow" id="salg-overtitel"></span>
+                    <h2 class="section-title" id="salg-overskrift"></h2>
+                    <p class="section-intro" id="salg-intro"></p>
+                </div>
+
+                <div class="sale-grid" id="sale-grid">
+                    <!-- Rendered from indhold.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Poetic Color-Block Quote Band -->
+        <section class="quote-band" aria-label="Kunstnercitat">
+            <div class="container quote-band-inner reveal">
+                <span class="quote-mark" aria-hidden="true">“</span>
+                <blockquote class="quote-text" id="citat-tekst"></blockquote>
+                <p class="quote-author" id="citat-forfatter"></p>
+            </div>
+        </section>
+
+        <!-- Sold Paintings -->
+        <section id="solgte" class="sold-section">
+            <div class="container">
+                <div class="section-header centered reveal">
+                    <span class="eyebrow" id="solgte-overtitel"></span>
+                    <h2 class="section-title" id="solgte-overskrift"></h2>
+                    <p class="section-intro" id="solgte-intro"></p>
+                </div>
+
+                <div class="sold-masonry" id="sold-grid">
+                    <!-- Rendered from indhold.js -->
+                </div>
+
+                <div class="commission-banner reveal">
+                    <div class="commission-banner-text">
+                        <h3>Bestillingsværk</h3>
+                        <p id="bestilling-tekst"></p>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="commission-cta">
+                        <span id="bestilling-knap"></span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Julie -->
+        <section id="om" class="about-section">
+            <div class="container about-grid">
+                <div class="about-media reveal">
+                    <div class="about-image-frame">
+                        <img src="" alt="Maleri af Julie Kofod" id="om-billede">
+                    </div>
+                    <div class="about-logo-seal">
+                        <img src="assets/logo.jpg" alt="Julie Kofod segl" id="om-logo">
+                    </div>
+                </div>
+
+                <div class="about-copy reveal">
+                    <span class="eyebrow" id="om-overtitel"></span>
+                    <h2 class="section-title" id="om-overskrift"></h2>
+                    <div id="om-afsnit"></div>
+                    <p class="about-signature" id="om-underskrift"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="kontakt" class="contact-section">
+            <div class="container contact-grid">
+                <div class="contact-info reveal">
+                    <span class="eyebrow" id="kontakt-overtitel"></span>
+                    <h2 class="section-title" id="kontakt-overskrift"></h2>
+                    <p class="section-intro" id="kontakt-tekst"></p>
+
+                    <div class="contact-channels">
+                        <div class="channel-card">
+                            <a href="#" class="channel-left" id="kontakt-email-link">
+                                <span class="channel-icon"><i class="fas fa-envelope"></i></span>
+                                <span>
+                                    <span class="channel-label">Email</span>
+                                    <span class="channel-value" id="kontakt-email-text"></span>
+                                </span>
+                            </a>
+                            <button type="button" class="copy-email-btn" id="copy-email-btn">
+                                <i class="far fa-copy"></i> Kopiér
+                            </button>
+                        </div>
+
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="channel-card"
+                            id="kontakt-instagram-link">
+                            <span class="channel-left">
+                                <span class="channel-icon"><i class="fab fa-instagram"></i></span>
+                                <span>
+                                    <span class="channel-label">Instagram</span>
+                                    <span class="channel-value" id="kontakt-instagram-text"></span>
+                                </span>
+                            </span>
+                            <i class="fas fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form-card reveal">
+                    <form id="contact-form">
+                        <div class="form-row">
+                            <label for="form-name">Dit navn</label>
+                            <input type="text" id="form-name" placeholder="F.eks. Sofie Hansen" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="form-email">Din email</label>
+                            <input type="email" id="form-email" placeholder="sofie@eksempel.dk" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="form-subject">Emne eller maleri</label>
+                            <input type="text" id="form-subject" placeholder="F.eks. Forespørgsel om Måneskin over Bjergene">
+                        </div>
+                        <div class="form-row">
+                            <label for="form-message">Din besked</label>
+                            <textarea id="form-message" placeholder="Skriv din besked til Julie her..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Åbn besked i mailprogram
+                        </button>
+                        <p class="form-note">Knappen åbner dit mailprogram med beskeden klar til afsendelse — eller skriv direkte til Julie på Instagram.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <img src="assets/logo.jpg" alt="Julie Kofod logo" id="footer-logo">
+                <span>Julie Kofod</span>
+            </div>
+            <p class="footer-copy" id="site-footer-text"></p>
+            <a href="https://www.instagram.com/juliekofodart/" target="_blank" rel="noopener noreferrer"
+                class="footer-social" id="footer-instagram">
+                <i class="fab fa-instagram"></i>
+                <span id="footer-instagram-handle"></span>
+            </a>
+        </div>
+    </footer>
+
+    <!-- Full-Screen Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lb-title">
+        <div class="lightbox-topbar">
+            <button type="button" class="lb-btn" id="lb-zoom-out" aria-label="Zoom ud">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="lb-btn" id="lb-zoom-in" aria-label="Zoom ind">
+                <i class="fas fa-plus"></i>
+            </button>
+            <button type="button" class="lb-btn" id="lb-close" aria-label="Luk visning">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <button type="button" class="lb-nav lb-prev" id="lb-prev" aria-label="Forrige værk">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button type="button" class="lb-nav lb-next" id="lb-next" aria-label="Næste værk">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <div class="lightbox-stage">
+            <img src="" alt="" id="lb-img">
+        </div>
+
+        <div class="lightbox-details">
+            <h3 id="lb-title"></h3>
+            <p class="lightbox-meta-line" id="lb-meta"></p>
+            <p class="lightbox-desc" id="lb-desc"></p>
+            <div class="lightbox-actions">
+                <span class="lightbox-price-pill" id="lb-price"></span>
+                <button type="button" class="btn btn-primary" id="lb-inquire">
+                    <i class="fas fa-envelope"></i> Forespørg om dette værk
+                </button>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light" id="lb-instagram">
+                    <i class="fab fa-instagram"></i> Skriv på Instagram
+                </a>
             </div>
         </div>
-        <div class="intro-image-container parallax-effect">
-            <img src="" alt="Julie Kofod Værk" class="featured-image" id="intro-billede">
-        </div>
-    </section>
-
-    <!-- Philosophy Section -->
-    <section id="philosophy" class="bio-section text-image-split container">
-        <div class="image-wrapper reveal-on-scroll">
-            <img src="" alt="Kunstnerisk proces" class="art-image" id="filosofi-billede">
-            <div class="image-caption" id="filosofi-billedeTekst"></div>
-        </div>
-        <div class="text-wrapper reveal-on-scroll">
-            <h2 id="filosofi-overskrift"></h2>
-            <p id="filosofi-tekst1"></p>
-            <p id="filosofi-tekst2"></p>
-        </div>
-    </section>
-
-    <!-- Quote -->
-    <section class="bio-section quote-break container">
-        <blockquote id="citat-tekst"></blockquote>
-    </section>
-
-    <!-- Works Section -->
-    <section id="works" class="bio-section works-flow container">
-        <!-- Værker indsættes automatisk via JS -->
-    </section>
-
-    <!-- Collage Section -->
-    <section id="collage" class="bio-section collage-section container">
-        <!-- Collage indsættes automatisk via JS -->
-    </section>
-
-    <!-- About/Bio embedded -->
-    <section class="bio-section artist-statement reveal-on-scroll">
-        <div class="statement-content container">
-            <h2 id="om-overskrift"></h2>
-            <p id="om-tekst"></p>
-            <p class="signature" id="om-underskrift"></p>
-        </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="contact-section container">
-        <div class="contact-simple fade-in">
-            <h2 id="kontakt-overskrift"></h2>
-            <p id="kontakt-tekst"></p>
-
-            <div class="contact-details">
-                <a href="" id="kontakt-email"></a>
-                <span class="separator">|</span>
-                <a href="#" id="kontakt-instagram"></a>
-            </div>
-
-            <form class="simple-form">
-                <input type="text" placeholder="Dit Navn" required>
-                <input type="email" placeholder="Din Email" required>
-                <textarea placeholder="Din Besked" rows="1" required></textarea>
-                <button type="submit" class="link-btn">Send</button>
-            </form>
-        </div>
-    </section>
-</main>
-
-<footer class="minimal-footer">
-    <p id="site-footer"></p>
-</footer>
-
-<!-- Lightbox remains the same -->
-<div id="lightbox" class="lightbox">
-    <span class="close-lightbox">&times;</span>
-    <div class="lightbox-controls">
-        <button id="zoom-out"><i class="fas fa-minus"></i></button>
-        <button id="zoom-in"><i class="fas fa-plus"></i></button>
-    </div>
-    <div class="lightbox-image-wrapper">
-        <img class="lightbox-content" id="lightbox-img">
     </div>
 
-    <!-- Lightbox Caption / Metadata -->
-    <div class="lightbox-caption">
-        <h3 id="lightbox-title"></h3>
-        <p id="lightbox-desc"></p>
-        <span id="lightbox-meta"></span>
+    <!-- Live Palette Switcher for Julie's 2 Color Combinations -->
+    <div class="theme-switcher" id="theme-switcher" role="group" aria-label="Vælg farvetema">
+        <span class="theme-switcher-label">Farvetema</span>
+        <button type="button" class="theme-btn" data-set-theme="lillypad" id="btn-theme-lillypad">
+            <span class="swatch-dots">
+                <i style="background:#024F5B"></i>
+                <i style="background:#1CB6BB"></i>
+                <i style="background:#E9409B"></i>
+            </span>
+            Lillypad
+        </button>
+        <button type="button" class="theme-btn" data-set-theme="sunset" id="btn-theme-sunset">
+            <span class="swatch-dots">
+                <i style="background:#76236C"></i>
+                <i style="background:#BE4586"></i>
+                <i style="background:#F09448"></i>
+            </span>
+            Sunset
+        </button>
     </div>
-</div>
 
-<script src="indhold.js"></script>
-<script src="script.js"></script>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- Scripts -->
+    <script src="indhold.js"></script>
+    <script src="script.js"></script>
+</body>
 
 </html>

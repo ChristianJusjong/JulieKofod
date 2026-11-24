@@ -1,360 +1,470 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Custom Cursor logic removed
+// =============================================================================
+// SCRIPT.JS — Interaktivitet, Galleri, Lightbox & Farvetema for Julie Kofod
+// =============================================================================
 
-    // Reveal on Scroll
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px"
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, observerOptions);
-
-    const revealElements = document.querySelectorAll('.reveal-on-scroll, .fade-in');
-    revealElements.forEach(el => observer.observe(el));
-
-    // Populate Content from indhold.js (CMS)
-    if (typeof indhold !== 'undefined') {
-
-        // Helper to safely set text
-        const setText = (id, text) => {
-            const el = document.getElementById(id);
-            if (el) el.innerText = text;
-        };
-
-        // Helper to safely set image src
-        const setImage = (id, filename) => {
-            const el = document.getElementById(id);
-            if (el && filename) el.src = `Billeder/${filename}`;
-        };
-
-        // Site Info
-        document.title = indhold.site.titel;
-        setText('site-footer', indhold.site.footer);
-
-        // Intro
-        setText('intro-overtitel', indhold.intro.overtitel);
-        setText('intro-titel', indhold.intro.titel);
-        setText('intro-tekst', indhold.intro.tekst);
-        setImage('intro-billede', indhold.intro.billede);
-
-        // Filosofi
-        setImage('filosofi-billede', indhold.filosofi.billede);
-        setText('filosofi-billedeTekst', indhold.filosofi.billedeTekst);
-        setText('filosofi-overskrift', indhold.filosofi.overskrift);
-        setText('filosofi-tekst1', indhold.filosofi.tekst1);
-        setText('filosofi-tekst2', indhold.filosofi.tekst2);
-
-        // Citat
-        setText('citat-tekst', `${indhold.citat.tekst}`);
-
-        // Om
-        setText('om-overskrift', indhold.om.overskrift);
-        setText('om-tekst', indhold.om.tekst);
-        setText('om-underskrift', indhold.om.underskrift);
-
-        // Kontakt
-        setText('kontakt-overskrift', indhold.kontakt.overskrift);
-        setText('kontakt-tekst', indhold.kontakt.tekst);
-
-        const emailLink = document.getElementById('kontakt-email');
-        if (emailLink) {
-            emailLink.innerText = indhold.kontakt.email;
-            emailLink.href = `mailto:${indhold.kontakt.email}`;
-        }
-
-        const instaLink = document.getElementById('kontakt-instagram');
-        if (instaLink) {
-            instaLink.innerText = indhold.kontakt.instagram;
-        }
-
-        // Render Works
-        const worksContainer = document.getElementById('works');
-        if (worksContainer && indhold.vaerker) {
-            indhold.vaerker.forEach((vaerk, index) => {
-                const isRightAlign = index % 2 === 0;
-                const alignClass = isRightAlign ? 'right-align' : 'left-align';
-
-                const item = document.createElement('div');
-                item.className = `work-item ${alignClass} reveal-on-scroll`;
-
-                item.innerHTML = `
-                    <div class="work-text">
-                        <h3>${vaerk.titel}</h3>
-                        <p>${vaerk.tekst}</p>
-                    </div>
-                    <div class="work-image">
-                        <img src="Billeder/${vaerk.filnavn}" alt="${vaerk.titel}">
-                    </div>
-                `;
-
-                worksContainer.appendChild(item);
-                observer.observe(item);
-
-                // Add lightbox click
-                const imgContainer = item.querySelector('.work-image');
-                if (imgContainer) {
-                    imgContainer.style.cursor = 'pointer';
-                    imgContainer.addEventListener('click', () => {
-                        window.openLightbox(`Billeder/${vaerk.filnavn}`, {
-                            titel: vaerk.titel,
-                            beskrivelse: vaerk.tekst,
-                            størrelse: vaerk.størrelse
-                        });
-                    });
-                }
-            });
-        }
-
-        // Render Collage
-        const collageContainer = document.getElementById('collage');
-        if (collageContainer && indhold.collage && indhold.collage.length > 0) {
-
-            const grid = document.createElement('div');
-            grid.className = 'collage-grid';
-
-            indhold.collage.forEach((itemData, index) => {
-                // Initialize variables
-                let type = 'img';
-                let content = itemData;
-                let format = 'auto';
-                let background = '';
-
-                // Check if object
-                if (typeof itemData === 'object') {
-                    if (itemData.type === 'tekst') {
-                        type = 'tekst';
-                        content = itemData.tekst;
-                        format = itemData.format || 'auto'; // Default to auto
-                        background = itemData.baggrund || '';
-                    } else {
-                        content = itemData.filnavn;
-                        format = itemData.format || 'auto';
-                    }
-                }
-
-                // Create Item Container
-                const item = document.createElement('div');
-                item.className = 'collage-item reveal-on-scroll';
-                item.style.transitionDelay = `${index * 50}ms`;
-
-                // Smart Text Sizing logic
-                if (type === 'tekst' && format === 'auto') {
-                    if (content.length > 50) {
-                        format = 'bred';
-                    } else {
-                        format = 'lille';
-                    }
-                }
-
-                // Apply Format Classes
-                if (format === 'bred') item.classList.add('wide');
-                if (format === 'høj') item.classList.add('tall');
-
-                // RENDER Based on Type
-                if (type === 'tekst') {
-                    item.classList.add('text-card');
-                    item.innerText = content;
-                    if (background) item.style.backgroundColor = background;
-
-                    grid.appendChild(item);
-                    observer.observe(item);
-                } else {
-                    // IMAGE LOGIC
-                    const img = document.createElement('img');
-                    img.src = `Billeder/${content}`;
-                    img.alt = `Glimt ${index + 1}`;
-
-                    // Auto Layout Logic
-                    if (format === 'auto') {
-                        img.onload = function () {
-                            const ratio = this.naturalWidth / this.naturalHeight;
-                            if (ratio > 1.3) {
-                                item.classList.add('wide');
-                            } else if (ratio < 0.8) {
-                                item.classList.add('tall');
-                            }
-                        };
-                    }
-
-                    item.appendChild(img);
-                    grid.appendChild(item);
-                    observer.observe(item);
-
-                    // Lightbox for images ONLY
-                    item.style.cursor = 'pointer';
-                    item.addEventListener('click', () => {
-                        window.openLightbox(img.src, {
-                            titel: itemData.titel, // only if object
-                            beskrivelse: itemData.beskrivelse,
-                            størrelse: itemData.størrelse
-                        });
-                    });
-                }
-            });
-
-            collageContainer.appendChild(grid);
-        }
+document.addEventListener("DOMContentLoaded", () => {
+    if (typeof indhold === "undefined") {
+        console.error("indhold.js blev ikke indlæst korrekt.");
+        return;
     }
 
-    // Lightbox Logic with Zoom & Pan & Metadata
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const closeLightbox = document.querySelector('.close-lightbox');
-    const zoomInBtn = document.getElementById('zoom-in');
-    const zoomOutBtn = document.getElementById('zoom-out');
-
-    // Metadata Elements
-    const captionContainer = document.querySelector('.lightbox-caption');
-    const captionTitle = document.getElementById('lightbox-title');
-    const captionDesc = document.getElementById('lightbox-desc');
-    const captionMeta = document.getElementById('lightbox-meta');
-
-    let scale = 1;
-    let panning = false;
-    let pointX = 0;
-    let pointY = 0;
-    let startX = 0;
-    let startY = 0;
-
-    const setTransform = () => {
-        lightboxImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
-    };
-
-    const resetZoom = () => {
-        scale = 1;
-        pointX = 0;
-        pointY = 0;
-        setTransform();
-    };
-
-    // Helper to open lightbox with data
-    window.openLightbox = (src, data = {}) => {
-        lightbox.style.display = 'flex';
-        lightboxImg.src = src;
-        resetZoom();
-
-        // Populate Caption
-        if ((data.titel || data.beskrivelse || data.størrelse) && captionContainer) {
-            if (captionTitle) {
-                captionTitle.innerText = data.titel || '';
-                captionTitle.style.display = data.titel ? 'block' : 'none';
-            }
-
-            if (captionDesc) {
-                captionDesc.innerText = data.beskrivelse || '';
-                captionDesc.style.display = data.beskrivelse ? 'block' : 'none';
-            }
-
-            if (captionMeta) {
-                captionMeta.innerText = data.størrelse || '';
-                captionMeta.style.display = data.størrelse ? 'block' : 'none';
-            }
-
-            captionContainer.classList.add('visible');
-        } else if (captionContainer) {
-            captionContainer.classList.remove('visible');
-        }
-    };
-
-    const zoom = (direction) => {
-        const factor = 0.2;
-        if (direction === 'in') {
-            scale += factor;
-        } else {
-            scale = Math.max(1, scale - factor); // Don't scale below 1
-        }
-        setTransform();
-    };
-
-    // Controls
-    zoomInBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        zoom('in');
-    });
-
-    zoomOutBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        zoom('out');
-    });
-
-    // Panning
-    lightboxImg.addEventListener('mousedown', (e) => {
-        if (scale > 1) { // Only pan if zoomed
-            e.preventDefault();
-            startX = e.clientX - pointX;
-            startY = e.clientY - pointY;
-            panning = true;
-            lightboxImg.classList.add('grabbing');
-        }
-    });
-
-    window.addEventListener('mousemove', (e) => {
-        if (!panning) return;
-        e.preventDefault();
-        pointX = e.clientX - startX;
-        pointY = e.clientY - startY;
-        setTransform();
-    });
-
-    window.addEventListener('mouseup', () => {
-        panning = false;
-        lightboxImg.classList.remove('grabbing');
-    });
-
-    // Close logic
-    const closeBox = () => {
-        lightbox.style.display = 'none';
-        resetZoom();
-        if (captionContainer) captionContainer.classList.remove('visible');
-    };
-
-    // Direct listener
-    if (closeLightbox) {
-        closeLightbox.addEventListener('click', (e) => {
-            e.stopPropagation(); // Stop bubbling
-            closeBox();
-        });
-    }
-
-    // Global delegation as backup
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('close-lightbox')) {
-            closeBox();
-        }
-    });
-
-    lightbox.addEventListener('click', (e) => {
-        // Close if clicking outside image
-        if (e.target === lightbox || e.target.classList.contains('lightbox-image-wrapper')) {
-            closeBox();
-        }
-    });
-
-    // Navigation Smooth Scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-            // Close mobile menu if open
-            navLinks.classList.remove('active');
-        });
-    });
-
-    // Mobile Menu Toggle
-    const menuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (menuBtn) {
-        menuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-    }
+    initTheme();
+    hydrateContent();
+    renderSaleGallery();
+    renderSoldGallery();
+    initNavigation();
+    initLightbox();
+    initContactForm();
+    initScrollReveal();
 });
+
+// -----------------------------------------------------------------------------
+// 1. LIVE PALETTE SWITCHER ("lillypad" <-> "sunset")
+// -----------------------------------------------------------------------------
+function initTheme() {
+    const switcher = document.getElementById("theme-switcher");
+    const buttons = document.querySelectorAll("[data-set-theme]");
+
+    if (!indhold.site.visTemaSkifter && switcher) {
+        switcher.style.display = "none";
+    }
+
+    const saved = localStorage.getItem("juliekofod-theme");
+    const initialTheme = saved || indhold.site.standardTema || "lillypad";
+    applyTheme(initialTheme, false);
+
+    buttons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const nextTheme = btn.getAttribute("data-set-theme");
+            applyTheme(nextTheme, true);
+        });
+    });
+}
+
+function applyTheme(themeName, announce) {
+    document.documentElement.setAttribute("data-theme", themeName);
+    localStorage.setItem("juliekofod-theme", themeName);
+
+    document.querySelectorAll("[data-set-theme]").forEach((btn) => {
+        const isActive = btn.getAttribute("data-set-theme") === themeName;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-pressed", String(isActive));
+    });
+
+    if (announce) {
+        const label = themeName === "sunset" ? "Sunset Flower Field" : "Lillypad Garden";
+        showToast(`Farvetema: ${label}`);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// 2. HYDRATE TEXT, LOGO & LINKS FROM INDHOLD.JS
+// -----------------------------------------------------------------------------
+function hydrateContent() {
+    document.title = indhold.site.titel;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", indhold.site.beskrivelse);
+
+    // Logo images
+    ["nav-logo", "hero-logo", "om-logo", "footer-logo"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.src = indhold.site.logo;
+    });
+
+    // Hero
+    setText("hero-overtitel", indhold.hero.overtitel);
+    setText("hero-titel", indhold.hero.titel);
+    setText("hero-tekst", indhold.hero.tekst);
+    setText("hero-knap-primaer", indhold.hero.knapPrimaer);
+    setText("hero-knap-sekundaer", indhold.hero.knapSekundaer);
+
+    const heroMain = document.getElementById("hero-img-main");
+    const heroRound = document.getElementById("hero-img-round");
+    if (heroMain) heroMain.src = indhold.hero.fremhaevetStort;
+    if (heroRound) heroRound.src = indhold.hero.fremhaevetRundt;
+
+    // Section headers
+    setText("salg-overtitel", indhold.tilSalgSektion.overtitel);
+    setText("salg-overskrift", indhold.tilSalgSektion.overskrift);
+    setText("salg-intro", indhold.tilSalgSektion.intro);
+
+    // Quote
+    setText("citat-tekst", indhold.citat.tekst);
+    setText("citat-forfatter", indhold.citat.forfatter);
+
+    // Sold section
+    setText("solgte-overtitel", indhold.solgteSektion.overtitel);
+    setText("solgte-overskrift", indhold.solgteSektion.overskrift);
+    setText("solgte-intro", indhold.solgteSektion.intro);
+    setText("bestilling-tekst", indhold.solgteSektion.bestillingTekst);
+    setText("bestilling-knap", indhold.solgteSektion.bestillingKnap);
+
+    // About section
+    setText("om-overtitel", indhold.om.overtitel);
+    setText("om-overskrift", indhold.om.overskrift);
+    setText("om-underskrift", indhold.om.underskrift);
+    const omImg = document.getElementById("om-billede");
+    if (omImg) omImg.src = indhold.om.billede;
+
+    const omContainer = document.getElementById("om-afsnit");
+    if (omContainer && Array.isArray(indhold.om.afsnit)) {
+        omContainer.innerHTML = "";
+        indhold.om.afsnit.forEach((paragraph) => {
+            const p = document.createElement("p");
+            p.textContent = paragraph;
+            omContainer.appendChild(p);
+        });
+    }
+
+    // Contact section
+    setText("kontakt-overtitel", indhold.kontakt.overtitel);
+    setText("kontakt-overskrift", indhold.kontakt.overskrift);
+    setText("kontakt-tekst", indhold.kontakt.tekst);
+    setText("kontakt-email-text", indhold.kontakt.email);
+    setText("kontakt-instagram-text", indhold.kontakt.instagramHandle);
+
+    const emailLink = document.getElementById("kontakt-email-link");
+    if (emailLink) emailLink.href = `mailto:${indhold.kontakt.email}`;
+
+    ["nav-instagram", "drawer-instagram", "kontakt-instagram-link", "footer-instagram", "lb-instagram"].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.href = indhold.kontakt.instagramUrl;
+    });
+
+    setText("footer-instagram-handle", indhold.kontakt.instagramHandle);
+    setText("site-footer-text", indhold.site.footerTekst);
+}
+
+function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el && value !== undefined) el.textContent = value;
+}
+
+// -----------------------------------------------------------------------------
+// 3. RENDER "TIL SALG" GALLERY
+// -----------------------------------------------------------------------------
+function renderSaleGallery() {
+    const grid = document.getElementById("sale-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    indhold.tilSalg.forEach((item, index) => {
+        const card = document.createElement("article");
+        card.className = "art-card reveal";
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", `Se ${item.titel} i stor visning`);
+
+        const metaParts = [item.format, item.maal].filter(Boolean).join(" · ");
+
+        card.innerHTML = `
+            <div class="art-mat">
+                <img src="${item.filnavn}" alt="${item.titel}" loading="lazy">
+                <span class="art-zoom-hint" aria-hidden="true"><i class="fas fa-expand"></i></span>
+            </div>
+            <div class="art-info">
+                <h3 class="art-title">${item.titel}</h3>
+                <p class="art-meta">${metaParts}</p>
+                <div class="art-price-row">
+                    <span class="art-price">${item.pris}</span>
+                    <span class="art-cta-link">Se værk <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+        `;
+
+        const openHandler = () => openLightbox("sale", index);
+        card.addEventListener("click", openHandler);
+        card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openHandler();
+            }
+        });
+
+        grid.appendChild(card);
+    });
+}
+
+// -----------------------------------------------------------------------------
+// 4. RENDER "SOLGTE VÆRKER" MASONRY GALLERY
+// -----------------------------------------------------------------------------
+function renderSoldGallery() {
+    const grid = document.getElementById("sold-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    indhold.solgte.forEach((item, index) => {
+        const card = document.createElement("article");
+        card.className = "sold-card reveal";
+        card.setAttribute("tabindex", "0");
+        card.setAttribute("role", "button");
+        card.setAttribute("aria-label", `Se solgt værk: ${item.titel}`);
+
+        card.innerHTML = `
+            <div class="sold-img-wrap">
+                <img src="${item.filnavn}" alt="${item.titel}" loading="lazy">
+                <span class="sold-badge">Solgt</span>
+            </div>
+            <div class="sold-caption">
+                <h3 class="sold-title">${item.titel}</h3>
+                ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
+            </div>
+        `;
+
+        const openHandler = () => openLightbox("sold", index);
+        card.addEventListener("click", openHandler);
+        card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openHandler();
+            }
+        });
+
+        grid.appendChild(card);
+    });
+
+    const commissionBtn = document.getElementById("commission-cta");
+    if (commissionBtn) {
+        commissionBtn.addEventListener("click", () => {
+            prefillContact("Bestillingsværk", "Hej Julie,\n\nJeg er vild med dine værker og vil meget gerne høre om muligheden for et bestillingsværk.\n\nBedste hilsner,");
+        });
+    }
+}
+
+// -----------------------------------------------------------------------------
+// 5. STICKY HEADER & MOBILE DRAWER
+// -----------------------------------------------------------------------------
+function initNavigation() {
+    const header = document.getElementById("site-header");
+    const drawer = document.getElementById("mobile-drawer");
+    const openBtn = document.getElementById("mobile-menu-open");
+    const closeBtn = document.getElementById("mobile-menu-close");
+
+    window.addEventListener("scroll", () => {
+        if (header) header.classList.toggle("scrolled", window.scrollY > 24);
+    }, { passive: true });
+
+    const setDrawer = (isOpen) => {
+        if (!drawer) return;
+        drawer.classList.toggle("open", isOpen);
+        drawer.setAttribute("aria-hidden", String(!isOpen));
+        document.body.style.overflow = isOpen ? "hidden" : "";
+    };
+
+    if (openBtn) openBtn.addEventListener("click", () => setDrawer(true));
+    if (closeBtn) closeBtn.addEventListener("click", () => setDrawer(false));
+
+    if (drawer) {
+        drawer.addEventListener("click", (e) => {
+            if (e.target === drawer) setDrawer(false);
+        });
+        drawer.querySelectorAll(".drawer-link").forEach((link) => {
+            link.addEventListener("click", () => setDrawer(false));
+        });
+    }
+}
+
+// -----------------------------------------------------------------------------
+// 6. FULL-SCREEN LIGHTBOX WITH ZOOM & INQUIRY CTA
+// -----------------------------------------------------------------------------
+let lbState = { group: "sale", index: 0, zoom: 1 };
+
+function initLightbox() {
+    const lightbox = document.getElementById("lightbox");
+    const closeBtn = document.getElementById("lb-close");
+    const prevBtn = document.getElementById("lb-prev");
+    const nextBtn = document.getElementById("lb-next");
+    const zoomInBtn = document.getElementById("lb-zoom-in");
+    const zoomOutBtn = document.getElementById("lb-zoom-out");
+    const lbImg = document.getElementById("lb-img");
+    const inquireBtn = document.getElementById("lb-inquire");
+
+    if (!lightbox) return;
+
+    closeBtn.addEventListener("click", closeLightbox);
+    prevBtn.addEventListener("click", () => stepLightbox(-1));
+    nextBtn.addEventListener("click", () => stepLightbox(1));
+    zoomInBtn.addEventListener("click", () => setZoom(lbState.zoom + 0.35));
+    zoomOutBtn.addEventListener("click", () => setZoom(lbState.zoom - 0.35));
+
+    lbImg.addEventListener("dblclick", () => {
+        setZoom(lbState.zoom > 1 ? 1 : 1.75);
+    });
+
+    lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (!lightbox.classList.contains("open")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") stepLightbox(-1);
+        if (e.key === "ArrowRight") stepLightbox(1);
+        if (e.key === "+" || e.key === "=") setZoom(lbState.zoom + 0.35);
+        if (e.key === "-") setZoom(lbState.zoom - 0.35);
+    });
+
+    inquireBtn.addEventListener("click", () => {
+        const list = lbState.group === "sale" ? indhold.tilSalg : indhold.solgte;
+        const item = list[lbState.index];
+        closeLightbox();
+
+        if (lbState.group === "sale") {
+            prefillContact(
+                `Forespørgsel om "${item.titel}"`,
+                `Hej Julie,\n\nJeg er interesseret i maleriet "${item.titel}" (${item.pris}). Kan du fortælle mig lidt mere om værket og muligheden for køb/afhentning?\n\nBedste hilsner,`
+            );
+        } else {
+            prefillContact(
+                `Bestillingsværk inspireret af "${item.titel}"`,
+                `Hej Julie,\n\nJeg er helt vild med det solgte maleri "${item.titel}". Kunne man bestille et lignende værk?\n\nBedste hilsner,`
+            );
+        }
+    });
+}
+
+function openLightbox(group, index) {
+    lbState = { group, index, zoom: 1 };
+    updateLightboxView();
+
+    const lightbox = document.getElementById("lightbox");
+    lightbox.classList.add("open");
+    lightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById("lightbox");
+    lightbox.classList.remove("open");
+    lightbox.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+}
+
+function stepLightbox(delta) {
+    const list = lbState.group === "sale" ? indhold.tilSalg : indhold.solgte;
+    lbState.index = (lbState.index + delta + list.length) % list.length;
+    lbState.zoom = 1;
+    updateLightboxView();
+}
+
+function setZoom(nextZoom) {
+    lbState.zoom = Math.max(1, Math.min(2.6, nextZoom));
+    const img = document.getElementById("lb-img");
+    if (img) img.style.transform = `scale(${lbState.zoom})`;
+}
+
+function updateLightboxView() {
+    const list = lbState.group === "sale" ? indhold.tilSalg : indhold.solgte;
+    const item = list[lbState.index];
+    if (!item) return;
+
+    const img = document.getElementById("lb-img");
+    img.src = item.filnavn;
+    img.alt = item.titel;
+    img.style.transform = "scale(1)";
+
+    setText("lb-title", item.titel);
+    setText("lb-desc", item.beskrivelse || "");
+
+    const metaEl = document.getElementById("lb-meta");
+    const priceEl = document.getElementById("lb-price");
+    const inquireBtn = document.getElementById("lb-inquire");
+
+    if (lbState.group === "sale") {
+        metaEl.textContent = [item.format, item.maal].filter(Boolean).join(" · ");
+        priceEl.textContent = item.pris;
+        inquireBtn.innerHTML = `<i class="fas fa-envelope"></i> Forespørg om dette værk`;
+    } else {
+        metaEl.textContent = "Tidligere originalværk";
+        priceEl.textContent = "Solgt";
+        inquireBtn.innerHTML = `<i class="fas fa-palette"></i> Forespørg om lignende værk`;
+    }
+}
+
+// -----------------------------------------------------------------------------
+// 7. CONTACT FORM (SMART MAILTO) & COPY EMAIL
+// -----------------------------------------------------------------------------
+function initContactForm() {
+    const form = document.getElementById("contact-form");
+    const copyBtn = document.getElementById("copy-email-btn");
+
+    if (copyBtn) {
+        copyBtn.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(indhold.kontakt.email);
+                showToast(`Email kopieret: ${indhold.kontakt.email}`);
+            } catch {
+                showToast(indhold.kontakt.email);
+            }
+        });
+    }
+
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const name = document.getElementById("form-name").value.trim();
+            const email = document.getElementById("form-email").value.trim();
+            const subject = document.getElementById("form-subject").value.trim() || "Forespørgsel fra juliekofod.dk";
+            const message = document.getElementById("form-message").value.trim();
+
+            const body = `${message}\n\n---\nSendt af: ${name}\nEmail: ${email}`;
+            const mailtoUrl = `mailto:${encodeURIComponent(indhold.kontakt.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            window.location.href = mailtoUrl;
+            showToast("Åbner dit mailprogram med beskeden klar...");
+        });
+    }
+}
+
+function prefillContact(subjectText, messageText) {
+    const subjectInput = document.getElementById("form-subject");
+    const messageInput = document.getElementById("form-message");
+    const contactSection = document.getElementById("kontakt");
+
+    if (subjectInput) subjectInput.value = subjectText;
+    if (messageInput) messageInput.value = messageText;
+    if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth" });
+        setTimeout(() => {
+            const nameInput = document.getElementById("form-name");
+            if (nameInput) nameInput.focus();
+        }, 650);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// 8. SCROLL REVEAL & TOAST
+// -----------------------------------------------------------------------------
+function initScrollReveal() {
+    const elements = document.querySelectorAll(".reveal");
+    if (!("IntersectionObserver" in window)) {
+        elements.forEach((el) => el.classList.add("visible"));
+        return;
+    }
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -30px 0px" }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+}
+
+let toastTimer = null;
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2800);
+}
