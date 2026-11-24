@@ -280,17 +280,19 @@ function initNavigation() {
 }
 
 // -----------------------------------------------------------------------------
-// 5. FULL-SCREEN LIGHTBOX WITH ZOOM & INQUIRY CTA
+// 5. FULL-SCREEN LIGHTBOX WITH ZOOM, PAN & INQUIRY CTA
 // -----------------------------------------------------------------------------
-let lbState = { group: "sale", index: 0, zoom: 1 };
+let lbState = { group: "sale", index: 0, zoom: 1, panX: 0, panY: 0, fullscreen: false };
 
 function initLightbox() {
     const lightbox = document.getElementById("lightbox");
+    const stage = document.querySelector(".lightbox-stage");
     const closeBtn = document.getElementById("lb-close");
     const prevBtn = document.getElementById("lb-prev");
     const nextBtn = document.getElementById("lb-next");
     const zoomInBtn = document.getElementById("lb-zoom-in");
     const zoomOutBtn = document.getElementById("lb-zoom-out");
+    const fullscreenBtn = document.getElementById("lb-fullscreen");
     const lbImg = document.getElementById("lb-img");
     const inquireBtn = document.getElementById("lb-inquire");
 
@@ -299,24 +301,70 @@ function initLightbox() {
     closeBtn.addEventListener("click", closeLightbox);
     prevBtn.addEventListener("click", () => stepLightbox(-1));
     nextBtn.addEventListener("click", () => stepLightbox(1));
-    zoomInBtn.addEventListener("click", () => setZoom(lbState.zoom + 0.35));
-    zoomOutBtn.addEventListener("click", () => setZoom(lbState.zoom - 0.35));
+    zoomInBtn.addEventListener("click", () => setZoom(lbState.zoom + 0.5));
+    zoomOutBtn.addEventListener("click", () => setZoom(lbState.zoom - 0.5));
+    if (fullscreenBtn) fullscreenBtn.addEventListener("click", () => toggleLightboxFullscreen());
 
     lbImg.addEventListener("dblclick", () => {
-        setZoom(lbState.zoom > 1 ? 1 : 1.75);
+        setZoom(lbState.zoom > 1 ? 1 : 2.2);
     });
+
+    // Smooth click-and-drag panning when zoomed in
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+
+    if (stage) {
+        stage.addEventListener("pointerdown", (e) => {
+            if (lbState.zoom <= 1) return;
+            dragging = true;
+            startX = e.clientX - lbState.panX;
+            startY = e.clientY - lbState.panY;
+            stage.classList.add("is-dragging");
+            stage.setPointerCapture(e.pointerId);
+        });
+
+        stage.addEventListener("pointermove", (e) => {
+            if (!dragging) return;
+            lbState.panX = e.clientX - startX;
+            lbState.panY = e.clientY - startY;
+            applyLightboxTransform();
+        });
+
+        const stopDrag = () => {
+            if (!dragging) return;
+            dragging = false;
+            stage.classList.remove("is-dragging");
+        };
+
+        stage.addEventListener("pointerup", stopDrag);
+        stage.addEventListener("pointercancel", stopDrag);
+    }
 
     lightbox.addEventListener("click", (e) => {
         if (e.target === lightbox) closeLightbox();
     });
 
+    document.addEventListener("fullscreenchange", () => {
+        if (!document.fullscreenElement && lbState.fullscreen) {
+            setLightboxFullscreen(false);
+        }
+    });
+
     document.addEventListener("keydown", (e) => {
         if (!lightbox.classList.contains("open")) return;
-        if (e.key === "Escape") closeLightbox();
+        if (e.key === "Escape") {
+            if (lbState.fullscreen) {
+                toggleLightboxFullscreen(false);
+            } else {
+                closeLightbox();
+            }
+        }
         if (e.key === "ArrowLeft") stepLightbox(-1);
         if (e.key === "ArrowRight") stepLightbox(1);
-        if (e.key === "+" || e.key === "=") setZoom(lbState.zoom + 0.35);
-        if (e.key === "-") setZoom(lbState.zoom - 0.35);
+        if (e.key === "+" || e.key === "=") setZoom(lbState.zoom + 0.5);
+        if (e.key === "-") setZoom(lbState.zoom - 0.5);
+        if (e.key === "f" || e.key === "F") toggleLightboxFullscreen();
     });
 
     inquireBtn.addEventListener("click", () => {
@@ -338,8 +386,36 @@ function initLightbox() {
     });
 }
 
+function toggleLightboxFullscreen(forceState) {
+    const next = typeof forceState === "boolean" ? forceState : !lbState.fullscreen;
+    setLightboxFullscreen(next);
+
+    const lightbox = document.getElementById("lightbox");
+    if (next && lightbox && lightbox.requestFullscreen && !document.fullscreenElement) {
+        lightbox.requestFullscreen().catch(() => {});
+    } else if (!next && document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+    }
+}
+
+function setLightboxFullscreen(isFull) {
+    lbState.fullscreen = isFull;
+    const lightbox = document.getElementById("lightbox");
+    const fullscreenBtn = document.getElementById("lb-fullscreen");
+    if (lightbox) lightbox.classList.toggle("lightbox--fullscreen", isFull);
+    if (fullscreenBtn) {
+        fullscreenBtn.innerHTML = isFull
+            ? `<i class="fas fa-compress"></i>`
+            : `<i class="fas fa-expand"></i>`;
+        fullscreenBtn.setAttribute("aria-label", isFull ? "Afslut fuld skærm" : "Fuld skærm");
+        fullscreenBtn.setAttribute("title", isFull ? "Afslut fuld skærm (F)" : "Fuld skærm (F)");
+    }
+    setZoom(1);
+}
+
 function openLightbox(group, index) {
-    lbState = { group, index, zoom: 1 };
+    lbState = { group, index, zoom: 1, panX: 0, panY: 0, fullscreen: false };
+    setLightboxFullscreen(false);
     updateLightboxView();
 
     const lightbox = document.getElementById("lightbox");
@@ -349,6 +425,10 @@ function openLightbox(group, index) {
 }
 
 function closeLightbox() {
+    if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+    }
+    setLightboxFullscreen(false);
     const lightbox = document.getElementById("lightbox");
     lightbox.classList.remove("open");
     lightbox.setAttribute("aria-hidden", "true");
@@ -359,13 +439,29 @@ function stepLightbox(delta) {
     const list = lbState.group === "sale" ? indhold.tilSalg : indhold.solgte;
     lbState.index = (lbState.index + delta + list.length) % list.length;
     lbState.zoom = 1;
+    lbState.panX = 0;
+    lbState.panY = 0;
     updateLightboxView();
 }
 
 function setZoom(nextZoom) {
-    lbState.zoom = Math.max(1, Math.min(2.6, nextZoom));
+    lbState.zoom = Math.max(1, Math.min(3.5, nextZoom));
+    if (lbState.zoom <= 1) {
+        lbState.panX = 0;
+        lbState.panY = 0;
+    }
+    applyLightboxTransform();
+}
+
+function applyLightboxTransform() {
     const img = document.getElementById("lb-img");
-    if (img) img.style.transform = `scale(${lbState.zoom})`;
+    const stage = document.querySelector(".lightbox-stage");
+    if (img) {
+        img.style.transform = `translate(${lbState.panX}px, ${lbState.panY}px) scale(${lbState.zoom})`;
+    }
+    if (stage) {
+        stage.classList.toggle("is-zoomed", lbState.zoom > 1);
+    }
 }
 
 function updateLightboxView() {
@@ -378,7 +474,10 @@ function updateLightboxView() {
     const img = document.getElementById("lb-img");
     img.src = item.filnavn;
     img.alt = item.titel;
-    img.style.transform = "scale(1)";
+    lbState.zoom = 1;
+    lbState.panX = 0;
+    lbState.panY = 0;
+    applyLightboxTransform();
     img.classList.toggle("lb-img--round", isRound);
     if (stage) stage.classList.toggle("lightbox-stage--round", isRound);
 
