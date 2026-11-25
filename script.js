@@ -210,6 +210,25 @@ function initHeroArtworkLinks() {
 
     wireHeroFrame("hero-frame-main", indhold.hero.fremhaevetStortId || "pink-sky", 2);
     wireHeroFrame("hero-frame-round", indhold.hero.fremhaevetRundtId || "fantasiens-land", 0);
+
+    document.querySelectorAll("[data-hero-id]").forEach((tile) => {
+        const targetId = tile.getAttribute("data-hero-id");
+        const openTile = () => {
+            saleFilter = "all";
+            saleSort = "default";
+            updateFilterButtons("sale-filters", "all");
+            renderSaleGallery(true);
+            const idx = indhold.tilSalg.findIndex((item) => item.id === targetId);
+            if (idx >= 0) openLightbox("sale", idx, tile);
+        };
+        tile.addEventListener("click", openTile);
+        tile.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                openTile();
+            }
+        });
+    });
 }
 
 // -----------------------------------------------------------------------------
