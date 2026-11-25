@@ -383,6 +383,65 @@ h1, h2, h3, .display-font {
     transform: translateY(-2px);
 }
 
+.nav-utilities {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.24rem 0.45rem;
+    border-radius: 999px;
+    border: 1px solid rgba(30, 42, 56, 0.16);
+    background: rgba(252, 251, 248, 0.72);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.lang-switcher a {
+    padding: 0.22rem 0.48rem;
+    border-radius: 999px;
+    color: var(--text-muted);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.lang-switcher a:hover {
+    color: var(--ink-navy);
+}
+
+.lang-switcher a.active {
+    background: var(--forest-sage);
+    color: #FFFFFF;
+}
+
+.drawer-lang {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-soft);
+}
+
+.drawer-lang a {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-soft);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.drawer-lang a.active {
+    background: var(--forest-sage);
+    border-color: var(--forest-sage);
+    color: #FFFFFF;
+}
+
 .mobile-menu-toggle {
     display: none;
     align-items: center;
@@ -1295,6 +1354,137 @@ h1, h2, h3, .display-font {
 }
 
 /* ==========================================================================
+   OFTE STILLEDE SPØRGSMÅL (#faq) — SYNLIG FAQ DER MATCHER JSON-LD
+   ========================================================================== */
+.faq-section {
+    padding: clamp(4.25rem, 7vw, 6rem) 0;
+    background: var(--bg-linen);
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.faq-list {
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.faq-item {
+    background: var(--surface-card);
+    border: 1px solid var(--gold-soft);
+    border-radius: 6px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.faq-item[open] {
+    border-color: var(--gold-warm);
+    box-shadow: var(--shadow-soft);
+}
+
+.faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: var(--font-display);
+    font-size: 1.24rem;
+    color: var(--ink-navy);
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: "+";
+    font-family: var(--font-body);
+    font-size: 1.35rem;
+    font-weight: 400;
+    color: var(--gold-warm);
+    line-height: 1;
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+}
+
+.faq-item[open] summary::after {
+    content: "−";
+}
+
+.faq-answer {
+    padding: 0 1.5rem 1.35rem;
+    font-size: 0.96rem;
+    line-height: 1.78;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   UNDERSIDER (/bestillingsvaerk/ & /runde-malerier/)
+   ========================================================================== */
+.subpage-hero {
+    padding: clamp(3rem, 6vw, 4.75rem) 0 clamp(2.5rem, 4.5vw, 3.75rem);
+    background: radial-gradient(circle at 50% 0%, rgba(231, 223, 210, 0.55) 0%, transparent 65%), var(--bg-paper);
+    text-align: center;
+    border-bottom: 1px solid var(--border-soft);
+}
+
+.breadcrumb {
+    font-size: 0.76rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.1rem;
+}
+
+.breadcrumb a:hover {
+    color: var(--forest-sage);
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.8vw, 2rem);
+    margin-top: 2.5rem;
+}
+
+.step-card {
+    background: var(--surface-card);
+    border: 1px solid var(--gold-soft);
+    border-radius: 6px;
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.step-card h3 {
+    font-size: 1.38rem;
+    color: var(--ink-navy);
+}
+
+.step-card p {
+    font-size: 0.94rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    font-size: 0.8rem;
+    color: rgba(247, 244, 238, 0.78);
+}
+
+.footer-links a:hover {
+    color: #DFC89A;
+}
+
+/* ==========================================================================
    KONTAKT (#kontakt) — VARMT HØRKORT & ROLIG KONTAKTFORMULAR
    ========================================================================== */
 .contact-section {
@@ -2015,7 +2205,8 @@ h1, h2, h3, .display-font {
         grid-template-columns: 1fr;
     }
 
-    .expression-grid {
+    .expression-grid,
+    .steps-grid {
         grid-template-columns: 1fr;
     }
 
@@ -2040,6 +2231,7 @@ h1, h2, h3, .display-font {
     }
 
     .nav-links,
+    .nav-utilities,
     .nav-instagram {
         display: none;
     }

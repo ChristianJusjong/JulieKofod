@@ -265,11 +265,11 @@ const indhold = {
     kontakt: {
         overtitel: "Lad os tage en snak",
         overskrift: "Kontakt & Forespørgsel",
-        tekst: "Interesseret i et af malerierne til salg, en fremvisning i Lindenborg eller et personligt bestillingsværk? Skriv eller ring endelig — jeg glæder mig til at høre fra dig.",
+        tekst: "Interesseret i et af malerierne til salg, en uforpligtende fremvisning i atelieret i Lindenborg ved Gistrup (tæt på Aalborg) eller et personligt bestillingsværk? Skriv eller ring endelig — jeg glæder mig til at høre fra dig.",
         email: "juliekofodnielsen@gmail.com",
         telefon: "23 20 04 48",
         telefonLink: "+4523200448",
-        by: "Lindenborg, Gistrup",
+        by: "Lindenborg, Gistrup · Aalborg (Nordjylland)",
         instagramHandle: "@juliekofodart",
         instagramUrl: "https://www.instagram.com/juliekofodart/",
         formEndpoint: ""

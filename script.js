@@ -6,6 +6,50 @@ let saleFilter = "all";
 let saleSort = "default";
 let soldFilter = "all";
 
+const DEFAULT_UI = {
+    filterAll: "Alle",
+    filterRound: "Runde (Tondo)",
+    filterRect: "Firkantede",
+    badgeSale: "Til salg",
+    badgeSold: "Solgt",
+    ctaViewWork: "Se værk",
+    ariaViewSale: (t) => `Se ${t} i stor visning`,
+    ariaViewSold: (t) => `Se solgt værk: ${t}`,
+    altSuffix: "originalt akrylmaleri af kunstmaler Julie Kofod",
+    commissionSubject: "Bestillingsværk",
+    commissionBody: "Hej Julie,\n\nJeg er vild med dine værker og vil meget gerne høre om muligheden for et bestillingsværk.\n\nBedste hilsner,",
+    inquireSaleBtn: "Forespørg om dette værk",
+    inquireSoldBtn: "Forespørg om lignende værk",
+    wallScaleParsed: (m) => `Værk: ${m} · Skala-reference: 220 cm sofa`,
+    wallScaleApprox: "Ca. skala-reference: 220 cm sofa",
+    copiedBtn: "Kopieret!",
+    copyBtn: "Kopiér",
+    emailCopied: (e) => `Email kopieret: ${e}`,
+    msgCopied: "Besked kopieret — klar til at indsætte i din webmail!",
+    writeMsgFirst: "Skriv først din besked i feltet ovenfor",
+    defaultSubject: "Forespørgsel fra juliekofod.com",
+    defaultMedium: "Akryl på lærred"
+};
+
+function ui() {
+    return Object.assign({}, DEFAULT_UI, window.UI_STRINGS || {});
+}
+
+function resolveAsset(path) {
+    if (!path) return "";
+    if (/^(https?:|data:|\/)/i.test(path)) return path;
+    const prefix = window.ASSET_PREFIX || "";
+    return `${prefix}${path}`;
+}
+
+function resolveThumb(path) {
+    if (!path) return "";
+    if (/^assets\/(til-salg|solgt)\/[^/]+\.webp$/i.test(path)) {
+        return resolveAsset(path.replace(/^assets\//, "assets/thumbs/"));
+    }
+    return resolveAsset(path);
+}
+
 function svgIcon(id) {
     return `<svg class="icon" aria-hidden="true"><use href="#${id}"></use></svg>`;
 }
@@ -47,7 +91,7 @@ function hydrateContent() {
 
     ["nav-logo", "footer-logo"].forEach((id) => {
         const el = document.getElementById(id);
-        if (el) el.src = indhold.site.logo;
+        if (el) el.src = resolveAsset(indhold.site.logo);
     });
 
     // Hero
@@ -59,8 +103,8 @@ function hydrateContent() {
 
     const heroMain = document.getElementById("hero-img-main");
     const heroRound = document.getElementById("hero-img-round");
-    if (heroMain) heroMain.src = indhold.hero.fremhaevetStort;
-    if (heroRound) heroRound.src = indhold.hero.fremhaevetRundt;
+    if (heroMain) heroMain.src = resolveThumb(indhold.hero.fremhaevetStort);
+    if (heroRound) heroRound.src = resolveThumb(indhold.hero.fremhaevetRundt);
 
     // Section headers
     setText("salg-overtitel", indhold.tilSalgSektion.overtitel);
@@ -83,7 +127,7 @@ function hydrateContent() {
     setText("om-overskrift", indhold.om.overskrift);
     setText("om-underskrift", indhold.om.underskrift);
     const omImg = document.getElementById("om-billede");
-    if (omImg) omImg.src = indhold.om.billede;
+    if (omImg) omImg.src = resolveThumb(indhold.om.billede);
 
     const omContainer = document.getElementById("om-afsnit");
     if (omContainer && Array.isArray(indhold.om.afsnit)) {
@@ -277,14 +321,15 @@ function initGalleryFilters() {
 function buildFilterBar(containerId, items, onSelect) {
     const bar = document.getElementById(containerId);
     if (!bar) return;
+    const t = ui();
 
     const roundCount = items.filter((item) => getArtworkShape(item) === "round").length;
     const rectCount = items.filter((item) => getArtworkShape(item) === "rect").length;
 
     const options = [
-        { key: "all", label: "Alle", count: items.length },
-        { key: "round", label: "Runde (Tondo)", count: roundCount },
-        { key: "rect", label: "Firkantede", count: rectCount }
+        { key: "all", label: t.filterAll, count: items.length },
+        { key: "round", label: t.filterRound, count: roundCount },
+        { key: "rect", label: t.filterRect, count: rectCount }
     ];
 
     bar.innerHTML = "";
@@ -320,6 +365,7 @@ function renderSaleGallery(immediateVisible = false) {
     const grid = document.getElementById("sale-grid");
     if (!grid) return;
     grid.innerHTML = "";
+    const t = ui();
 
     const items = getFilteredList("sale");
 
@@ -330,21 +376,24 @@ function renderSaleGallery(immediateVisible = false) {
         card.className = `art-card art-card--${shape} reveal${immediateVisible ? " visible" : ""}`;
         card.setAttribute("tabindex", "0");
         card.setAttribute("role", "button");
-        card.setAttribute("aria-label", `Se ${item.titel} i stor visning`);
+        card.setAttribute("aria-label", t.ariaViewSale(item.titel));
 
         const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
+        const thumbSrc = resolveThumb(item.filnavn);
+        const fullSrc = resolveAsset(item.filnavn);
+        const altText = `${item.titel} — ${t.altSuffix}${item.maal ? ` (${item.maal})` : ""}`;
 
         card.innerHTML = `
             <div class="art-mat art-mat--${shape}">
-                <img src="${item.filnavn}" alt="${item.titel}" class="is-${shape}" loading="lazy" decoding="async">
+                <img src="${thumbSrc}" onerror="this.onerror=null;this.src='${fullSrc}'" alt="${altText}" class="is-${shape}" loading="lazy" decoding="async">
             </div>
             <div class="art-info">
-                <span class="sale-badge sale-badge--inline">Til salg</span>
+                <span class="sale-badge sale-badge--inline">${t.badgeSale}</span>
                 <h3 class="art-title">${item.titel}</h3>
                 <p class="art-meta">${metaParts}</p>
                 <div class="art-price-row">
                     <span class="art-price">${item.pris}</span>
-                    <span class="art-cta-link">Se værk ${svgIcon("i-arrow-right")}</span>
+                    <span class="art-cta-link">${t.ctaViewWork} ${svgIcon("i-arrow-right")}</span>
                 </div>
             </div>
         `;
@@ -370,6 +419,7 @@ function renderSoldGallery(immediateVisible = false) {
     const grid = document.getElementById("sold-grid");
     if (!grid) return;
     grid.innerHTML = "";
+    const t = ui();
 
     const items = getFilteredList("sold");
 
@@ -380,16 +430,19 @@ function renderSoldGallery(immediateVisible = false) {
         card.className = `sold-card sold-card--${shape} reveal${immediateVisible ? " visible" : ""}`;
         card.setAttribute("tabindex", "0");
         card.setAttribute("role", "button");
-        card.setAttribute("aria-label", `Se solgt værk: ${item.titel}`);
+        card.setAttribute("aria-label", t.ariaViewSold(item.titel));
 
         const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
+        const thumbSrc = resolveThumb(item.filnavn);
+        const fullSrc = resolveAsset(item.filnavn);
+        const altText = `${item.titel} — ${t.altSuffix}${item.maal ? ` (${item.maal})` : ""}`;
 
         card.innerHTML = `
             <div class="sold-img-wrap sold-img-wrap--${shape}">
-                <img src="${item.filnavn}" alt="${item.titel}" class="is-${shape}" loading="lazy" decoding="async">
+                <img src="${thumbSrc}" onerror="this.onerror=null;this.src='${fullSrc}'" alt="${altText}" class="is-${shape}" loading="lazy" decoding="async">
             </div>
             <div class="sold-caption">
-                <span class="sold-badge sold-badge--inline">Solgt</span>
+                <span class="sold-badge sold-badge--inline">${t.badgeSold}</span>
                 <h3 class="sold-title">${item.titel}</h3>
                 ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
                 ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
@@ -412,10 +465,7 @@ function renderSoldGallery(immediateVisible = false) {
     if (commissionBtn && !commissionWired) {
         commissionWired = true;
         commissionBtn.addEventListener("click", () => {
-            prefillContact(
-                "Bestillingsværk",
-                "Hej Julie,\n\nJeg er vild med dine værker og vil meget gerne høre om muligheden for et bestillingsværk.\n\nBedste hilsner,"
-            );
+            prefillContact(t.commissionSubject, t.commissionBody);
         });
     }
 }
@@ -744,9 +794,10 @@ function updateWallPreview(item) {
     const note = document.getElementById("lb-wall-note");
     const sofa = document.querySelector(".wall-sofa");
     if (!wallImg) return;
+    const t = ui();
 
     const shape = getArtworkShape(item);
-    wallImg.src = item.filnavn;
+    wallImg.src = resolveAsset(item.filnavn);
     wallImg.alt = item.titel;
     wallImg.classList.toggle("is-round", shape === "round");
     wallImg.classList.toggle("is-rect", shape !== "round");
@@ -761,8 +812,8 @@ function updateWallPreview(item) {
         wallImg.style.height = `${hPx}px`;
         if (note) {
             note.textContent = dims.parsed
-                ? `Værk: ${item.maal} · Skala-reference: 220 cm sofa`
-                : `Ca. skala-reference: 220 cm sofa`;
+                ? t.wallScaleParsed(item.maal)
+                : t.wallScaleApprox;
         }
     };
 
@@ -778,10 +829,13 @@ function preloadAdjacentLightboxImages() {
     if (list.length < 2) return;
     [-1, 1].forEach((offset) => {
         const neighbor = list[(lbState.index + offset + list.length) % list.length];
-        if (neighbor && neighbor.filnavn && !preloadedUrls.has(neighbor.filnavn)) {
-            preloadedUrls.add(neighbor.filnavn);
-            const pre = new Image();
-            pre.src = neighbor.filnavn;
+        if (neighbor && neighbor.filnavn) {
+            const url = resolveAsset(neighbor.filnavn);
+            if (!preloadedUrls.has(url)) {
+                preloadedUrls.add(url);
+                const pre = new Image();
+                pre.src = url;
+            }
         }
     });
 }
@@ -913,10 +967,11 @@ function updateLightboxView() {
     const list = getFilteredList(lbState.group);
     const item = list[lbState.index];
     if (!item) return;
+    const t = ui();
 
     const isRound = getArtworkShape(item) === "round";
     const img = document.getElementById("lb-img");
-    img.src = item.filnavn;
+    img.src = resolveAsset(item.filnavn);
     img.alt = item.titel;
     lbState.zoom = 1;
     lbState.panX = 0;
@@ -937,14 +992,14 @@ function updateLightboxView() {
     const inquireBtn = document.getElementById("lb-inquire");
 
     const metaParts = [item.maal, item.medium].filter(Boolean).join(" · ");
-    metaEl.textContent = metaParts || "Akryl på lærred";
+    metaEl.textContent = metaParts || t.defaultMedium;
 
     if (lbState.group === "sale") {
         priceEl.textContent = item.pris;
-        inquireBtn.innerHTML = `${svgIcon("i-envelope")} Forespørg om dette værk`;
+        inquireBtn.innerHTML = `${svgIcon("i-envelope")} ${t.inquireSaleBtn}`;
     } else {
-        priceEl.textContent = "Solgt";
-        inquireBtn.innerHTML = `${svgIcon("i-palette")} Forespørg om lignende værk`;
+        priceEl.textContent = t.badgeSold;
+        inquireBtn.innerHTML = `${svgIcon("i-palette")} ${t.inquireSoldBtn}`;
     }
 
     if (item.id) {
@@ -978,24 +1033,25 @@ function initContactForm() {
     const copyMessageBtn = document.getElementById("copy-message-btn");
     const statusEl = document.getElementById("form-status");
     const submitBtn = document.getElementById("form-submit-btn");
+    const t = ui();
 
     if (copyBtn) {
         let copyResetTimer = null;
         copyBtn.addEventListener("click", async () => {
             const ok = await copyTextToClipboard(indhold.kontakt.email);
             if (!ok) {
-                showToast(`Kopiér manuelt: ${indhold.kontakt.email}`);
+                showToast(indhold.kontakt.email);
                 return;
             }
 
             copyBtn.classList.add("is-copied");
-            copyBtn.innerHTML = `${svgIcon("i-check")} Kopieret!`;
-            showToast(`Email kopieret: ${indhold.kontakt.email}`);
+            copyBtn.innerHTML = `${svgIcon("i-check")} ${t.copiedBtn}`;
+            showToast(t.emailCopied(indhold.kontakt.email));
 
             clearTimeout(copyResetTimer);
             copyResetTimer = setTimeout(() => {
                 copyBtn.classList.remove("is-copied");
-                copyBtn.innerHTML = `${svgIcon("i-copy")} Kopiér`;
+                copyBtn.innerHTML = `${svgIcon("i-copy")} ${t.copyBtn}`;
             }, 2200);
         });
     }
@@ -1004,18 +1060,18 @@ function initContactForm() {
         copyMessageBtn.addEventListener("click", async () => {
             const name = document.getElementById("form-name").value.trim();
             const email = document.getElementById("form-email").value.trim();
-            const subject = document.getElementById("form-subject").value.trim() || "Forespørgsel fra juliekofod.com";
+            const subject = document.getElementById("form-subject").value.trim() || t.defaultSubject;
             const message = document.getElementById("form-message").value.trim();
 
             if (!message) {
-                showToast("Skriv først din besked i feltet ovenfor");
+                showToast(t.writeMsgFirst);
                 document.getElementById("form-message").focus();
                 return;
             }
 
-            const fullText = `Til: ${indhold.kontakt.email}\nEmne: ${subject}\n\n${message}${name || email ? `\n\n---\n${name ? `Navn: ${name}\n` : ""}${email ? `Email: ${email}` : ""}` : ""}`;
+            const fullText = `To: ${indhold.kontakt.email}\nSubject: ${subject}\n\n${message}${name || email ? `\n\n---\n${name ? `${name}\n` : ""}${email ? `${email}` : ""}` : ""}`;
             const ok = await copyTextToClipboard(fullText);
-            showToast(ok ? "Besked kopieret — klar til at indsætte i din webmail!" : "Kunne ikke kopiere beskeden automatisk");
+            showToast(ok ? t.msgCopied : indhold.kontakt.email);
         });
     }
 
