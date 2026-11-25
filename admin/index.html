@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <title>Atelier-Admin | Julie Kofod</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Belleza&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+    <!-- Login-skærm -->
+    <main class="login-screen" id="login-screen">
+        <div class="login-card">
+            <img src="../assets/logo.webp" alt="Julie Kofod logo" class="login-logo" width="64" height="64">
+            <p class="eyebrow">Atelier-Admin</p>
+            <h1>Velkommen, Julie</h1>
+            <p class="login-subtitle">Her kan du nemt uploade nye malerier, markere værker som solgt og rette dine tekster.</p>
+
+            <form id="login-form" class="login-form" novalidate>
+                <label for="admin-password">Adgangskode</label>
+                <input type="password" id="admin-password" autocomplete="current-password" placeholder="Indtast din adgangskode" required>
+                <p class="login-error" id="login-error" role="alert" hidden></p>
+                <button type="submit" class="btn btn-primary btn-full" id="login-btn">Log ind i Atelier-Admin</button>
+            </form>
+
+            <div class="setup-notice" id="setup-notice" hidden>
+                <p><strong>Førstegangsopsætning:</strong> Direkte udgivelse mangler stadig <code>ADMIN_PASSWORD</code> og <code>GITHUB_TOKEN</code> i Vercel.</p>
+                <button type="button" class="btn btn-outline btn-full" id="enter-local-btn">Åbn i forhåndsvisning / download-tilstand</button>
+            </div>
+
+            <a href="../index.html" class="back-link">← Tilbage til hjemmesiden</a>
+        </div>
+    </main>
+
+    <!-- Admin-panel -->
+    <div class="admin-app" id="admin-app" hidden>
+        <header class="admin-header">
+            <div class="admin-container admin-header-inner">
+                <div class="admin-brand">
+                    <img src="../assets/logo.webp" alt="Julie Kofod" width="38" height="38">
+                    <div>
+                        <span class="admin-brand-title">Julie Kofod</span>
+                        <span class="admin-brand-sub" id="mode-badge">Atelier-Admin · Live forbundet</span>
+                    </div>
+                </div>
+
+                <div class="admin-header-actions">
+                    <a href="../index.html" target="_blank" rel="noopener" class="btn btn-ghost">Se hjemmeside ↗</a>
+                    <button type="button" class="btn btn-primary" id="publish-btn" disabled>
+                        <span id="publish-btn-label">Udgiv ændringer</span>
+                        <span class="change-pill" id="change-count" hidden>0</span>
+                    </button>
+                    <button type="button" class="btn btn-ghost" id="logout-btn" title="Log ud">Log ud</button>
+                </div>
+            </div>
+        </header>
+
+        <nav class="admin-tabs" aria-label="Sektioner">
+            <div class="admin-container admin-tabs-inner">
+                <button type="button" class="tab-btn active" data-tab="sale">
+                    Værker til salg <span class="tab-count" id="count-sale">0</span>
+                </button>
+                <button type="button" class="tab-btn" data-tab="sold">
+                    Solgte værker <span class="tab-count" id="count-sold">0</span>
+                </button>
+                <button type="button" class="tab-btn" data-tab="texts">
+                    Tekster &amp; Kontakt
+                </button>
+            </div>
+        </nav>
+
+        <main class="admin-container admin-main">
+            <!-- Statusbanner -->
+            <div class="status-banner" id="status-banner" hidden role="status"></div>
+
+            <!-- Fane 1: Værker til salg -->
+            <section class="tab-panel" id="panel-sale">
+                <div class="panel-top">
+                    <div>
+                        <h2>Værker til salg</h2>
+                        <p>Upload nye malerier direkte fra mobil eller computer. Billeder optimeres automatisk til hurtigt web-format (WebP).</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="add-sale-btn">+ Tilføj nyt maleri</button>
+                </div>
+                <div class="artwork-list" id="sale-list"></div>
+            </section>
+
+            <!-- Fane 2: Solgte værker -->
+            <section class="tab-panel" id="panel-sold" hidden>
+                <div class="panel-top">
+                    <div>
+                        <h2>Solgte værker (Arkiv)</h2>
+                        <p>Tidligere værker som inspiration til besøgende og bestillingsværker.</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" id="add-sold-btn">+ Tilføj til arkiv</button>
+                </div>
+                <div class="artwork-list" id="sold-list"></div>
+            </section>
+
+            <!-- Fane 3: Tekster & Kontakt -->
+            <section class="tab-panel" id="panel-texts" hidden>
+                <div class="panel-top">
+                    <div>
+                        <h2>Tekster &amp; Kontaktinfo</h2>
+                        <p>Ret forsidens velkomsttekst, citat, din historie og dine kontaktoplysninger.</p>
+                    </div>
+                </div>
+
+                <div class="text-cards">
+                    <div class="editor-card">
+                        <h3>Forside (Hero)</h3>
+                        <div class="field">
+                            <label for="txt-hero-overtitel">Overtitel (håndskrift)</label>
+                            <input type="text" id="txt-hero-overtitel">
+                        </div>
+                        <div class="field">
+                            <label for="txt-hero-titel">Hovedoverskrift</label>
+                            <input type="text" id="txt-hero-titel">
+                        </div>
+                        <div class="field">
+                            <label for="txt-hero-tekst">Velkomsttekst</label>
+                            <textarea id="txt-hero-tekst" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="editor-card">
+                        <h3>Poetisk citat</h3>
+                        <div class="field">
+                            <label for="txt-citat-tekst">Citat</label>
+                            <textarea id="txt-citat-tekst" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="editor-card">
+                        <h3>Om Julie</h3>
+                        <div class="field">
+                            <label for="txt-om-overtitel">Overtitel</label>
+                            <input type="text" id="txt-om-overtitel">
+                        </div>
+                        <div class="field">
+                            <label for="txt-om-afsnit">Din historie (adskil afsnit med en tom linje)</label>
+                            <textarea id="txt-om-afsnit" rows="10"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="editor-card">
+                        <h3>Kontakt &amp; Bestillingsværk</h3>
+                        <div class="field-row">
+                            <div class="field">
+                                <label for="txt-kontakt-email">Email</label>
+                                <input type="email" id="txt-kontakt-email">
+                            </div>
+                            <div class="field">
+                                <label for="txt-kontakt-telefon">Telefon</label>
+                                <input type="text" id="txt-kontakt-telefon">
+                            </div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field">
+                                <label for="txt-kontakt-by">By / Område</label>
+                                <input type="text" id="txt-kontakt-by">
+                            </div>
+                            <div class="field">
+                                <label for="txt-kontakt-ig">Instagram brugernavn</label>
+                                <input type="text" id="txt-kontakt-ig">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="txt-bestilling">Bestillingsværk-tekst</label>
+                            <textarea id="txt-bestilling" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal til oprettelse / redigering af maleri -->
+    <div class="modal-backdrop" id="artwork-modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modal-heading">Tilføj nyt maleri</h3>
+                <button type="button" class="icon-btn" id="modal-close" aria-label="Luk">✕</button>
+            </div>
+
+            <form id="artwork-form" class="modal-body">
+                <!-- Billede upload / dropzone -->
+                <div class="upload-zone" id="upload-zone">
+                    <input type="file" id="art-file-input" accept="image/*" hidden>
+                    <div class="upload-preview-wrap" id="upload-preview-wrap" hidden>
+                        <img id="upload-preview-img" alt="Forhåndsvisning af maleri">
+                        <p class="upload-meta" id="upload-meta"></p>
+                    </div>
+                    <div class="upload-prompt" id="upload-prompt">
+                        <span class="upload-icon" aria-hidden="true">🖼</span>
+                        <strong>Vælg eller slip et billede af maleriet</strong>
+                        <span>Konverteres automatisk til hurtigt WebP-format (JPG, PNG, HEIC/WebP)</span>
+                    </div>
+                    <button type="button" class="btn btn-outline btn-sm" id="choose-file-btn">Vælg billede</button>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="art-titel">Titel på maleriet *</label>
+                        <input type="text" id="art-titel" required placeholder="F.eks. Morgenlys over søen">
+                    </div>
+                    <div class="field" id="price-field-wrap">
+                        <label for="art-pris">Pris *</label>
+                        <input type="text" id="art-pris" placeholder="F.eks. 2.400 kr.">
+                    </div>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="art-maal">Mål *</label>
+                        <input type="text" id="art-maal" required placeholder="F.eks. 60 × 80 cm eller Ø 40 cm">
+                    </div>
+                    <div class="field">
+                        <label for="art-shape">Lærredets form</label>
+                        <select id="art-shape">
+                            <option value="rect">Rektangulært / firkantet</option>
+                            <option value="round">Rundt lærred (Tondo)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="art-medium">Teknik</label>
+                    <input type="text" id="art-medium" value="Akryl på lærred">
+                </div>
+
+                <div class="field">
+                    <label for="art-beskrivelse">Kort poetisk beskrivelse (også god til Google)</label>
+                    <textarea id="art-beskrivelse" rows="3" placeholder="Beskriv farver, lys og stemning i maleriet..."></textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-ghost" id="modal-cancel">Annuller</button>
+                    <button type="submit" class="btn btn-primary" id="modal-save">Gem maleri</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../indhold.js"></script>
+    <script src="admin.js"></script>
+</body>
+
+</html>

@@ -125,25 +125,45 @@ function hydrateContent() {
 }
 
 function injectArtworkStructuredData() {
-    if (!Array.isArray(indhold.tilSalg) || !indhold.tilSalg.length) return;
     const baseUrl = "https://juliekofod.com/";
-    const graph = indhold.tilSalg.map((item) => ({
-        "@type": "VisualArtwork",
-        name: item.titel,
-        description: item.beskrivelse || "",
-        image: new URL(item.filnavn, baseUrl).href,
-        url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`,
-        artMedium: item.medium || "Akryl på lærred",
-        artform: "Maleri",
-        creator: { "@type": "Person", name: "Julie Kofod" },
-        offers: {
-            "@type": "Offer",
-            price: parsePriceDkk(item.pris),
-            priceCurrency: "DKK",
-            availability: "https://schema.org/InStock",
-            url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`
+    const saleItems = Array.isArray(indhold.tilSalg) ? indhold.tilSalg : [];
+    const soldItems = Array.isArray(indhold.solgte) ? indhold.solgte : [];
+    if (!saleItems.length && !soldItems.length) return;
+
+    const toArtworkSchema = (item, isSale) => {
+        const schema = {
+            "@type": "VisualArtwork",
+            name: item.titel,
+            description: item.beskrivelse || "",
+            image: new URL(item.filnavn, baseUrl).href,
+            url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`,
+            artMedium: item.medium || "Akryl på lærred",
+            artform: "Maleri",
+            creator: { "@id": "https://juliekofod.com/#person", "@type": "Person", name: "Julie Kofod" }
+        };
+        if (item.maal) schema.size = item.maal;
+        if (isSale) {
+            schema.offers = {
+                "@type": "Offer",
+                price: parsePriceDkk(item.pris),
+                priceCurrency: "DKK",
+                availability: "https://schema.org/InStock",
+                url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`
+            };
+        } else {
+            schema.offers = {
+                "@type": "Offer",
+                availability: "https://schema.org/SoldOut",
+                url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`
+            };
         }
-    }));
+        return schema;
+    };
+
+    const graph = [
+        ...saleItems.map((item) => toArtworkSchema(item, true)),
+        ...soldItems.map((item) => toArtworkSchema(item, false))
+    ];
 
     const script = document.createElement("script");
     script.type = "application/ld+json";

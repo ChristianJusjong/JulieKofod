@@ -8,8 +8,8 @@ const indhold = {
     // GENEREL INFO
     // -------------------------------------------------------------------------
     site: {
-        titel: "Julie Kofod | Original Kunst & Malerier",
-        beskrivelse: "Oplev originale akrylmalerier af Julie Kofod i Lindenborg, Gistrup — unikke strukturmalerier, runde tondo-værker og bestillingsværker med lys, natur og farver.",
+        titel: "Julie Kofod — Dansk Kunstmaler | Originale Akrylmalerier & Bestillingsværk",
+        beskrivelse: "Julie Kofod — dansk kunstmaler i Lindenborg, Gistrup ved Aalborg. Udforsk originale akrylmalerier på lærred, runde tondo-værker, drømmende landskabsmalerier og personlige bestillingsværker.",
         logo: "assets/logo.webp",
         footerTekst: "© 2026 Julie Kofod · Lindenborg, Gistrup"
     },

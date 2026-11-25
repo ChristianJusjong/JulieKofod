@@ -1,0 +1,17 @@
+{
+  "name": "Julie Kofod — Dansk Kunstmaler & Portfolio",
+  "short_name": "Julie Kofod",
+  "description": "Originale akrylmalerier, runde tondo-værker og bestillingsværker af Julie Kofod i Lindenborg, Gistrup ved Aalborg.",
+  "lang": "da-DK",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#F7F4EE",
+  "theme_color": "#2C362F",
+  "icons": [
+    {
+      "src": "/assets/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
