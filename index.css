@@ -761,13 +761,13 @@ h1, h2, h3, .display-font {
     aspect-ratio: 1 / 1;
     background: transparent;
     padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     overflow: visible;
 }
 
 .art-mat img {
+    position: absolute;
+    inset: 0;
+    margin: auto;
     display: block;
     border: 1px solid var(--gold-soft);
     background: var(--surface-card);
@@ -1035,12 +1035,13 @@ h1, h2, h3, .display-font {
     background: transparent;
     padding: 0;
     border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    overflow: visible;
 }
 
 .sold-img-wrap img {
+    position: absolute;
+    inset: 0;
+    margin: auto;
     display: block;
     background: var(--surface-card);
     border: 1px solid var(--gold-soft);
@@ -2322,7 +2323,30 @@ h1, h2, h3, .display-font {
     .sale-grid,
     .sold-masonry {
         grid-template-columns: 1fr;
-        gap: 2.5rem;
+        gap: 2.75rem;
+    }
+
+    .art-mat--rect,
+    .sold-img-wrap--rect {
+        aspect-ratio: auto;
+        height: auto;
+        max-width: 340px;
+    }
+
+    .art-mat--rect img.is-rect,
+    .sold-img-wrap--rect img.is-rect {
+        position: static;
+        inset: auto;
+        width: 100%;
+        max-width: 100%;
+        max-height: none;
+        height: auto;
+    }
+
+    .art-mat--round,
+    .sold-img-wrap--round {
+        width: min(100%, 320px);
+        height: min(calc(100vw - 2rem), 320px);
     }
 
     .filter-pill {
