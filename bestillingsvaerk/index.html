@@ -58,8 +58,34 @@
                     <a href="/de/" hreflang="de">DE</a>
                 </div>
             </div>
+            <button type="button" class="mobile-menu-toggle" id="mobile-menu-open" aria-label="Åbn menu" aria-expanded="false" aria-controls="mobile-drawer">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
         </div>
     </header>
+
+    <div class="mobile-drawer" id="mobile-drawer" role="dialog" aria-modal="true" aria-label="Mobilnavigation" aria-hidden="true">
+        <div class="mobile-drawer-panel">
+            <div class="mobile-drawer-top">
+                <span class="brand-wordmark">Julie Kofod</span>
+                <button type="button" class="mobile-drawer-close" id="mobile-menu-close" aria-label="Luk menu">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <ul class="mobile-drawer-links">
+                <li><a href="/" class="drawer-link">Forside</a></li>
+                <li><a href="/#om" class="drawer-link">Om mig</a></li>
+                <li><a href="/#til-salg" class="drawer-link">Værker</a></li>
+                <li><a href="/runde-malerier/" class="drawer-link">Runde malerier</a></li>
+                <li><a href="/#kontakt" class="drawer-link">Kontakt</a></li>
+            </ul>
+            <div class="drawer-lang" aria-label="Vælg sprog">
+                <a href="/" class="active" hreflang="da">Dansk</a>
+                <a href="/en/" hreflang="en">English</a>
+                <a href="/de/" hreflang="de">Deutsch</a>
+            </div>
+        </div>
+    </div>
 
     <main>
         <section class="subpage-hero">
@@ -128,6 +154,25 @@
             <p class="footer-copy">© 2026 Julie Kofod · Lindenborg, Gistrup · Aalborg</p>
         </div>
     </footer>
+    <script>
+        (function () {
+            const drawer = document.getElementById("mobile-drawer");
+            const openBtn = document.getElementById("mobile-menu-open");
+            const closeBtn = document.getElementById("mobile-menu-close");
+            if (!drawer || !openBtn) return;
+            const setOpen = (open) => {
+                drawer.classList.toggle("open", open);
+                drawer.setAttribute("aria-hidden", String(!open));
+                openBtn.setAttribute("aria-expanded", String(open));
+                document.body.style.overflow = open ? "hidden" : "";
+            };
+            openBtn.addEventListener("click", () => setOpen(true));
+            if (closeBtn) closeBtn.addEventListener("click", () => setOpen(false));
+            drawer.addEventListener("click", (e) => { if (e.target === drawer) setOpen(false); });
+            drawer.querySelectorAll(".drawer-link").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+            document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawer.classList.contains("open")) setOpen(false); });
+        })();
+    </script>
 </body>
 
 </html>
