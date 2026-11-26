@@ -11,6 +11,7 @@ const DEFAULT_UI = {
     filterRound: "Runde (Tondo)",
     filterRect: "Firkantede",
     badgeSale: "Til salg",
+    badgeReserved: "Reserveret til udstilling",
     badgeSold: "Solgt",
     ctaViewWork: "Se værk",
     ariaViewSale: (t) => `Se ${t} i stor visning`,
@@ -163,8 +164,8 @@ function hydrateContent() {
     setText("site-footer-text", indhold.site.footerTekst);
 
     if (indhold.kontakt.formEndpoint) {
-        setText("form-submit-label", "Send besked til Julie");
-        setText("form-note", "Din besked sendes direkte til Julie — du kan også ringe eller skrive på Instagram.");
+        setText("form-submit-label", "Send besked");
+        setText("form-note", "Din besked sendes direkte til mig — du kan også ringe eller skrive på Instagram.");
     }
 }
 
@@ -178,7 +179,6 @@ function injectArtworkStructuredData() {
         const schema = {
             "@type": "VisualArtwork",
             name: item.titel,
-            description: item.beskrivelse || "",
             image: new URL(item.filnavn, baseUrl).href,
             url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`,
             artMedium: item.medium || "Akryl på lærred",
@@ -186,7 +186,13 @@ function injectArtworkStructuredData() {
             creator: { "@id": "https://juliekofod.com/#person", "@type": "Person", name: "Julie Kofod" }
         };
         if (item.maal) schema.size = item.maal;
-        if (isSale) {
+        if (isSale && item.status === "reserved") {
+            schema.offers = {
+                "@type": "Offer",
+                availability: "https://schema.org/LimitedAvailability",
+                url: `${baseUrl}#vaerk=${encodeURIComponent(item.id || item.titel)}`
+            };
+        } else if (isSale) {
             schema.offers = {
                 "@type": "Offer",
                 price: parsePriceDkk(item.pris),
@@ -250,19 +256,35 @@ function getFilteredList(group) {
 // 1B. INTERACTIVE HERO FRAMES
 // -----------------------------------------------------------------------------
 function initHeroArtworkLinks() {
-    const wireHeroFrame = (elId, artworkId, fallbackIndex) => {
-        const el = document.getElementById(elId);
-        if (!el) return;
-        const openHeroArtwork = () => {
+    const openByArtworkId = (artworkId, fallbackIndex, triggerEl) => {
+        const saleIdx = indhold.tilSalg.findIndex((item) => item.id === artworkId);
+        if (saleIdx >= 0) {
             saleFilter = "all";
             saleSort = "default";
             const sortEl = document.getElementById("sale-sort");
             if (sortEl) sortEl.value = "default";
             updateFilterButtons("sale-filters", "all");
             renderSaleGallery(true);
-            const idx = indhold.tilSalg.findIndex((item) => item.id === artworkId);
-            openLightbox("sale", idx >= 0 ? idx : fallbackIndex, el);
-        };
+            openLightbox("sale", saleIdx, triggerEl);
+            return;
+        }
+        const soldIdx = indhold.solgte.findIndex((item) => item.id === artworkId);
+        if (soldIdx >= 0) {
+            soldFilter = "all";
+            updateFilterButtons("sold-filters", "all");
+            renderSoldGallery(true);
+            openLightbox("sold", soldIdx, triggerEl);
+            return;
+        }
+        if (typeof fallbackIndex === "number") {
+            openLightbox("sale", fallbackIndex, triggerEl);
+        }
+    };
+
+    const wireHeroFrame = (elId, artworkId, fallbackIndex) => {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        const openHeroArtwork = () => openByArtworkId(artworkId, fallbackIndex, el);
         el.addEventListener("click", openHeroArtwork);
         el.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -272,19 +294,12 @@ function initHeroArtworkLinks() {
         });
     };
 
-    wireHeroFrame("hero-frame-main", indhold.hero.fremhaevetStortId || "pink-sky", 2);
-    wireHeroFrame("hero-frame-round", indhold.hero.fremhaevetRundtId || "fantasiens-land", 0);
+    wireHeroFrame("hero-frame-main", indhold.hero.fremhaevetStortId || "naar-verden-sover", 0);
+    wireHeroFrame("hero-frame-round", indhold.hero.fremhaevetRundtId || "against-all-odds", 1);
 
     document.querySelectorAll("[data-hero-id]").forEach((tile) => {
         const targetId = tile.getAttribute("data-hero-id");
-        const openTile = () => {
-            saleFilter = "all";
-            saleSort = "default";
-            updateFilterButtons("sale-filters", "all");
-            renderSaleGallery(true);
-            const idx = indhold.tilSalg.findIndex((item) => item.id === targetId);
-            if (idx >= 0) openLightbox("sale", idx, tile);
-        };
+        const openTile = () => openByArtworkId(targetId, null, tile);
         tile.addEventListener("click", openTile);
         tile.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") {
@@ -382,17 +397,19 @@ function renderSaleGallery(immediateVisible = false) {
         const thumbSrc = resolveThumb(item.filnavn);
         const fullSrc = resolveAsset(item.filnavn);
         const altText = `${item.titel} — ${t.altSuffix}${item.maal ? ` (${item.maal})` : ""}`;
+        const isReserved = item.status === "reserved";
+        const badgeLabel = isReserved ? (item.statusTekst || t.badgeReserved) : t.badgeSale;
 
         card.innerHTML = `
             <div class="art-mat art-mat--${shape}">
                 <img src="${thumbSrc}" onerror="this.onerror=null;this.src='${fullSrc}'" alt="${altText}" class="is-${shape}" loading="lazy" decoding="async">
             </div>
             <div class="art-info">
-                <span class="sale-badge sale-badge--inline">${t.badgeSale}</span>
+                <span class="sale-badge sale-badge--inline${isReserved ? " sale-badge--reserved" : ""}">${badgeLabel}</span>
                 <h3 class="art-title">${item.titel}</h3>
                 <p class="art-meta">${metaParts}</p>
                 <div class="art-price-row">
-                    <span class="art-price">${item.pris}</span>
+                    ${item.pris ? `<span class="art-price">${item.pris}</span>` : ""}
                     <span class="art-cta-link">${t.ctaViewWork} ${svgIcon("i-arrow-right")}</span>
                 </div>
             </div>
@@ -445,7 +462,6 @@ function renderSoldGallery(immediateVisible = false) {
                 <span class="sold-badge sold-badge--inline">${t.badgeSold}</span>
                 <h3 class="sold-title">${item.titel}</h3>
                 ${metaParts ? `<p class="sold-meta">${metaParts}</p>` : ""}
-                ${item.beskrivelse ? `<p class="sold-desc">${item.beskrivelse}</p>` : ""}
             </div>
         `;
 
@@ -735,7 +751,12 @@ function initLightbox() {
         const dimSuffix = item.maal ? ` (${item.maal})` : "";
         const subjectLine = `Forespørgsel: ${item.titel}${dimSuffix}`;
 
-        if (lbState.group === "sale") {
+        if (lbState.group === "sale" && item.status === "reserved") {
+            prefillContact(
+                subjectLine,
+                `Hej Julie,\n\nJeg har set maleriet "${item.titel}"${dimSuffix}, som er reserveret til udstilling. Jeg vil meget gerne høre nærmere om udstillingen eller muligheden for et lignende værk.\n\nBedste hilsner,`
+            );
+        } else if (lbState.group === "sale") {
             prefillContact(
                 subjectLine,
                 `Hej Julie,\n\nJeg er interesseret i maleriet "${item.titel}"${dimSuffix} til ${item.pris}. Kan du fortælle mig lidt mere om værket og muligheden for køb eller levering?\n\nBedste hilsner,`
@@ -985,7 +1006,11 @@ function updateLightboxView() {
 
     setText("lb-counter", `${lbState.index + 1} / ${list.length}`);
     setText("lb-title", item.titel);
-    setText("lb-desc", item.beskrivelse || "");
+    const descEl = document.getElementById("lb-desc");
+    if (descEl) {
+        descEl.textContent = "";
+        descEl.hidden = true;
+    }
 
     const metaEl = document.getElementById("lb-meta");
     const priceEl = document.getElementById("lb-price");
@@ -995,7 +1020,7 @@ function updateLightboxView() {
     metaEl.textContent = metaParts || t.defaultMedium;
 
     if (lbState.group === "sale") {
-        priceEl.textContent = item.pris;
+        priceEl.textContent = item.status === "reserved" ? (item.statusTekst || t.badgeReserved) : (item.pris || "");
         inquireBtn.innerHTML = `${svgIcon("i-envelope")} ${t.inquireSaleBtn}`;
     } else {
         priceEl.textContent = t.badgeSold;
@@ -1098,8 +1123,8 @@ function initContactForm() {
                     });
                     if (!res.ok) throw new Error("Server error");
                     form.reset();
-                    if (statusEl) statusEl.textContent = "Tak for din besked! Julie vender tilbage hurtigst muligt.";
-                    showToast("Besked sendt til Julie!");
+                    if (statusEl) statusEl.textContent = "Tak for din besked! Jeg vender tilbage hurtigst muligt.";
+                    showToast("Besked sendt!");
                 } catch {
                     if (statusEl) {
                         statusEl.textContent = "Kunne ikke sende automatisk — brug gerne 'Kopiér besked' eller skriv direkte på email/Instagram.";

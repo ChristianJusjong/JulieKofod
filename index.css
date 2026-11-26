@@ -1,19 +1,9 @@
 /* ==========================================================================
    JULIE KOFOD — NORDISK NATUR-ATELIER & DRØMMENDE POESI
    Designet direkte ud fra Julies logo (svævende guld-øer, natblå typografi),
-   hendes egen font (ClaireAmoreth), hendes moodboards (varmt akvarelpapir,
-   mosgrøn, hør, støvet ler, guld) og roen i hendes drømmende naturmalerier.
+   Belleza-typografien fra logoet, moodboards (varmt akvarelpapir,
+   mosgrøn, hør, støvet ler, guld) og roen i de drømmende naturmalerier.
    ========================================================================== */
-
-@font-face {
-    font-family: 'ClaireAmoreth';
-    src: url('Fonts/ClaireAmoreth-Regular.woff2') format('woff2'),
-         url('Fonts/ClaireAmoreth-Regular.woff') format('woff'),
-         url('Fonts/ClaireAmoreth-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
 
 :root {
     /* Organisk Nordisk Natur- & Atelier-palet (WCAG AA-verificeret) */
@@ -24,7 +14,7 @@
 
     --ink-navy: #1E2A38;        /* Fra Julies eget logo */
     --forest-sage: #4E5A4B;     /* Fra moodboardets mos- & skovgrønne */
-    --forest-deep: #2C362F;     /* Dyb rolig skovbund til "Om Julie" & footer */
+    --forest-deep: #2C362F;     /* Dyb rolig skovbund til "Om mig" & footer */
     --clay-rose: #9A665E;       /* Støvet ler/rosa fra moodboard & Pink Sky */
     --gold-warm: #B89552;       /* Guld fra logoets svævende øer & rammering */
     --gold-soft: rgba(184, 149, 82, 0.45);
@@ -34,7 +24,6 @@
 
     /* Typografi */
     --font-display: 'Belleza', Georgia, serif;
-    --font-script: 'ClaireAmoreth', 'Cormorant Garamond', Georgia, serif;
     --font-poetic: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
@@ -157,11 +146,14 @@ h1, h2, h3, .display-font {
     display: inline-flex;
     align-items: center;
     gap: 0.7rem;
-    font-family: var(--font-script);
-    font-size: 1.85rem;
-    line-height: 1.1;
+    font-family: var(--font-body);
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    line-height: 1.3;
     color: var(--clay-rose);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.85rem;
 }
 
 .eyebrow::before {
@@ -553,11 +545,14 @@ h1, h2, h3, .display-font {
     align-items: center;
     justify-content: center;
     gap: 0.75rem;
-    font-family: var(--font-script);
-    font-size: 1.95rem;
-    line-height: 1.15;
+    font-family: var(--font-body);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1.3;
     color: var(--clay-rose);
-    margin-bottom: 0.9rem;
+    margin-bottom: 1.15rem;
 }
 
 .hero-eyebrow::before,
@@ -638,12 +633,12 @@ h1, h2, h3, .display-font {
 }
 
 .mosaic-tile figcaption {
-    font-family: var(--font-poetic);
-    font-style: italic;
-    font-size: 0.96rem;
-    color: var(--text-muted);
+    font-family: var(--font-display);
+    font-style: normal;
+    font-size: 0.98rem;
+    color: var(--ink-navy);
     text-align: center;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.03em;
 }
 
 /* ==========================================================================
@@ -823,6 +818,14 @@ h1, h2, h3, .display-font {
     background: var(--clay-rose);
 }
 
+.sale-badge--reserved {
+    color: var(--forest-sage);
+}
+
+.sale-badge--reserved::before {
+    background: var(--gold-warm);
+}
+
 .art-info {
     width: 100%;
     padding: 1.55rem 0.5rem 0.25rem;
@@ -870,6 +873,14 @@ h1, h2, h3, .display-font {
     font-size: 1.32rem;
     font-weight: 600;
     color: var(--ink-navy);
+}
+
+.art-price--reserved {
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
 }
 
 .art-cta-link {
@@ -971,7 +982,7 @@ h1, h2, h3, .display-font {
 
 .quote-text {
     font-family: var(--font-poetic);
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
     font-size: clamp(1.85rem, 3.4vw, 2.65rem);
     line-height: 1.4;
@@ -981,10 +992,12 @@ h1, h2, h3, .display-font {
 
 .quote-author {
     display: inline-block;
-    font-family: var(--font-script);
-    font-size: 2.65rem;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
     color: #E7DFD2;
-    padding-top: 0.55rem;
+    padding-top: 0.75rem;
     border-top: 1px solid rgba(184, 149, 82, 0.55);
 }
 
@@ -1209,19 +1222,22 @@ h1, h2, h3, .display-font {
 }
 
 .about-signature {
-    font-family: var(--font-script);
-    font-size: 2.9rem;
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
     color: #DFC89A;
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
 }
 
 .about-media-caption {
     margin-top: 1.75rem;
-    font-family: var(--font-poetic);
-    font-style: italic;
-    font-size: 0.98rem;
+    font-family: var(--font-display);
+    font-style: normal;
+    font-size: 1.02rem;
+    letter-spacing: 0.04em;
     line-height: 1.55;
-    color: rgba(247, 244, 238, 0.78);
+    color: rgba(247, 244, 238, 0.82);
     max-width: 40ch;
 }
 
@@ -1239,7 +1255,7 @@ h1, h2, h3, .display-font {
 
 .expression-header .eyebrow {
     color: #DFC89A;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.65rem;
 }
 
 .expression-header h3 {
@@ -1273,12 +1289,12 @@ h1, h2, h3, .display-font {
 }
 
 .pillar-num {
-    font-family: var(--font-poetic);
-    font-style: italic;
-    font-size: 1.55rem;
+    font-family: var(--font-display);
+    font-style: normal;
+    font-size: 1.35rem;
     line-height: 1;
     color: #DFC89A;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.1em;
 }
 
 .expression-pillar h4 {
@@ -2245,8 +2261,9 @@ h1, h2, h3, .display-font {
     }
 
     .hero-eyebrow {
-        margin-bottom: 0.65rem;
-        font-size: 1.45rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.68rem;
+        letter-spacing: 0.16em;
     }
 
     .hero-title {

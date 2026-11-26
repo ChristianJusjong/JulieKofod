@@ -9,11 +9,12 @@ window.UI_STRINGS = {
     filterRound: "Rund (Tondo)",
     filterRect: "Rechteckig",
     badgeSale: "Verfügbar",
+    badgeReserved: "Reserviert für Ausstellung",
     badgeSold: "Verkauft",
     ctaViewWork: "Werk ansehen",
     ariaViewSale: (t) => `${t} in Großansicht öffnen`,
     ariaViewSold: (t) => `Verkauftes Werk ansehen: ${t}`,
-    altSuffix: "originales Acrylgemälde der dänischen Künstlerin Julie Kofod",
+    altSuffix: "originales Acrylgemälde von Julie Kofod",
     commissionSubject: "Anfrage für ein Auftragswerk",
     commissionBody: "Hallo Julie,\n\nmir gefallen deine Gemälde sehr und ich möchte mich gerne über ein persönliches Auftragswerk informieren.\n\nViele Grüße,",
     inquireSaleBtn: "Dieses Werk anfragen",
@@ -32,7 +33,7 @@ window.UI_STRINGS = {
 const indhold = {
     site: {
         titel: "Julie Kofod — Dänische Malerin | Originale Acrylgemälde & Auftragswerke",
-        beskrivelse: "Entdecke originale Acrylgemälde auf Leinwand, runde Tondo-Werke, träumerische nordische Landschaften und persönliche Auftragswerke der dänischen Künstlerin Julie Kofod in Nordjütland bei Aalborg.",
+        beskrivelse: "Ich male originale Acrylgemälde auf Leinwand in meinem Atelier in Lindenborg bei Aalborg, Dänemark — schwebende Inseln, runde Tondo-Werke, träumerische Natur und persönliche Auftragswerke.",
         logo: "assets/logo.webp",
         footerTekst: "© 2026 Julie Kofod · Lindenborg, Gistrup · Aalborg, Dänemark"
     },
@@ -40,41 +41,59 @@ const indhold = {
     hero: {
         overtitel: "Originalkunst · Lindenborg, Dänemark",
         titel: "Natur, Licht und Farben aus der Fantasie",
-        tekst: "Willkommen in meinem farbenfrohen Universum. Ich male Acryl auf Leinwand mit besonderem Fokus auf das Licht — Erinnerungen an die Natur, Ruhe in Zeiten der Unruhe und Fragmente von Landschaften, die in meiner Fantasie leben.",
-        knapPrimaer: "Künstlerin kennenlernen",
+        tekst: "Willkommen in meinem farbenfrohen Universum. Ich male Acryl auf Leinwand mit besonderem Fokus auf das Licht — Erinnerungen an die Natur, Ruhe in Zeiten der Unruhe und schwebende Inseln, die in meiner Fantasie leben.",
+        knapPrimaer: "Über mich",
         knapSekundaer: "Werke entdecken",
-        fremhaevetStort: "assets/til-salg/03-lyseroede-skyer-maane.webp",
-        fremhaevetStortId: "pink-sky",
-        fremhaevetRundt: "assets/til-salg/01-rund-maane-bjerge.webp",
-        fremhaevetRundtId: "fantasiens-land"
+        fremhaevetStort: "assets/til-salg/07-naar-verden-sover.webp",
+        fremhaevetStortId: "naar-verden-sover",
+        fremhaevetRundt: "assets/til-salg/08-against-all-odds.webp",
+        fremhaevetRundtId: "against-all-odds"
     },
 
     tilSalgSektion: {
         overtitel: "Aktuell im Atelier",
         overskrift: "Verfügbare Gemälde",
-        intro: "Alle aktuell verfügbaren Originalwerke — handgemalt in Acryl auf Leinwand. Klicke auf ein Gemälde für Großansicht, Zoom, Wand-Vorschau im Maßstab oder eine Anfrage."
+        intro: "Meine aktuellen Originalwerke in Acryl auf Leinwand. Klicke auf ein Gemälde für Großansicht, Zoom, Wand-Vorschau im Maßstab oder eine Anfrage."
     },
 
     tilSalg: [
         {
+            id: "naar-verden-sover",
+            filnavn: "assets/til-salg/07-naar-verden-sover.webp",
+            titel: "Når verden sover",
+            status: "reserved",
+            statusTekst: "Reserviert für Ausstellung",
+            medium: "Acryl auf Leinwand",
+            maal: "60 × 80 cm",
+            shape: "rect"
+        },
+        {
+            id: "against-all-odds",
+            filnavn: "assets/til-salg/08-against-all-odds.webp",
+            titel: "Against All Odds",
+            status: "reserved",
+            statusTekst: "Reserviert für Ausstellung",
+            medium: "Acryl auf Leinwand",
+            maal: "60 × 80 cm",
+            shape: "rect"
+        },
+        {
             id: "fantasiens-land",
             filnavn: "assets/til-salg/01-rund-maane-bjerge.webp",
-            titel: "Fantasiens land (Land der Fantasie)",
+            titel: "Fantasiens land",
             pris: "1.000 DKK (~135 €)",
             medium: "Acryl auf Leinwand",
             maal: "Ø 40 cm",
-            shape: "round",
-            beskrivelse: "Rundes Originalwerk (Tondo) mit träumerischem rosa-violettem Himmel, Vollmond über den Bergen und lebendiger türkiser Struktur."
+            shape: "round"
         },
         {
             id: "i-maaneskinnet",
             filnavn: "assets/til-salg/02-turkis-skov-so-clean.webp",
-            titel: "I måneskinnet (Im Mondschein)",
+            titel: "I måneskinnet",
             pris: "2.400 DKK (~320 €)",
             medium: "Acryl auf Leinwand",
             maal: "40 × 50 cm",
-            shape: "rect",
-            beskrivelse: "Sanftes Mondlicht bricht durch hängende Zweige und spiegelt sich in einem tiefen smaragdgrünen und türkisen Waldsee."
+            shape: "rect"
         },
         {
             id: "pink-sky",
@@ -83,38 +102,34 @@ const indhold = {
             pris: "3.000 DKK (~400 €)",
             medium: "Acryl auf Leinwand",
             maal: "60 × 80 cm",
-            shape: "rect",
-            beskrivelse: "Ein weiter, faszinierender Himmelsraum voller Rosa-, Lavendel- und tiefer Violetttöne im warmen Licht der Abendsonne."
+            shape: "rect"
         },
         {
             id: "boelgen",
             filnavn: "assets/til-salg/04-havboelger-maane.webp",
-            titel: "Bølgen (Die Welle)",
+            titel: "Bølgen",
             pris: "3.500 DKK (~470 €)",
             medium: "Acryl auf Leinwand",
             maal: "40 × 50 cm",
-            shape: "rect",
-            beskrivelse: "Kraftvolle, schäumende blaue Meereswellen an der Küste unter einem dramatischen Abendhimmel und einem leuchtenden Vollmond."
+            shape: "rect"
         },
         {
             id: "i-mellemrummet",
             filnavn: "assets/til-salg/05-rund-birkeskov.webp",
-            titel: "I mellemrummet (Im Zwischenraum)",
+            titel: "I mellemrummet",
             pris: "1.800 DKK (~240 €)",
             medium: "Acryl auf Leinwand",
             maal: "Ø 40 cm",
-            shape: "round",
-            beskrivelse: "Rundes Strukturwerk einer stillen Lichtung zwischen weißen Birkenstämmen, goldenem Herbstlaub und bemoosten Steinen."
+            shape: "round"
         },
         {
             id: "vendepunktet",
             filnavn: "assets/til-salg/06-rund-gylden-kyst.webp",
-            titel: "Vendepunktet (Der Wendepunkt)",
+            titel: "Vendepunktet",
             pris: "1.800 DKK (~240 €)",
             medium: "Acryl auf Leinwand",
             maal: "Ø 40 cm",
-            shape: "round",
-            beskrivelse: "Rundes Strukturmalerei-Unikat in warmen goldenen Sandtönen, metallischen Akzenten und tiefem Blau rund um eine ruhige Küstenwelle."
+            shape: "round"
         }
     ],
 
@@ -126,20 +141,27 @@ const indhold = {
     solgteSektion: {
         overtitel: "Archiv",
         overskrift: "Verkaufte Werke",
-        intro: "Eine Auswahl früherer Acrylgemälde, die bereits ein neues Zuhause gefunden haben. Inspiriert dich eine Stimmung oder Farbwelt, male ich sehr gerne ein persönliches Auftragswerk für dich.",
+        intro: "Eine Auswahl meiner früheren Acrylgemälde, die bereits ein neues Zuhause gefunden haben. Inspiriert dich eine Stimmung oder Farbwelt, male ich sehr gerne ein persönliches Auftragswerk für dich.",
         bestillingTekst: "Träumst du von einem persönlichen Gemälde in ähnlichem Stil oder in deinen ganz eigenen Farben?",
         bestillingKnap: "Auftragswerk anfragen"
     },
 
     solgte: [
         {
+            id: "et-familieportraet",
+            filnavn: "assets/solgt/solgt-01.webp",
+            titel: "Et Familieportræt",
+            medium: "Acryl auf Leinwand",
+            maal: "60 × 80 cm",
+            shape: "rect"
+        },
+        {
             id: "min-fantasi-din-virkelighed",
             filnavn: "assets/solgt/solgt-03.webp",
             titel: "Min fantasi - din virkelighed",
             medium: "Acryl auf Leinwand",
             maal: "80 × 60 cm",
-            shape: "rect",
-            beskrivelse: "Schwebende Wildblumen-Insel inmitten tiefer rosa, blauer und violetter Wolken."
+            shape: "rect"
         },
         {
             id: "nu-falmer-skoven",
@@ -147,26 +169,23 @@ const indhold = {
             titel: "Nu falmer skoven trindt om land",
             medium: "Acryl auf Leinwand",
             maal: "60 × 80 cm",
-            shape: "rect",
-            beskrivelse: "Schwebender Birkenwald mit goldenem Herbstlaub vor einem tiefen petrolblauen Nachthimmel."
+            shape: "rect"
         },
         {
             id: "efter-regnen",
             filnavn: "assets/solgt/solgt-07.webp",
-            titel: "Efter Regnen (Nach dem Regen)",
+            titel: "Efter Regnen",
             medium: "Acryl auf Leinwand",
             maal: "60 × 80 cm",
-            shape: "rect",
-            beskrivelse: "Ein kleiner Kolibri an einem schwebenden Waldrand im korallenroten und himmelblauen Sonnenuntergang."
+            shape: "rect"
         },
         {
             id: "et-stykke-fantasi",
             filnavn: "assets/solgt/solgt-02.webp",
-            titel: "Et stykke Fantasi (Ein Stück Fantasie)",
+            titel: "Et stykke Fantasi",
             medium: "Acryl auf Leinwand",
             maal: "60 × 80 cm",
-            shape: "rect",
-            beskrivelse: "Schwebender Baum unter dem Vollmond in warmen Gold- und Türkisnuancen."
+            shape: "rect"
         },
         {
             id: "wishing-you-well",
@@ -174,44 +193,39 @@ const indhold = {
             titel: "Wishing you well",
             medium: "Acryl auf Leinwand",
             maal: "60 × 80 cm",
-            shape: "rect",
-            beskrivelse: "Ein märchenhafter Wunschbrunnen auf seiner eigenen schwebenden Insel in goldenem Licht."
+            shape: "rect"
         },
         {
             id: "en-stille-stund",
             filnavn: "assets/solgt/solgt-en-stille-stund.webp",
-            titel: "En stille stund (Ein stiller Moment)",
+            titel: "En stille stund",
             medium: "Acryl auf Leinwand",
             maal: "Ø 40 cm",
-            shape: "round",
-            beskrivelse: "Rundes Gemälde eines stillen, mondbeschienenen Waldsees umgeben von Birken."
+            shape: "round"
         },
         {
             id: "de-sidste-straaler",
             filnavn: "assets/solgt/solgt-08.webp",
-            titel: "De sidste stråler (Die letzten Strahlen)",
+            titel: "De sidste stråler",
             medium: "Acryl auf Leinwand",
             maal: "30 × 40 cm",
-            shape: "rect",
-            beskrivelse: "Sonnenstrahlen brechen durch die Baumkronen in tiefem Waldgrün und warmem Gold."
+            shape: "rect"
         },
         {
             id: "vejen-hjem",
             filnavn: "assets/solgt/solgt-09.webp",
-            titel: "Vejen Hjem (Der Weg nach Hause)",
+            titel: "Vejen Hjem",
             medium: "Acryl auf Leinwand",
             maal: "80 × 100 cm",
-            shape: "rect",
-            beskrivelse: "Ein offenes Tor und ein geschwungener Pfad über eine alte Steinbrücke im Morgennebel und Lavendellicht."
+            shape: "rect"
         },
         {
             id: "begyndelsen",
             filnavn: "assets/solgt/solgt-begyndelsen.webp",
-            titel: "Begyndelsen (Der Anfang)",
+            titel: "Begyndelsen",
             medium: "Acryl auf Leinwand",
             maal: "60 × 80 cm",
-            shape: "rect",
-            beskrivelse: "Ein üppiger, lichtdurchfluteter Waldweg, der den Blick zu einer tief stehenden, glühenden Sonne lenkt."
+            shape: "rect"
         },
         {
             id: "solgt-rund-skovsoe",
@@ -219,8 +233,7 @@ const indhold = {
             titel: "Ohne Titel",
             medium: "Acryl auf Leinwand",
             maal: "Runde Leinwand",
-            shape: "round",
-            beskrivelse: "Stimmungsvolles Rundbild in Schwarz, warmem Gold und Orangetönen an einem stillen Waldsee."
+            shape: "round"
         },
         {
             id: "solgt-stenbro",
@@ -228,8 +241,7 @@ const indhold = {
             titel: "Ohne Titel",
             medium: "Acryl auf Leinwand",
             maal: "60 × 80 cm",
-            shape: "rect",
-            beskrivelse: "Stimmungsvolle Landschaft mit alter Steinbrücke, goldenem Lichteinfall und reicher Struktur."
+            shape: "rect"
         },
         {
             id: "solgt-triptykon",
@@ -237,36 +249,26 @@ const indhold = {
             titel: "Ohne Titel (Triptychon)",
             medium: "Acryl auf Leinwand",
             maal: "Triptychon",
-            shape: "rect",
-            beskrivelse: "Dreiteiliges Gemälde eines langen Holzstegs durch neblige Seenlandschaft mit schwebendem Greifvogel."
-        },
-        {
-            id: "valmuer-i-luften",
-            filnavn: "assets/solgt/solgt-01.webp",
-            titel: "Valmuer i Luften (Mohnblumen in der Luft)",
-            medium: "Acryl auf Leinwand",
-            maal: "Quadratische Leinwand",
-            shape: "rect",
-            beskrivelse: "Zarte rosafarbene Mohnblumen auf einer schwebenden Insel in weichen Sand- und Erdtönen."
+            shape: "rect"
         }
     ],
 
     om: {
-        overtitel: "Die Künstlerin hinter dem Pinsel",
-        overskrift: "Über Julie",
+        overtitel: "Hinter dem Pinsel",
+        overskrift: "Über mich",
         billede: "assets/solgt/solgt-07.webp",
         afsnit: [
             "Ich war schon immer kreativ und habe mein ganzes Leben lang viel gezeichnet und gemalt. Ich bin Autodidaktin als Malerin, nutze aber mein tiefes Verständnis für Licht aus meiner Ausbildung zur Fotografin. Besonders die Arbeit mit Licht steht im Mittelpunkt meiner Bilder — denn für mich ist es das Licht, das ein Gemälde wirklich lebendig macht.",
             "Neben meiner kreativen Seite bin ich ein echter Naturmensch. Ich bin am Bøllingsø westlich von Silkeborg aufgewachsen, habe meine Jugend in Silkeborg und Aarhus verbracht und überall die Nähe zur Natur gesucht. Ich weiß aus eigener Erfahrung, wie heilsam die Natur bei Trauer, Schmerz, Unruhe und innerem Ungleichgewicht sein kann. Deshalb steckt in jedem meiner Gemälde auch ein kleines Stück von mir: Beim Malen möchte ich genau diese Ruhe spüren und weitergeben.",
             "Ich male die Natur. Erinnerungen an die Landschaften meiner Kindheit bei Silkeborg. Die Natur rund um mein Zuhause und Atelier in Lindenborg nahe Aalborg in Nordjütland. Die Natur, wie ich sie fühle — nicht nur, wie ich sie sehe. Fragmente der Natur, die in meiner Fantasie leben."
         ],
-        underskrift: "— Julie Kofod"
+        underskrift: "Julie Kofod"
     },
 
     kontakt: {
         overtitel: "Lass uns sprechen",
         overskrift: "Kontakt & Anfrage",
-        tekst: "Interessierst du dich für ein verfügbares Gemälde, einen Atelierbesuch in Lindenborg nahe Aalborg (Nordjütland), Versand nach Deutschland oder ein persönliches Auftragswerk? Schreib oder ruf mir gerne — ich freue mich auf deine Nachricht.",
+        tekst: "Interessierst du dich für eines meiner Gemälde, einen Atelierbesuch in Lindenborg nahe Aalborg (Nordjütland), Versand nach Deutschland oder ein persönliches Auftragswerk? Schreib oder ruf mir gerne — ich freue mich auf deine Nachricht.",
         email: "juliekofodnielsen@gmail.com",
         telefon: "+45 23 20 04 48",
         telefonLink: "+4523200448",
