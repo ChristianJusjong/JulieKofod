@@ -17,10 +17,7 @@ const DEFAULT_UI = {
     ariaViewSale: (t) => `Se ${t} i stor visning`,
     ariaViewSold: (t) => `Se solgt værk: ${t}`,
     altSuffix: "originalt akrylmaleri af kunstmaler Julie Kofod",
-    commissionSubject: "Bestillingsværk",
-    commissionBody: "Hej Julie,\n\nJeg er vild med dine værker og vil meget gerne høre om muligheden for et bestillingsværk.\n\nBedste hilsner,",
     inquireSaleBtn: "Forespørg om dette værk",
-    inquireSoldBtn: "Forespørg om lignende værk",
     wallScaleParsed: (m) => `Værk: ${m} · Skala-reference: 220 cm sofa`,
     wallScaleApprox: "Ca. skala-reference: 220 cm sofa",
     copiedBtn: "Kopieret!",
@@ -120,8 +117,6 @@ function hydrateContent() {
     setText("solgte-overtitel", indhold.solgteSektion.overtitel);
     setText("solgte-overskrift", indhold.solgteSektion.overskrift);
     setText("solgte-intro", indhold.solgteSektion.intro);
-    setText("bestilling-tekst", indhold.solgteSektion.bestillingTekst);
-    setText("bestilling-knap", indhold.solgteSektion.bestillingKnap);
 
     // About section
     setText("om-overtitel", indhold.om.overtitel);
@@ -431,7 +426,6 @@ function renderSaleGallery(immediateVisible = false) {
 // -----------------------------------------------------------------------------
 // 4. RENDER "SOLGTE VÆRKER" MASONRY GALLERY
 // -----------------------------------------------------------------------------
-let commissionWired = false;
 function renderSoldGallery(immediateVisible = false) {
     const grid = document.getElementById("sold-grid");
     if (!grid) return;
@@ -476,14 +470,6 @@ function renderSoldGallery(immediateVisible = false) {
 
         grid.appendChild(card);
     });
-
-    const commissionBtn = document.getElementById("commission-cta");
-    if (commissionBtn && !commissionWired) {
-        commissionWired = true;
-        commissionBtn.addEventListener("click", () => {
-            prefillContact(t.commissionSubject, t.commissionBody);
-        });
-    }
 }
 
 // -----------------------------------------------------------------------------
@@ -754,17 +740,12 @@ function initLightbox() {
         if (lbState.group === "sale" && item.status === "reserved") {
             prefillContact(
                 subjectLine,
-                `Hej Julie,\n\nJeg har set maleriet "${item.titel}"${dimSuffix}, som er reserveret til udstilling. Jeg vil meget gerne høre nærmere om udstillingen eller muligheden for et lignende værk.\n\nBedste hilsner,`
+                `Hej Julie,\n\nJeg har set maleriet "${item.titel}"${dimSuffix}, som er reserveret til udstilling. Jeg vil meget gerne høre nærmere om udstillingen og maleriet.\n\nBedste hilsner,`
             );
         } else if (lbState.group === "sale") {
             prefillContact(
                 subjectLine,
                 `Hej Julie,\n\nJeg er interesseret i maleriet "${item.titel}"${dimSuffix} til ${item.pris}. Kan du fortælle mig lidt mere om værket og muligheden for køb eller levering?\n\nBedste hilsner,`
-            );
-        } else {
-            prefillContact(
-                subjectLine,
-                `Hej Julie,\n\nJeg er helt vild med det solgte maleri "${item.titel}"${dimSuffix}. Kunne man bestille et lignende værk?\n\nBedste hilsner,`
             );
         }
     });
@@ -1021,10 +1002,11 @@ function updateLightboxView() {
 
     if (lbState.group === "sale") {
         priceEl.textContent = item.status === "reserved" ? (item.statusTekst || t.badgeReserved) : (item.pris || "");
+        inquireBtn.hidden = false;
         inquireBtn.innerHTML = `${svgIcon("i-envelope")} ${t.inquireSaleBtn}`;
     } else {
         priceEl.textContent = t.badgeSold;
-        inquireBtn.innerHTML = `${svgIcon("i-palette")} ${t.inquireSoldBtn}`;
+        inquireBtn.hidden = true;
     }
 
     if (item.id) {

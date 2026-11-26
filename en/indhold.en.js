@@ -15,10 +15,7 @@ window.UI_STRINGS = {
     ariaViewSale: (t) => `View ${t} in full screen`,
     ariaViewSold: (t) => `View archived artwork: ${t}`,
     altSuffix: "original acrylic painting by Julie Kofod",
-    commissionSubject: "Commission inquiry",
-    commissionBody: "Hi Julie,\n\nI love your paintings and would love to hear more about commissioning a custom artwork.\n\nBest regards,",
     inquireSaleBtn: "Inquire about this artwork",
-    inquireSoldBtn: "Inquire about a similar piece",
     wallScaleParsed: (m) => `Artwork: ${m} · Scale reference: 220 cm sofa`,
     wallScaleApprox: "Approx. scale reference: 220 cm sofa",
     copiedBtn: "Copied!",
@@ -32,8 +29,8 @@ window.UI_STRINGS = {
 
 const indhold = {
     site: {
-        titel: "Julie Kofod — Danish Painter | Original Acrylic Paintings & Commissions",
-        beskrivelse: "I paint original acrylic paintings on canvas in my studio in Lindenborg near Aalborg, Denmark — floating islands, round tondo artworks, dreamy nature, and custom commissions.",
+        titel: "Julie Kofod — Danish Painter | Original Acrylic Paintings",
+        beskrivelse: "I paint original acrylic paintings on canvas in my studio in Lindenborg near Aalborg, Denmark — floating islands, round tondo artworks, and dreamy nature.",
         logo: "assets/logo.webp",
         footerTekst: "© 2026 Julie Kofod · Lindenborg, Gistrup · Aalborg, Denmark"
     },
@@ -141,9 +138,7 @@ const indhold = {
     solgteSektion: {
         overtitel: "Archive",
         overskrift: "Sold Works",
-        intro: "A selection of my earlier acrylic paintings that have already found their homes. If a mood or color palette speaks to you, I would love to create a custom commissioned piece.",
-        bestillingTekst: "Dreaming of a personal painting in a similar style or your own favorite colors?",
-        bestillingKnap: "Inquire about a commission"
+        intro: "A selection of my earlier acrylic paintings that have already found their homes."
     },
 
     solgte: [
@@ -268,7 +263,7 @@ const indhold = {
     kontakt: {
         overtitel: "Let's talk",
         overskrift: "Contact & Inquiries",
-        tekst: "Interested in one of my paintings, a studio visit in Lindenborg near Aalborg (Denmark), international shipping, or a custom commission? Feel free to write or call — I would love to hear from you.",
+        tekst: "Interested in one of my paintings, a studio visit in Lindenborg near Aalborg (Denmark), or international shipping? Feel free to write or call — I would love to hear from you.",
         email: "juliekofodnielsen@gmail.com",
         telefon: "+45 23 20 04 48",
         telefonLink: "+4523200448",

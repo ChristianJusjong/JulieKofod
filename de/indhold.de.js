@@ -15,10 +15,7 @@ window.UI_STRINGS = {
     ariaViewSale: (t) => `${t} in Großansicht öffnen`,
     ariaViewSold: (t) => `Verkauftes Werk ansehen: ${t}`,
     altSuffix: "originales Acrylgemälde von Julie Kofod",
-    commissionSubject: "Anfrage für ein Auftragswerk",
-    commissionBody: "Hallo Julie,\n\nmir gefallen deine Gemälde sehr und ich möchte mich gerne über ein persönliches Auftragswerk informieren.\n\nViele Grüße,",
     inquireSaleBtn: "Dieses Werk anfragen",
-    inquireSoldBtn: "Ähnliches Werk anfragen",
     wallScaleParsed: (m) => `Werk: ${m} · Maßstab: 220 cm Sofa`,
     wallScaleApprox: "Ca. Maßstab: 220 cm Sofa",
     copiedBtn: "Kopiert!",
@@ -32,8 +29,8 @@ window.UI_STRINGS = {
 
 const indhold = {
     site: {
-        titel: "Julie Kofod — Dänische Malerin | Originale Acrylgemälde & Auftragswerke",
-        beskrivelse: "Ich male originale Acrylgemälde auf Leinwand in meinem Atelier in Lindenborg bei Aalborg, Dänemark — schwebende Inseln, runde Tondo-Werke, träumerische Natur und persönliche Auftragswerke.",
+        titel: "Julie Kofod — Dänische Malerin | Originale Acrylgemälde",
+        beskrivelse: "Ich male originale Acrylgemälde auf Leinwand in meinem Atelier in Lindenborg bei Aalborg, Dänemark — schwebende Inseln, runde Tondo-Werke und träumerische Natur.",
         logo: "assets/logo.webp",
         footerTekst: "© 2026 Julie Kofod · Lindenborg, Gistrup · Aalborg, Dänemark"
     },
@@ -141,9 +138,7 @@ const indhold = {
     solgteSektion: {
         overtitel: "Archiv",
         overskrift: "Verkaufte Werke",
-        intro: "Eine Auswahl meiner früheren Acrylgemälde, die bereits ein neues Zuhause gefunden haben. Inspiriert dich eine Stimmung oder Farbwelt, male ich sehr gerne ein persönliches Auftragswerk für dich.",
-        bestillingTekst: "Träumst du von einem persönlichen Gemälde in ähnlichem Stil oder in deinen ganz eigenen Farben?",
-        bestillingKnap: "Auftragswerk anfragen"
+        intro: "Eine Auswahl meiner früheren Acrylgemälde, die bereits ein neues Zuhause gefunden haben."
     },
 
     solgte: [
@@ -268,7 +263,7 @@ const indhold = {
     kontakt: {
         overtitel: "Lass uns sprechen",
         overskrift: "Kontakt & Anfrage",
-        tekst: "Interessierst du dich für eines meiner Gemälde, einen Atelierbesuch in Lindenborg nahe Aalborg (Nordjütland), Versand nach Deutschland oder ein persönliches Auftragswerk? Schreib oder ruf mir gerne — ich freue mich auf deine Nachricht.",
+        tekst: "Interessierst du dich für eines meiner Gemälde, einen Atelierbesuch in Lindenborg nahe Aalborg (Nordjütland) oder Versand nach Deutschland? Schreib oder ruf mir gerne — ich freue mich auf deine Nachricht.",
         email: "juliekofodnielsen@gmail.com",
         telefon: "+45 23 20 04 48",
         telefonLink: "+4523200448",

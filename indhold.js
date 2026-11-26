@@ -8,8 +8,8 @@ const indhold = {
     // GENEREL INFO
     // -------------------------------------------------------------------------
     site: {
-        titel: "Julie Kofod — Dansk Kunstmaler | Originale Akrylmalerier & Bestillingsværk",
-        beskrivelse: "Jeg maler originale akrylmalerier på lærred i mit atelier i Lindenborg, Gistrup ved Aalborg — svævende øer, runde tondo-værker, drømmende natur og personlige bestillingsværker.",
+        titel: "Julie Kofod — Dansk Kunstmaler | Originale Akrylmalerier",
+        beskrivelse: "Jeg maler originale akrylmalerier på lærred i mit atelier i Lindenborg, Gistrup ved Aalborg — svævende øer, runde tondo-værker og drømmende natur.",
         logo: "assets/logo.webp",
         footerTekst: "© 2026 Julie Kofod · Lindenborg, Gistrup"
     },
@@ -131,9 +131,7 @@ const indhold = {
     solgteSektion: {
         overtitel: "Tidligere værker",
         overskrift: "Solgte værker",
-        intro: "Et udvalg af mine tidligere akrylmalerier, der allerede har fundet deres hjem. Bliver du inspireret af en stemning eller farverne, maler jeg meget gerne et bestillingsværk.",
-        bestillingTekst: "Drømmer du om et personligt maleri i samme stil eller dine helt egne farver?",
-        bestillingKnap: "Forespørg om bestillingsværk"
+        intro: "Et udvalg af mine tidligere akrylmalerier, der allerede har fundet deres hjem."
     },
 
     solgte: [
@@ -266,7 +264,7 @@ const indhold = {
     kontakt: {
         overtitel: "Lad os tage en snak",
         overskrift: "Kontakt & Forespørgsel",
-        tekst: "Interesseret i et af mine malerier, en uforpligtende fremvisning i mit atelier i Lindenborg ved Gistrup (tæt på Aalborg) eller et personligt bestillingsværk? Skriv eller ring endelig — jeg glæder mig til at høre fra dig.",
+        tekst: "Interesseret i et af mine malerier eller en uforpligtende fremvisning i mit atelier i Lindenborg ved Gistrup (tæt på Aalborg)? Skriv eller ring endelig — jeg glæder mig til at høre fra dig.",
         email: "juliekofodnielsen@gmail.com",
         telefon: "23 20 04 48",
         telefonLink: "+4523200448",

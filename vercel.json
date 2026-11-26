@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/bestillingsvaerk/:path*",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
